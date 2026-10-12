@@ -51,3 +51,17 @@
 - **Context**: Pressure to build native mobile apps early.
 - **Decision**: Explicitly defer all native mobile app development until Web V1 passes its completion gate.
 - **Consequences**: Concentrates engineering focus on perfecting the core customer journey and API data contracts first.
+
+---
+
+## ADR 007: Subquery Optimization on Row Level Security Policies
+- **Context**: Evaluating `auth.uid()` directly in row security policies causes PostgreSQL to re-evaluate the function for every single candidate row during index scans, impacting query throughput.
+- **Decision**: Encapsulate all auth function evaluations as `(select auth.uid())` across all RLS policies on `profiles`, `goals`, and `savings_entries`.
+- **Consequences**: Dramatically optimizes index usage, eliminates Supabase Advisor linter warnings, and maintains mathematical tenant isolation.
+
+---
+
+## ADR 008: Security Definer Trigger Hardening
+- **Context**: The `handle_new_user()` trigger function runs with elevated `SECURITY DEFINER` privileges to automatically populate `profiles` upon auth registration. Unconstrained search paths and public execute permissions create escalation risks.
+- **Decision**: Set explicit `search_path = public` on the function and revoke execute privileges from `public`, `anon`, and `authenticated` roles.
+- **Consequences**: Restricts execution strictly to database triggers, preventing RPC exploitation from client-side REST calls.

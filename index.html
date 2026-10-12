@@ -9,6 +9,11 @@
 <link rel="manifest" href="manifest.json">
 <link rel="apple-touch-icon" href="icon-192.png">
 <link rel="icon" href="icon-192.png">
+
+<!-- Supabase SDK & Configuration -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="config.js"></script>
+
 <style>
   :root {
     --green: #16a34a;
@@ -173,13 +178,28 @@
     padding: 4px 12px;
     border-radius: 20px;
   }
-  @media (min-width: 768px) {
+  @media (min-width: 860px) {
     .landing-nav-center { display: flex; }
   }
   .landing-nav-actions {
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 8px;
+  }
+  .nav-user-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--green-dark);
+    background: var(--green-light);
+    padding: 6px 12px;
+    border-radius: 20px;
+    max-width: 160px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 
   /* Scroll Progress Journey Track */
@@ -832,6 +852,122 @@
   }
 
   /* ==========================================================================
+     AUTHENTICATION MODAL STYLES
+     ========================================================================== */
+  .auth-modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.55);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 300;
+    padding: 16px;
+    transition: opacity 0.2s;
+  }
+  .auth-modal-card {
+    background: var(--card);
+    border-radius: var(--radius-lg);
+    padding: 32px 28px;
+    width: 100%;
+    max-width: 420px;
+    box-shadow: var(--shadow-lg);
+    border: 1px solid var(--border);
+    position: relative;
+    animation: modalPop 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  @keyframes modalPop {
+    0% { transform: scale(0.96); opacity: 0; }
+    100% { transform: scale(1); opacity: 1; }
+  }
+  .auth-modal-close {
+    position: absolute;
+    top: 18px;
+    right: 18px;
+    background: none;
+    border: none;
+    font-size: 24px;
+    color: var(--muted);
+    cursor: pointer;
+    line-height: 1;
+    padding: 4px;
+    border-radius: 6px;
+  }
+  .auth-modal-close:hover { color: var(--text); }
+  .auth-header {
+    text-align: center;
+    margin-bottom: 24px;
+  }
+  .auth-title {
+    font-size: 22px;
+    font-weight: 800;
+    color: var(--text);
+    margin-bottom: 6px;
+    letter-spacing: -0.01em;
+  }
+  .auth-subtitle {
+    font-size: 13px;
+    color: var(--muted);
+  }
+  .auth-field { margin-bottom: 16px; text-align: left; }
+  .auth-field label {
+    display: block;
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 6px;
+  }
+  .auth-field-hint {
+    display: block;
+    font-size: 11px;
+    color: var(--muted);
+    margin-top: 4px;
+  }
+  .auth-error-msg {
+    color: #dc2626;
+    background: #fee2e2;
+    font-size: 13px;
+    font-weight: 600;
+    padding: 10px 14px;
+    border-radius: var(--radius-sm);
+    margin-bottom: 14px;
+    line-height: 1.4;
+    border: 1px solid #fca5a5;
+  }
+  body.dark .auth-error-msg {
+    background: #451a1a;
+    color: #fca5a5;
+    border-color: #7f1d1d;
+  }
+  .auth-footer-switch {
+    text-align: center;
+    margin-top: 20px;
+    font-size: 13px;
+    color: var(--muted);
+  }
+  .auth-switch-link {
+    background: none;
+    border: none;
+    color: var(--green-dark);
+    font-weight: 700;
+    cursor: pointer;
+    text-decoration: underline;
+    font-size: 13px;
+    padding: 2px 4px;
+  }
+  .auth-forgot-link {
+    background: none;
+    border: none;
+    color: var(--green-dark);
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    text-decoration: underline;
+  }
+
+  /* ==========================================================================
      APP VIEW (DASHBOARD) STYLES
      ========================================================================== */
   header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; padding-top: 8px; }
@@ -861,6 +997,19 @@
     padding: 9px 12px;
     cursor: pointer;
   }
+
+  .auth-banner-welcome {
+    background: var(--green-light);
+    border: 1px solid var(--green);
+    border-radius: var(--radius-md);
+    padding: 14px 16px;
+    margin-bottom: 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .auth-banner-welcome div p { font-size: 11px; color: var(--green-dark); }
+  .auth-banner-welcome div strong { font-size: 14px; color: var(--green-dark); }
 
   .card {
     background: var(--card);
@@ -1012,7 +1161,7 @@
     font-size: 13px; font-weight: 600;
     box-shadow: 0 4px 12px rgba(0,0,0,0.15);
     transition: transform 0.3s ease;
-    z-index: 200; pointer-events: none;
+    z-index: 400; pointer-events: none;
   }
   .toast.show { transform: translateX(-50%) translateY(0); }
 
@@ -1040,6 +1189,7 @@
     html { scroll-behavior: auto !important; }
     .streak-flame-meter { animation: none !important; }
     .journey-fill-bar { transition: none !important; }
+    .auth-modal-card { animation: none !important; }
   }
 </style>
 </head>
@@ -1059,9 +1209,12 @@
       <div class="landing-nav-center" aria-label="Trust Badge">
         <span>🛡️ 100% Non-Custodial Habit Tracker</span>
       </div>
-      <div class="landing-nav-actions">
+      <div class="landing-nav-actions" id="landingNavActions">
+        <!-- Will be dynamically populated for Signed Out vs Signed In -->
+        <a href="#breakdownSection" class="btn-secondary" style="display:none;" id="navHowItWorks">How it works</a>
         <button class="icon-btn" id="landingDarkToggle" aria-label="Toggle dark mode" title="Toggle dark mode">🌙</button>
-        <button class="btn-primary" id="navOpenAppBtn" style="padding: 8px 16px; font-size: 13px;">Open Dashboard</button>
+        <button class="btn-secondary" id="navSignInBtn">Sign In</button>
+        <button class="btn-primary" id="navSignUpBtn" style="padding: 8px 16px; font-size: 13px;">Start Streak</button>
       </div>
     </nav>
 
@@ -1265,7 +1418,7 @@
               <span class="sim-rate-val tabular" id="simDaysVal">365 days</span>
             </div>
             <button class="btn-primary" id="simApplyBtn" style="width: 100%; margin-top: 6px;">
-              Apply to My Goal & Open Dashboard →
+              Apply to My Goal & Start Streak →
             </button>
           </div>
         </div>
@@ -1323,8 +1476,8 @@
           <div class="trust-point">
             <span class="trust-point-icon">💾</span>
             <div>
-              <h4>Private & Offline-First</h4>
-              <p>Your data stays on your device with local storage and optional JSON backups. Works 100% offline via PWA.</p>
+              <h4>Private & Cloud-Backed</h4>
+              <p>Your goal data is secured by PostgreSQL Row Level Security. Never accessible to any other user.</p>
             </div>
           </div>
           <div class="trust-point">
@@ -1390,7 +1543,109 @@
 </div>
 
 <!-- ==========================================================================
-     VIEW 2: FULL WORKING SAVINGS TRACKER & DASHBOARD
+     AUTHENTICATION MODAL
+     ========================================================================== -->
+<div id="authModal" class="auth-modal-overlay hidden" role="dialog" aria-modal="true" aria-labelledby="authModalHeading">
+  <div class="auth-modal-card">
+    <button class="auth-modal-close" id="authModalClose" aria-label="Close authentication modal">×</button>
+
+    <!-- SIGN UP FORM -->
+    <div id="authSignupView">
+      <div class="auth-header">
+        <div class="landing-logo-mark" style="margin: 0 auto 12px;">🌱</div>
+        <h3 id="authModalHeading" class="auth-title">Create your account</h3>
+        <p class="auth-subtitle">Start building your unbroken savings streak today.</p>
+      </div>
+      <form id="signupForm" novalidate>
+        <div class="auth-field">
+          <label for="signupName">Display name (optional)</label>
+          <input type="text" id="signupName" class="sim-input" placeholder="e.g. Amina" autocomplete="name">
+        </div>
+        <div class="auth-field">
+          <label for="signupEmail">Email address</label>
+          <input type="email" id="signupEmail" class="sim-input" placeholder="you@example.com" autocomplete="email" required>
+        </div>
+        <div class="auth-field">
+          <label for="signupPassword">Password</label>
+          <input type="password" id="signupPassword" class="sim-input" placeholder="At least 8 characters" autocomplete="new-password" minlength="8" required>
+          <span class="auth-field-hint">Must be at least 8 characters long</span>
+        </div>
+        <div class="auth-error-msg hidden" id="signupError" role="alert"></div>
+        <button type="submit" class="btn-primary" id="signupSubmitBtn" style="width: 100%; margin-top: 8px;">Create Account</button>
+      </form>
+      <div class="auth-footer-switch">
+        Already have an account? <button type="button" class="auth-switch-link" id="switchToSigninBtn">Sign in</button>
+      </div>
+    </div>
+
+    <!-- SIGN IN FORM -->
+    <div id="authSigninView" class="hidden">
+      <div class="auth-header">
+        <div class="landing-logo-mark" style="margin: 0 auto 12px;">🌱</div>
+        <h3 class="auth-title">Welcome back</h3>
+        <p class="auth-subtitle">Log in to keep your savings streak going.</p>
+      </div>
+      <form id="signinForm" novalidate>
+        <div class="auth-field">
+          <label for="signinEmail">Email address</label>
+          <input type="email" id="signinEmail" class="sim-input" placeholder="you@example.com" autocomplete="email" required>
+        </div>
+        <div class="auth-field">
+          <div style="display: flex; justify-content: space-between; align-items: baseline;">
+            <label for="signinPassword">Password</label>
+            <button type="button" class="auth-forgot-link" id="forgotPasswordBtn">Forgot password?</button>
+          </div>
+          <input type="password" id="signinPassword" class="sim-input" placeholder="Your password" autocomplete="current-password" required>
+        </div>
+        <div class="auth-error-msg hidden" id="signinError" role="alert"></div>
+        <button type="submit" class="btn-primary" id="signinSubmitBtn" style="width: 100%; margin-top: 8px;">Sign In</button>
+      </form>
+      <div class="auth-footer-switch">
+        Don't have an account? <button type="button" class="auth-switch-link" id="switchToSignupBtn">Create account</button>
+      </div>
+    </div>
+
+    <!-- FORGOT PASSWORD FORM -->
+    <div id="authForgotView" class="hidden">
+      <div class="auth-header">
+        <div class="landing-logo-mark" style="margin: 0 auto 12px;">🌱</div>
+        <h3 class="auth-title">Reset your password</h3>
+        <p class="auth-subtitle">We'll send you a secure link to reset your password.</p>
+      </div>
+      <form id="forgotForm" novalidate>
+        <div class="auth-field">
+          <label for="forgotEmail">Email address</label>
+          <input type="email" id="forgotEmail" class="sim-input" placeholder="you@example.com" autocomplete="email" required>
+        </div>
+        <div class="auth-error-msg hidden" id="forgotError" role="alert"></div>
+        <button type="submit" class="btn-primary" id="forgotSubmitBtn" style="width: 100%; margin-top: 8px;">Send Reset Link</button>
+      </form>
+      <div class="auth-footer-switch">
+        Remembered your password? <button type="button" class="auth-switch-link" id="backToSigninBtn">Sign in</button>
+      </div>
+    </div>
+
+    <!-- UPDATE PASSWORD FORM (RECOVERY) -->
+    <div id="authRecoveryView" class="hidden">
+      <div class="auth-header">
+        <div class="landing-logo-mark" style="margin: 0 auto 12px;">🌱</div>
+        <h3 class="auth-title">Set new password</h3>
+        <p class="auth-subtitle">Enter your new secure password below.</p>
+      </div>
+      <form id="recoveryForm" novalidate>
+        <div class="auth-field">
+          <label for="recoveryPassword">New Password</label>
+          <input type="password" id="recoveryPassword" class="sim-input" placeholder="At least 8 characters" autocomplete="new-password" minlength="8" required>
+        </div>
+        <div class="auth-error-msg hidden" id="recoveryError" role="alert"></div>
+        <button type="submit" class="btn-primary" id="recoverySubmitBtn" style="width: 100%; margin-top: 8px;">Update Password</button>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- ==========================================================================
+     VIEW 2: FULL WORKING SAVINGS TRACKER & DASHBOARD (PROTECTED)
      ========================================================================== -->
 <div id="appView" class="view-container hidden">
   <div class="app">
@@ -1402,8 +1657,18 @@
       <div class="header-actions">
         <button class="story-toggle-btn" id="openStoryBtn" title="View interactive guide & story">📖 Story</button>
         <button class="icon-btn" id="darkToggle" title="Toggle dark mode">🌙</button>
+        <button class="btn-secondary" id="appSignOutBtn" style="padding: 8px 12px; font-size: 12px;">Log Out</button>
       </div>
     </header>
+
+    <!-- Authenticated User Greeting Banner -->
+    <div class="auth-banner-welcome" id="authWelcomeBanner">
+      <div>
+        <p>Authenticated Session</p>
+        <strong id="authUserName">Welcome to NairaStreak!</strong>
+      </div>
+      <span style="font-size: 12px; color: var(--green-dark); font-weight: 700;">Cloud Connected ☁️</span>
+    </div>
 
     <div class="card" id="installCard">
       <button id="installBtn">📲 Add to Home Screen</button>
@@ -1534,7 +1799,31 @@
 
 <script>
   // ==========================================================================
-  // STORAGE KEYS & DATA MODEL
+  // SUPABASE CLIENT INITIALIZATION & CONFIGURATION
+  // ==========================================================================
+  let supabaseClient = null;
+  let currentUser = null;
+
+  if (window.supabase && window.NAIRASTREAK_CONFIG) {
+    try {
+      supabaseClient = window.supabase.createClient(
+        window.NAIRASTREAK_CONFIG.SUPABASE_URL,
+        window.NAIRASTREAK_CONFIG.SUPABASE_ANON_KEY,
+        {
+          auth: {
+            persistSession: true,
+            autoRefreshToken: true,
+            detectSessionInUrl: true
+          }
+        }
+      );
+    } catch (e) {
+      console.warn('Supabase client initialization warning:', e);
+    }
+  }
+
+  // ==========================================================================
+  // STORAGE KEYS & DATA MODEL (LOCALSTORAGE FALLBACK PRESERVED)
   // ==========================================================================
   const STORAGE_KEY = 'savings500k';
   const SETTINGS_KEY = 'savings500k_settings';
@@ -1600,7 +1889,298 @@
     return '₦' + Math.round(amount).toLocaleString('en-NG');
   }
 
-  // View Switcher: Landing Page vs. App Dashboard
+  // Toast notifications
+  function showToast(msg) {
+    const t = document.getElementById('toast');
+    t.textContent = msg;
+    t.classList.add('show');
+    setTimeout(() => t.classList.remove('show'), 2600);
+  }
+
+  // ==========================================================================
+  // AUTHENTICATION MODAL MANAGEMENT
+  // ==========================================================================
+  const authModal = document.getElementById('authModal');
+  const authSignupView = document.getElementById('authSignupView');
+  const authSigninView = document.getElementById('authSigninView');
+  const authForgotView = document.getElementById('authForgotView');
+  const authRecoveryView = document.getElementById('authRecoveryView');
+
+  function openAuthModal(mode = 'signup') {
+    authModal.classList.remove('hidden');
+    switchAuthView(mode);
+  }
+
+  function closeAuthModal() {
+    authModal.classList.add('hidden');
+    clearAuthErrors();
+  }
+
+  function switchAuthView(mode) {
+    authSignupView.classList.add('hidden');
+    authSigninView.classList.add('hidden');
+    authForgotView.classList.add('hidden');
+    authRecoveryView.classList.add('hidden');
+    clearAuthErrors();
+
+    if (mode === 'signup') {
+      authSignupView.classList.remove('hidden');
+    } else if (mode === 'signin') {
+      authSigninView.classList.remove('hidden');
+    } else if (mode === 'forgot') {
+      authForgotView.classList.remove('hidden');
+    } else if (mode === 'recovery') {
+      authRecoveryView.classList.remove('hidden');
+    }
+  }
+
+  function showAuthError(elementId, msg) {
+    const el = document.getElementById(elementId);
+    if (el) {
+      el.textContent = msg;
+      el.classList.remove('hidden');
+    }
+  }
+
+  function clearAuthErrors() {
+    ['signupError', 'signinError', 'forgotError', 'recoveryError'].forEach(id => {
+      const el = document.getElementById(id);
+      if (el) el.classList.add('hidden');
+    });
+  }
+
+  document.getElementById('authModalClose').addEventListener('click', closeAuthModal);
+  authModal.addEventListener('click', (e) => {
+    if (e.target === authModal) closeAuthModal();
+  });
+  window.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && !authModal.classList.contains('hidden')) closeAuthModal();
+  });
+
+  document.getElementById('switchToSigninBtn').addEventListener('click', () => switchAuthView('signin'));
+  document.getElementById('switchToSignupBtn').addEventListener('click', () => switchAuthView('signup'));
+  document.getElementById('forgotPasswordBtn').addEventListener('click', () => switchAuthView('forgot'));
+  document.getElementById('backToSigninBtn').addEventListener('click', () => switchAuthView('signin'));
+
+  // ==========================================================================
+  // AUTHENTICATION OPERATIONS (SUPABASE AUTH)
+  // ==========================================================================
+  function parseAuthErrorMessage(err) {
+    if (!navigator.onLine) return 'You are offline. An internet connection is required to authenticate.';
+    const msg = (err && err.message) ? err.message : '';
+    if (msg.includes('Invalid login credentials')) return 'Incorrect email or password. Please try again.';
+    if (msg.includes('User already registered')) return 'An account with this email already exists. Please sign in instead.';
+    if (msg.includes('Password should be at least')) return 'Password must be at least 8 characters long.';
+    if (msg.includes('rate limit')) return 'Too many attempts. Please wait a moment and try again.';
+    return msg || 'Authentication error. Please check your details and try again.';
+  }
+
+  // Handle Sign Up
+  document.getElementById('signupForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    clearAuthErrors();
+
+    const email = document.getElementById('signupEmail').value.trim();
+    const password = document.getElementById('signupPassword').value;
+    const displayName = document.getElementById('signupName').value.trim();
+
+    if (!email || !password) {
+      showAuthError('signupError', 'Please enter your email and password.');
+      return;
+    }
+    if (password.length < 8) {
+      showAuthError('signupError', 'Password must be at least 8 characters long.');
+      return;
+    }
+
+    const submitBtn = document.getElementById('signupSubmitBtn');
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Creating Account...';
+
+    try {
+      if (!supabaseClient) throw new Error('Authentication client unavailable');
+      const { data, error } = await supabaseClient.auth.signUp({
+        email,
+        password,
+        options: {
+          data: { display_name: displayName || email.split('@')[0] }
+        }
+      });
+
+      if (error) throw error;
+
+      if (data.session) {
+        currentUser = data.user;
+        closeAuthModal();
+        showToast('Welcome to NairaStreak! 🌱');
+        updateAuthUI();
+        window.location.hash = '#dashboard';
+      } else {
+        // Confirmation email required
+        closeAuthModal();
+        showToast('Account created! Please check your email to confirm.');
+      }
+    } catch (err) {
+      showAuthError('signupError', parseAuthErrorMessage(err));
+    } finally {
+      submitBtn.disabled = false;
+      submitBtn.textContent = 'Create Account';
+    }
+  });
+
+  // Handle Sign In
+  document.getElementById('signinForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    clearAuthErrors();
+
+    const email = document.getElementById('signinEmail').value.trim();
+    const password = document.getElementById('signinPassword').value;
+
+    if (!email || !password) {
+      showAuthError('signinError', 'Please enter your email and password.');
+      return;
+    }
+
+    const submitBtn = document.getElementById('signinSubmitBtn');
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Signing in...';
+
+    try {
+      if (!supabaseClient) throw new Error('Authentication client unavailable');
+      const { data, error } = await supabaseClient.auth.signInWithPassword({ email, password });
+      if (error) throw error;
+
+      currentUser = data.user;
+      closeAuthModal();
+      showToast('Welcome back! 👋');
+      updateAuthUI();
+      window.location.hash = '#dashboard';
+    } catch (err) {
+      showAuthError('signinError', parseAuthErrorMessage(err));
+    } finally {
+      submitBtn.disabled = false;
+      submitBtn.textContent = 'Sign In';
+    }
+  });
+
+  // Handle Forgot Password
+  document.getElementById('forgotForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    clearAuthErrors();
+
+    const email = document.getElementById('forgotEmail').value.trim();
+    if (!email) {
+      showAuthError('forgotError', 'Please enter your email address.');
+      return;
+    }
+
+    const submitBtn = document.getElementById('forgotSubmitBtn');
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Sending Link...';
+
+    try {
+      if (!supabaseClient) throw new Error('Authentication client unavailable');
+      const { error } = await supabaseClient.auth.resetPasswordForEmail(email, {
+        redirectTo: window.location.origin + window.location.pathname + '#recovery'
+      });
+      if (error) throw error;
+
+      closeAuthModal();
+      showToast('Password recovery link sent! Check your inbox.');
+    } catch (err) {
+      showAuthError('forgotError', parseAuthErrorMessage(err));
+    } finally {
+      submitBtn.disabled = false;
+      submitBtn.textContent = 'Send Reset Link';
+    }
+  });
+
+  // Handle Password Recovery Update
+  document.getElementById('recoveryForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    clearAuthErrors();
+
+    const password = document.getElementById('recoveryPassword').value;
+    if (!password || password.length < 8) {
+      showAuthError('recoveryError', 'Password must be at least 8 characters long.');
+      return;
+    }
+
+    const submitBtn = document.getElementById('recoverySubmitBtn');
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Updating Password...';
+
+    try {
+      if (!supabaseClient) throw new Error('Authentication client unavailable');
+      const { data, error } = await supabaseClient.auth.updateUser({ password });
+      if (error) throw error;
+
+      currentUser = data.user;
+      closeAuthModal();
+      showToast('Password updated successfully! Welcome back.');
+      updateAuthUI();
+      window.location.hash = '#dashboard';
+    } catch (err) {
+      showAuthError('recoveryError', parseAuthErrorMessage(err));
+    } finally {
+      submitBtn.disabled = false;
+      submitBtn.textContent = 'Update Password';
+    }
+  });
+
+  // Handle Sign Out
+  async function handleSignOut() {
+    try {
+      if (supabaseClient) await supabaseClient.auth.signOut();
+    } catch (e) {}
+    currentUser = null;
+    updateAuthUI();
+    showToast('Signed out successfully.');
+    window.location.hash = '#landing';
+  }
+  document.getElementById('appSignOutBtn').addEventListener('click', handleSignOut);
+
+  // ==========================================================================
+  // AUTH UI & HEADER STATE MANAGEMENT
+  // ==========================================================================
+  function updateAuthUI() {
+    const navActions = document.getElementById('landingNavActions');
+    const userBanner = document.getElementById('authWelcomeBanner');
+    const authUserName = document.getElementById('authUserName');
+
+    if (currentUser) {
+      // Authenticated User State
+      const name = (currentUser.user_metadata && currentUser.user_metadata.display_name) || currentUser.email.split('@')[0];
+      authUserName.textContent = `Welcome, ${name}! Your savings streak is active.`;
+
+      navActions.innerHTML = `
+        <span class="nav-user-badge" title="${currentUser.email}">👤 ${name}</span>
+        <button class="icon-btn" id="landingDarkToggleAuth" aria-label="Toggle dark mode" title="Toggle dark mode">🌙</button>
+        <button class="btn-primary" id="navDashboardBtn" style="padding: 8px 16px; font-size: 13px;">Dashboard</button>
+        <button class="btn-secondary" id="navSignOutBtn" style="padding: 8px 14px; font-size: 13px;">Log Out</button>
+      `;
+
+      document.getElementById('landingDarkToggleAuth').addEventListener('click', toggleDarkMode);
+      document.getElementById('navDashboardBtn').addEventListener('click', () => { window.location.hash = '#dashboard'; });
+      document.getElementById('navSignOutBtn').addEventListener('click', handleSignOut);
+    } else {
+      // Public / Signed Out State
+      navActions.innerHTML = `
+        <button class="icon-btn" id="landingDarkTogglePublic" aria-label="Toggle dark mode" title="Toggle dark mode">🌙</button>
+        <button class="btn-secondary" id="navSignInBtn" style="padding: 8px 14px; font-size: 13px;">Sign In</button>
+        <button class="btn-primary" id="navSignUpBtn" style="padding: 8px 16px; font-size: 13px;">Start Streak</button>
+      `;
+
+      document.getElementById('landingDarkTogglePublic').addEventListener('click', toggleDarkMode);
+      document.getElementById('navSignInBtn').addEventListener('click', () => openAuthModal('signin'));
+      document.getElementById('navSignUpBtn').addEventListener('click', () => openAuthModal('signup'));
+    }
+    applyTheme();
+  }
+
+  // ==========================================================================
+  // VIEW SWITCHER & ROUTE PROTECTION
+  // ==========================================================================
   function showView(viewName) {
     const landingView = document.getElementById('landingView');
     const appView = document.getElementById('appView');
@@ -1620,10 +2200,24 @@
     }
   }
 
-  // Routing Hash handler
+  // Routing Guard
   function checkRoute() {
     const hash = window.location.hash;
+
+    if (hash === '#recovery') {
+      showView('landing');
+      openAuthModal('recovery');
+      return;
+    }
+
     if (hash === '#app' || hash === '#dashboard') {
+      // Protected Route Guard: Check user authentication
+      if (!currentUser) {
+        showView('landing');
+        openAuthModal('signin');
+        showToast('Please sign in to access your dashboard.');
+        return;
+      }
       showView('app');
     } else {
       showView('landing');
@@ -1631,31 +2225,35 @@
   }
   window.addEventListener('hashchange', checkRoute);
 
-  // Wire View Transition Triggers
-  document.getElementById('navOpenAppBtn').addEventListener('click', () => {
-    window.location.hash = '#dashboard';
-  });
-  document.getElementById('heroStartBtn').addEventListener('click', () => {
-    window.location.hash = '#dashboard';
-  });
-  document.getElementById('finalStartBtn').addEventListener('click', () => {
-    window.location.hash = '#dashboard';
-  });
-  document.getElementById('mobileStickyBtn').addEventListener('click', () => {
-    window.location.hash = '#dashboard';
-  });
-  document.getElementById('openStoryBtn').addEventListener('click', () => {
-    window.location.hash = '#landing';
-  });
+  // CTA Click handlers
+  function handleStartStreakAction() {
+    if (currentUser) {
+      window.location.hash = '#dashboard';
+    } else {
+      openAuthModal('signup');
+    }
+  }
 
-  // Theme Management (Synchronized across both views)
+  document.getElementById('heroStartBtn').addEventListener('click', handleStartStreakAction);
+  document.getElementById('finalStartBtn').addEventListener('click', handleStartStreakAction);
+  document.getElementById('mobileStickyBtn').addEventListener('click', handleStartStreakAction);
+  document.getElementById('openStoryBtn').addEventListener('click', () => { window.location.hash = '#landing'; });
+
+  // Theme Management
   function applyTheme() {
     const s = getSettings();
     document.body.classList.toggle('dark', !!s.darkMode);
     const icon = s.darkMode ? '☀️' : '🌙';
-    document.getElementById('darkToggle').textContent = icon;
-    document.getElementById('landingDarkToggle').textContent = icon;
+    const darkToggle = document.getElementById('darkToggle');
+    if (darkToggle) darkToggle.textContent = icon;
+    const landingDark = document.getElementById('landingDarkToggle');
+    if (landingDark) landingDark.textContent = icon;
+    const landingDarkPublic = document.getElementById('landingDarkTogglePublic');
+    if (landingDarkPublic) landingDarkPublic.textContent = icon;
+    const landingDarkAuth = document.getElementById('landingDarkToggleAuth');
+    if (landingDarkAuth) landingDarkAuth.textContent = icon;
   }
+
   function toggleDarkMode() {
     const s = getSettings();
     s.darkMode = !s.darkMode;
@@ -1663,7 +2261,6 @@
     applyTheme();
   }
   document.getElementById('darkToggle').addEventListener('click', toggleDarkMode);
-  document.getElementById('landingDarkToggle').addEventListener('click', toggleDarkMode);
 
   // ==========================================================================
   // SCROLLYTELLING LOGIC & PROGRESS OBSERVER
@@ -1708,7 +2305,7 @@
       }
     });
 
-    // Dynamic Progress Journey Counter simulation as user scrolls into progress section
+    // Dynamic Progress Journey Counter simulation
     const progSec = document.getElementById('progressSection');
     if (progSec) {
       const rect = progSec.getBoundingClientRect();
@@ -1721,7 +2318,6 @@
         document.getElementById('journeyPctCounter').textContent = simPct + '%';
         document.getElementById('journeyFillBar').style.width = simPct + '%';
 
-        // Unlock milestone badges dynamically
         const m100 = document.getElementById('milestone100');
         if (m100) {
           if (simPct >= 99) m100.classList.add('unlocked');
@@ -1738,7 +2334,6 @@
   const simGoalInput = document.getElementById('simGoalAmount');
   const simDateInput = document.getElementById('simGoalDate');
 
-  // Default date to Dec 31, 2026 or 1 year ahead
   const defaultSimDate = new Date();
   defaultSimDate.setFullYear(defaultSimDate.getFullYear() + 1);
   simDateInput.value = defaultSimDate.toISOString().split('T')[0];
@@ -1763,7 +2358,7 @@
     document.getElementById('simMonthlyVal').textContent = formatNaira(monthly);
     document.getElementById('simDaysVal').textContent = `${days} days`;
 
-    // Also sync the breakdown ladder in Section 3 dynamically!
+    // Dynamic Breakdown Ladder
     document.getElementById('ladderStepTotal').querySelector('.ladder-amount').textContent = formatNaira(targetAmt);
     document.getElementById('ladderStepMonth').querySelector('.ladder-amount').textContent = formatNaira(monthly);
     document.getElementById('ladderStepWeek').querySelector('.ladder-amount').textContent = formatNaira(weekly);
@@ -1773,7 +2368,6 @@
   simGoalInput.addEventListener('input', runSimulation);
   simDateInput.addEventListener('change', runSimulation);
 
-  // Preset Amount Chips in Simulator
   document.querySelectorAll('.sim-chip[data-amt]').forEach(btn => {
     btn.addEventListener('click', () => {
       document.querySelectorAll('.sim-chip[data-amt]').forEach(b => b.classList.remove('active'));
@@ -1783,7 +2377,6 @@
     });
   });
 
-  // Preset Date Chips in Simulator
   document.querySelectorAll('.sim-chip[data-months]').forEach(btn => {
     btn.addEventListener('click', () => {
       document.querySelectorAll('.sim-chip[data-months]').forEach(b => b.classList.remove('active'));
@@ -1796,7 +2389,6 @@
     });
   });
 
-  // Apply Simulated Goal directly into Dashboard Settings
   document.getElementById('simApplyBtn').addEventListener('click', () => {
     const targetAmt = parseFloat(simGoalInput.value) || 500000;
     const targetDate = simDateInput.value || '2026-12-31';
@@ -1805,18 +2397,17 @@
     s.target = targetAmt;
     s.endDate = targetDate;
     
-    // Compute daily
     const diffDays = Math.max(1, Math.ceil((new Date(targetDate) - new Date()) / (1000 * 60 * 60 * 24)));
     s.dailyAmount = Math.round(targetAmt / diffDays);
     saveSettings(s);
 
     loadSettingsForm();
-    showToast(`Goal set: ${formatNaira(targetAmt)}! Launching dashboard.`);
-    window.location.hash = '#dashboard';
+    showToast(`Goal set: ${formatNaira(targetAmt)}!`);
+    handleStartStreakAction();
   });
 
   // ==========================================================================
-  // DASHBOARD TRACKER LOGIC (PRESERVED & HARDENED)
+  // DASHBOARD TRACKER LOGIC (PRESERVED)
   // ==========================================================================
   function hasLoggedToday() {
     const entries = getEntries();
@@ -1876,13 +2467,6 @@
         renderReminderTimes();
       });
     });
-  }
-
-  function showToast(msg) {
-    const t = document.getElementById('toast');
-    t.textContent = msg;
-    t.classList.add('show');
-    setTimeout(() => t.classList.remove('show'), 2200);
   }
 
   function triggerConfetti() {
@@ -2355,12 +2939,43 @@
     });
   }
 
-  // Initialization
+  // Session Initialization
+  async function initSession() {
+    if (supabaseClient) {
+      try {
+        const { data: { session } } = await supabaseClient.auth.getSession();
+        if (session && session.user) {
+          currentUser = session.user;
+        }
+
+        // Listen for live auth events
+        supabaseClient.auth.onAuthStateChange((event, session) => {
+          if (event === 'SIGNED_IN' && session?.user) {
+            currentUser = session.user;
+            updateAuthUI();
+            checkRoute();
+          } else if (event === 'SIGNED_OUT') {
+            currentUser = null;
+            updateAuthUI();
+            checkRoute();
+          } else if (event === 'PASSWORD_RECOVERY') {
+            openAuthModal('recovery');
+          }
+        });
+      } catch (e) {
+        console.warn('Session retrieval error:', e);
+      }
+    }
+    updateAuthUI();
+    checkRoute();
+  }
+
+  // App Initialization
   applyTheme();
   loadSettingsForm();
   renderReminderTimes();
   runSimulation();
-  checkRoute();
+  initSession();
   setInterval(checkReminders, 60000);
 </script>
 </body>

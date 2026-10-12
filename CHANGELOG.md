@@ -7,23 +7,41 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
-## [Unreleased] — Web V1 Foundation Phase
-
+## [0.2.0] — 2026-10-12 (Authentication & Cloud Data Foundation)
+ 
 ### Added
-- Comprehensive architecture and foundation documentation under `docs/`:
-  - `PRD.md`, `BRAND_IDENTITY.md`, `USER_PERSONAS.md`, `USER_FLOWS.md`, `WEB_APP_PLAN.md`
-  - `MOBILE_ROADMAP.md`, `ARCHITECTURE.md`, `DATA_MODEL.md`, `PWA_REQUIREMENTS.md`, `DESIGN_GUIDELINES.md`
-  - `FEATURE_SPEC.md`, `SECURITY_PRIVACY.md`, `LEGAL_COMPLIANCE.md`, `ORIGIN_AND_ATTRIBUTION.md`, `RESOURCES.md`
-  - `TEST_PLAN.md`, `DEPLOYMENT_CHECKLIST.md`, `PRODUCTION_QUALITY.md`, `DECISIONS.md`, `ROADMAP.md`
-- `AGENTS.md` specifying agent workflows, constraints, and execution boundaries.
-- `HANDOFF.md` updated to reflect the NairaStreak Labs Web Product Foundation Directive.
-- Configuration strategy for arbitrary savings goals and future product renaming.
+- **Supabase Authentication Integration**:
+  - Sign Up, Sign In, Sign Out, and Password Recovery flows in accessible modal UI.
+  - Session restoration via `supabaseClient.auth.getSession()` on app startup.
+  - Realtime auth event listener with `supabaseClient.auth.onAuthStateChange()`.
+  - Client-side route protection for `#dashboard` and `#app` views.
+  - Password recovery flow triggered via `#recovery` hash link.
+- **Remote Database Schema with Strict RLS**:
+  - `profiles`: Linked to `auth.users` via foreign key cascade, auto-created via `handle_new_user` trigger.
+  - `goals`: Supports arbitrary amounts, deadlines, currencies, and contribution modes (not hardcoded to 500k).
+  - `savings_entries`: Granular contributions ledger linked to goals and profiles.
+  - Row Level Security (RLS) on all tables with optimized `(select auth.uid())` policy checks.
+  - Security-hardened `handle_new_user` function with `search_path = public` and revoked execute permissions from public roles.
+- **Configuration & Security Layer**:
+  - Browser-safe configuration in `config.js` with project URL and public anon key.
+  - `.env.example` and updated `.gitignore` to prevent secret leakage.
+  - Comprehensive automated database verification test suite confirming tenant isolation.
 
 ### Changed
-- Refactored brand metadata to establish **NairaStreak Labs** as parent organization.
-- Designated `500K Challenge` as temporary working product title pending consumer naming phase.
-- Updated Service Worker cache identifier to `nairastreak-500k-v1`.
-- Added UI attribution footer crediting original author Zuokemefa Oyinmiebi Peter and NairaStreak Labs.
+- **Hardened Service Worker (`sw.js`)**:
+  - Upgraded cache version to `nairastreak-auth-v2`.
+  - Unconditionally bypasses all `*.supabase.co` API requests and requests with `Authorization` headers.
+  - Enforces `networkResponse.type === 'basic'` to ensure no external API responses or tokens enter cache storage.
+- Dynamic navigation bar in `index.html` reflecting authenticated user state (display name, log out CTA, dashboard link) vs public visitor state.
+
+---
+
+## [0.1.1] — 2026-10-12 (Scrollytelling Landing Page)
+
+### Added
+- Interactive scrollytelling narrative landing page in `index.html`.
+- Dynamic savings habit simulator breaking down arbitrary targets into monthly, weekly, and daily micro-habits.
+- Sticky mobile CTA, scroll progress indicators, and accessible dark mode support.
 
 ---
 

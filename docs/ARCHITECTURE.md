@@ -50,16 +50,17 @@ flowchart TD
 - **Security Headers**: Content Security Policy (CSP), X-Frame-Options, Strict-Transport-Security, and X-Content-Type-Options configured in `_headers` or `netlify.toml`.
 
 ### 2.2 Client Application Tier (Frontend)
-- **View Router**: Lightweight state or hash router managing navigation between `/` (Public Landing), `/onboarding`, `/dashboard`, `/history`, and `/settings`.
-- **Auth Guard**: Middleware checking session presence before mounting protected routes. Redirects unauthenticated users to the public landing page.
+- **View Router**: Lightweight state or hash router managing navigation between `/` (Public Landing), `#dashboard` / `#app`, and `#recovery`.
+- **Auth Guard**: Middleware checking `currentUser` session before mounting `#dashboard` or `#app`. Redirects unauthenticated visitors to `#landing` and prompts Sign In modal.
+- **Config Layer (`config.js`)**: Encapsulates browser-safe Supabase URL and anon public key on `window.NAIRASTREAK_CONFIG`. Never exposes service-role keys.
 - **Service Worker (`sw.js`)**:
-  - Serves static app shell assets during network outages.
-  - **Explicit Security Constraint**: Strictly configured to NEVER intercept or cache requests to Supabase API endpoints (`*.supabase.co`) or store JWT auth tokens in Cache Storage.
+  - Serves static app shell assets during network outages (`nairastreak-auth-v2`).
+  - **Explicit Security Constraint**: Strictly configured to NEVER intercept or cache requests to Supabase API endpoints (`*.supabase.co`) or store JWT auth tokens in Cache Storage. Enforces `networkResponse.type === 'basic'`.
 
 ### 2.3 Cloud Persistence & Auth Tier (Supabase)
-- **Authentication**: Managed GoTrue service handling user registration, password hashing (bcrypt), session tokens, and password reset workflows.
-- **Database**: Managed PostgreSQL database storing relational records (`users`, `goals`, `savings_entries`).
-- **Row Level Security (RLS)**: Enforces complete multi-tenant tenant isolation at the database engine level. Even if a malicious request attempts to read records belonging to another `user_id`, the database query returns 0 rows.
+- **Authentication**: Managed GoTrue service handling user registration, password hashing (bcrypt), session tokens, and password reset workflows. Connected to remote project `mtkzbyhquwhipgyusrjs` (region `eu-west-1`).
+- **Database**: Managed PostgreSQL database storing relational records (`profiles`, `goals`, `savings_entries`).
+- **Row Level Security (RLS)**: Enforces complete multi-tenant isolation at the database engine level using optimized `(select auth.uid())` policy checks. Even if a malicious request attempts to read records belonging to another `user_id`, the database query returns 0 rows. Verified with 0 advisor linter warnings.
 
 ---
 

@@ -72,21 +72,21 @@ src/ (or root modular structure)
 
 ## 3. Step-by-Step Implementation Sequence
 
-### Milestone 1: Modularization & Public Landing Page
-1. Extract styles and scripts from `index.html` into clean CSS and JS modules.
-2. Build the semantic, responsive public landing page with storytelling sections:
-   - Hero narrative on savings consistency.
-   - Interactive goal calculator widget.
-   - Interactive dashboard preview component.
+### Milestone 1: Public Scrollytelling Landing Page (Completed ✅)
+1. Semantic, responsive public landing page with interactive scrollytelling narrative:
+   - Hero narrative on savings consistency with dynamic savings goal breakdown.
+   - Interactive goal calculator and habit simulator widget.
+   - Interactive streak visualization and checkpoint indicators.
    - Clear privacy and non-custodial trust statement.
 
-### Milestone 2: Cloud Auth Integration (Supabase)
-1. Initialize `@supabase/supabase-js` via CDN or ES module import.
-2. Implement Sign Up, Log In, Log Out, and Password Reset UI flows.
-3. Establish session persistence and route protection (redirecting unauthorized requests to the landing page).
+### Milestone 2: Cloud Auth Integration (Completed ✅)
+1. Initialize `@supabase/supabase-js` with client config in `config.js`.
+2. Accessible Modal UI with Sign Up, Sign In, Sign Out, and Password Reset (`#recovery`).
+3. Session restoration via `supabaseClient.auth.getSession()` and live state updates with `onAuthStateChange`.
+4. Route protection guard for `#dashboard` and `#app` views.
 
-### Milestone 3: Database & First-Time Onboarding
-1. Implement the database schema (`users`, `goals`, `savings_entries`) with Row Level Security.
+### Milestone 3: Database Foundation & First-Time Onboarding
+1. **Schema & RLS (Completed ✅)**: Deployed `profiles`, `goals`, `savings_entries` with strict RLS and zero advisor warnings.
 2. Build the Onboarding Wizard to capture the user's first goal parameters.
 3. Automatically link the initial goal to the authenticated `user_id`.
 

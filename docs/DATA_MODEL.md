@@ -63,13 +63,23 @@ CREATE TABLE public.profiles (
 
 -- Trigger to create profile automatically on auth signup
 CREATE OR REPLACE FUNCTION public.handle_new_user()
-RETURNS TRIGGER AS $$
+RETURNS TRIGGER 
+LANGUAGE plpgsql 
+SECURITY DEFINER
+SET search_path = public
+AS $$
 BEGIN
-    INSERT INTO public.profiles (id, email)
-    VALUES (NEW.id, NEW.email);
+    INSERT INTO public.profiles (id, email, display_name)
+    VALUES (
+        NEW.id,
+        NEW.email,
+        COALESCE(NEW.raw_user_meta_data->>'display_name', split_part(NEW.email, '@', 1))
+    );
     RETURN NEW;
 END;
-$$ LANGUAGE plpgsql SECURITY DEFINER;
+$$;
+
+REVOKE EXECUTE ON FUNCTION public.handle_new_user() FROM public, anon, authenticated;
 
 CREATE TRIGGER on_auth_user_created
     AFTER INSERT ON auth.users
@@ -91,6 +101,7 @@ CREATE TABLE public.goals (
 );
 
 CREATE INDEX idx_goals_user_id ON public.goals(user_id);
+CREATE INDEX idx_goals_status ON public.goals(status);
 
 
 -- 3. SAVINGS ENTRIES TABLE
@@ -113,7 +124,7 @@ CREATE INDEX idx_entries_user_saved_at ON public.savings_entries(user_id, saved_
 
 ## 3. Row Level Security (RLS) & Multi-Tenant Isolation
 
-Row Level Security is enabled by default to enforce tenant isolation at the database layer.
+Row Level Security is enabled by default to enforce tenant isolation at the database layer. All policy expressions use `(select auth.uid())` for optimal query performance at scale.
 
 ```sql
 -- Enable RLS
@@ -123,36 +134,36 @@ ALTER TABLE public.savings_entries ENABLE ROW LEVEL SECURITY;
 
 -- Profiles Policies
 CREATE POLICY "Users can view own profile" 
-    ON public.profiles FOR SELECT USING (auth.uid() = id);
+    ON public.profiles FOR SELECT USING ((select auth.uid()) = id);
 
 CREATE POLICY "Users can update own profile" 
-    ON public.profiles FOR UPDATE USING (auth.uid() = id);
+    ON public.profiles FOR UPDATE USING ((select auth.uid()) = id);
 
 -- Goals Policies
 CREATE POLICY "Users can view own goals" 
-    ON public.goals FOR SELECT USING (auth.uid() = user_id);
+    ON public.goals FOR SELECT USING ((select auth.uid()) = user_id);
 
 CREATE POLICY "Users can insert own goals" 
-    ON public.goals FOR INSERT WITH CHECK (auth.uid() = user_id);
+    ON public.goals FOR INSERT WITH CHECK ((select auth.uid()) = user_id);
 
 CREATE POLICY "Users can update own goals" 
-    ON public.goals FOR UPDATE USING (auth.uid() = user_id);
+    ON public.goals FOR UPDATE USING ((select auth.uid()) = user_id);
 
 CREATE POLICY "Users can delete own goals" 
-    ON public.goals FOR DELETE USING (auth.uid() = user_id);
+    ON public.goals FOR DELETE USING ((select auth.uid()) = user_id);
 
 -- Savings Entries Policies
 CREATE POLICY "Users can view own entries" 
-    ON public.savings_entries FOR SELECT USING (auth.uid() = user_id);
+    ON public.savings_entries FOR SELECT USING ((select auth.uid()) = user_id);
 
 CREATE POLICY "Users can insert own entries" 
-    ON public.savings_entries FOR INSERT WITH CHECK (auth.uid() = user_id);
+    ON public.savings_entries FOR INSERT WITH CHECK ((select auth.uid()) = user_id);
 
 CREATE POLICY "Users can update own entries" 
-    ON public.savings_entries FOR UPDATE USING (auth.uid() = user_id);
+    ON public.savings_entries FOR UPDATE USING ((select auth.uid()) = user_id);
 
 CREATE POLICY "Users can delete own entries" 
-    ON public.savings_entries FOR DELETE USING (auth.uid() = user_id);
+    ON public.savings_entries FOR DELETE USING ((select auth.uid()) = user_id);
 ```
 
 ---

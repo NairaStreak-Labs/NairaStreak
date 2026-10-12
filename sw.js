@@ -1,7 +1,8 @@
-const CACHE_NAME = 'nairastreak-500k-v1';
+const CACHE_NAME = 'nairastreak-auth-v2';
 const ASSETS = [
   './',
   './index.html',
+  './config.js',
   './manifest.json',
   './icon-192.png',
   './icon-512.png'
@@ -26,13 +27,21 @@ self.addEventListener('activate', (event) => {
 });
 
 self.addEventListener('fetch', (event) => {
+  const url = new URL(event.request.url);
+
+  // 1. Unconditionally bypass Supabase API, authentication, and database requests
+  if (url.hostname.includes('supabase.co') || event.request.headers.has('Authorization')) {
+    return;
+  }
+
+  // 2. Only cache GET requests for static shell assets
   if (event.request.method !== 'GET') return;
 
   event.respondWith(
     caches.match(event.request).then((cached) => {
       const fetchPromise = fetch(event.request)
         .then((networkResponse) => {
-          if (networkResponse && networkResponse.status === 200) {
+          if (networkResponse && networkResponse.status === 200 && networkResponse.type === 'basic') {
             const clone = networkResponse.clone();
             caches.open(CACHE_NAME).then((cache) => cache.put(event.request, clone));
           }

@@ -56,3 +56,13 @@ Cross-user isolation is enforced **at the database engine level** via PostgreSQL
   ```http
   Content-Security-Policy: default-src 'self'; script-src 'self' https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline'; connect-src 'self' https://*.supabase.co; img-src 'self' data:; font-src 'self';
   ```
+
+---
+
+## 5. Verification & Compliance Audit (Web V1 Foundation)
+
+- **Automated Advisor Audit**: Passed `supabase db advisors` with 0 security warnings and 0 performance linter warnings.
+- **Cross-Tenant Isolation Test**: Verified that authenticated User B querying User A's goals, entries, or profile receives 0 records, and mutation operations (UPDATE/DELETE) affect 0 rows.
+- **Anonymous Role Guard**: Verified that unauthenticated requests to `profiles`, `goals`, or `savings_entries` return 0 records under RLS.
+- **Secret Scan**: Verified zero database passwords, service-role keys, or private JWT tokens committed to source control.
+- **Service Worker Quarantine**: Verified `sw.js` (cache `nairastreak-auth-v2`) explicitly bypasses all requests matching `*.supabase.co` or bearing an `Authorization` header, enforcing `networkResponse.type === 'basic'` for cached shell assets.

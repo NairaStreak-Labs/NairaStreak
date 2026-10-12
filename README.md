@@ -13,6 +13,8 @@ A mobile-first Progressive Web App (PWA) that helps you save ₦500,000 by a tar
 
 ## 🌟 Features
 
+- 🔐 **Secure Cloud Authentication**: Powered by Supabase Auth (email & password with session restoration and password reset)
+- 🛡️ **Row Level Security**: Zero cross-user data leakage with database-level isolation
 - 🎯 **Flexible Tracking**: Daily or weekly savings tracking, toggle anytime
 - 📊 **Progress & Analytics**: Live progress bar and total-saved counter
 - 🔥 **Habit & Momentum**: Streak tracking and full monthly calendar matrix
@@ -22,14 +24,16 @@ A mobile-first Progressive Web App (PWA) that helps you save ₦500,000 by a tar
 - 🧮 **Target Calculator**: Enter any goal amount and date to compute daily/weekly targets
 - 🔔 **In-App Reminders**: Timely notifications that silence automatically once you log a saving for the day
 - 🌗 **Dark Mode**: Seamless toggle between light and dark themes
-- 💾 **Data Portability**: Full JSON backup export and import
-- 📲 **PWA & Offline**: Installable to home screen and fully usable offline
+- 💾 **Data Portability**: Full JSON backup export and import, with cloud persistence foundation
+- 📲 **PWA & Offline**: Installable to home screen and fully usable offline with zero token caching
 
 ## 🛠️ Tech Stack
 
-Built with vanilla HTML, CSS, and JavaScript — no frameworks, no build step, zero dependencies. 
-- **Storage**: Client-side `localStorage` for privacy and instant responsiveness.
-- **Offline / PWA**: Handled by `manifest.json` and a custom Service Worker (`sw.js`).
+Built with clean, accessible HTML5, CSS3, and JavaScript — no heavyweight frameworks, no complex build tools.
+- **Backend & Identity**: [Supabase](https://supabase.com) (GoTrue Auth + PostgreSQL 15+ with strict Row Level Security).
+- **Configuration**: Public client config in `config.js` (`.env.example` template provided).
+- **Storage**: Cloud persistence with local storage fallback for privacy and instant responsiveness.
+- **Offline / PWA**: Handled by `manifest.json` and a hardened Service Worker (`sw.js`) that caches static assets only.
 
 ## 🚀 Run Locally
 
@@ -39,16 +43,21 @@ Clone the repository and serve it with any static web server:
 npx serve .
 ```
 
-> **Note**: Service Worker registration and the "Add to Home Screen" prompt require a secure context (`https://` or `http://localhost`).
+> **Note**: Service Worker registration and authentication features require a secure context (`https://` or `http://localhost`).
 
 ## 📁 Project Structure
 
 ```
-├── index.html      # App markup, styles, and logic
-├── manifest.json   # PWA manifest (name, icons, theme color)
-├── sw.js           # Service worker for offline caching & notifications
-├── icon-192.png    # App icon (192x192)
-└── icon-512.png    # App icon (512x512)
+├── index.html            # Scrollytelling landing page, auth modals & app shell
+├── config.js             # Public client-side configuration for Supabase
+├── manifest.json         # PWA manifest (name, icons, theme color)
+├── sw.js                 # Hardened Service worker (v2: caches shell assets only)
+├── .env.example          # Environment variables template
+├── supabase/
+│   └── migrations/
+│       └── 20261012_init_schema.sql  # Profiles, goals, entries schema & RLS
+├── icon-192.png          # App icon (192x192)
+└── icon-512.png          # App icon (512x512)
 ```
 
 ## 👥 Authors & Attribution

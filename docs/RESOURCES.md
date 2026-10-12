@@ -33,8 +33,8 @@ To maintain our zero-bloat, high-performance architecture, only lightweight, ess
 
 - **System Fonts**: Native device UI fonts (`-apple-system`, `BlinkMacSystemFont`, `Segoe UI`, `Roboto`, `sans-serif`) to ensure 0ms font download latency.
 - **PWA Icons**:
-  - [`icon-192.png`](file:///home/tim/project8B/500k-Savings-Challenge/icon-192.png): 192x192 PNG for Android launcher & notification badge.
-  - [`icon-512.png`](file:///home/tim/project8B/500k-Savings-Challenge/icon-512.png): 512x512 PNG for high-res splash screens and web store listings.
+  - [`icon-192.png`](icon-192.png): 192x192 PNG for Android launcher & notification badge.
+  - [`icon-512.png`](icon-512.png): 512x512 PNG for high-res splash screens and web store listings.
 
 ---
 

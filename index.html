@@ -1,0 +1,918 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<title>500K Challenge · NairaStreak</title>
+<meta name="theme-color" content="#16a34a">
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="icon-192.png">
+<link rel="icon" href="icon-192.png">
+<style>
+  :root {
+    --green: #16a34a;
+    --green-dark: #059669;
+    --green-light: #dcfce7;
+    --bg: #f8faf9;
+    --card: #ffffff;
+    --text: #1f2937;
+    --muted: #6b7280;
+    --border: #f3f4f6;
+  }
+  body.dark {
+    --bg: #0f1712;
+    --card: #17211b;
+    --text: #eef4f0;
+    --muted: #9ca8a1;
+    --border: #223028;
+    --green-light: #163524;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    padding: 20px 16px 40px;
+    transition: background 0.2s, color 0.2s;
+  }
+  .app { width: 100%; max-width: 440px; }
+
+  header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; padding-top: 8px; }
+  header .titles { text-align: left; }
+  header h1 { font-size: 20px; color: var(--green-dark); }
+  header p { font-size: 12px; color: var(--muted); margin-top: 2px; }
+  .icon-btn {
+    width: 38px; height: 38px;
+    border-radius: 10px;
+    background: var(--green-light);
+    border: none;
+    font-size: 17px;
+    cursor: pointer;
+    color: var(--green-dark);
+  }
+
+  .card {
+    background: var(--card);
+    border-radius: 16px;
+    padding: 20px;
+    margin-bottom: 16px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+  }
+  .card-title { font-size: 13px; font-weight: 700; color: var(--muted); margin-bottom: 12px; text-transform: uppercase; letter-spacing: 0.03em; }
+
+  .mode-toggle {
+    display: flex;
+    background: var(--green-light);
+    border-radius: 12px;
+    padding: 4px;
+    margin-bottom: 16px;
+  }
+  .mode-btn {
+    flex: 1;
+    text-align: center;
+    padding: 9px 0;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--green-dark);
+    background: transparent;
+    border: none;
+    border-radius: 9px;
+    cursor: pointer;
+  }
+  .mode-btn.active { background: var(--green); color: #fff; }
+
+  .total-label { font-size: 13px; color: var(--muted); }
+  .total-amount { font-size: 32px; font-weight: 700; color: var(--green-dark); margin: 4px 0; }
+  .total-target { font-size: 13px; color: var(--muted); }
+
+  .progress-track {
+    width: 100%; height: 14px;
+    background: var(--green-light);
+    border-radius: 7px;
+    overflow: hidden;
+    margin: 14px 0 6px;
+  }
+  .progress-fill {
+    height: 100%; background: var(--green);
+    border-radius: 7px; transition: width 0.4s ease; width: 0%;
+  }
+  .progress-pct { font-size: 13px; font-weight: 600; color: var(--green-dark); text-align: right; }
+
+  .projection {
+    margin-top: 14px; padding: 10px 12px;
+    background: var(--border); border-radius: 10px;
+    font-size: 12.5px; color: var(--text);
+  }
+  .projection.ahead { background: var(--green-light); color: var(--green-dark); }
+  .projection.behind { background: #fff1e6; color: #b45309; }
+  body.dark .projection.behind { background: #3a2a12; color: #fbbf24; }
+
+  .save-btn {
+    width: 100%; padding: 18px; font-size: 17px; font-weight: 700;
+    color: #fff; background: var(--green); border: none; border-radius: 14px;
+    cursor: pointer; transition: background 0.2s, transform 0.1s;
+  }
+  .save-btn:active { transform: scale(0.98); }
+  .save-btn.saved { background: var(--green-light); color: var(--green-dark); }
+  .undo-link {
+    display: block; text-align: center; font-size: 12.5px; color: var(--muted);
+    margin-top: 10px; background: none; border: none; cursor: pointer; text-decoration: underline;
+  }
+
+  .stats-row { display: flex; gap: 12px; margin-top: 16px; }
+  .stat { flex: 1; text-align: center; }
+  .stat-num { font-size: 18px; font-weight: 700; color: var(--green-dark); }
+  .stat-label { font-size: 11px; color: var(--muted); margin-top: 2px; }
+
+  .week-grid { display: flex; justify-content: space-between; gap: 6px; }
+  .day {
+    flex: 1; text-align: center; padding: 10px 0; border-radius: 10px; background: var(--border);
+  }
+  .day.saved { background: var(--green-light); }
+  .day-label { font-size: 10px; color: var(--muted); margin-bottom: 6px; }
+  .day-mark { font-size: 16px; color: #d1d5db; }
+  .day.saved .day-mark { color: var(--green); font-weight: 700; }
+
+  /* Month calendar */
+  .cal-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; }
+  .cal-header button {
+    background: var(--border); border: none; width: 30px; height: 30px; border-radius: 8px;
+    font-size: 14px; cursor: pointer; color: var(--text);
+  }
+  .cal-header span { font-size: 13.5px; font-weight: 700; }
+  .cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; }
+  .cal-dow { font-size: 10px; color: var(--muted); text-align: center; padding-bottom: 4px; }
+  .cal-cell {
+    aspect-ratio: 1; display: flex; align-items: center; justify-content: center;
+    border-radius: 8px; font-size: 11.5px; color: var(--muted); background: var(--border);
+  }
+  .cal-cell.empty { background: transparent; }
+  .cal-cell.saved { background: var(--green); color: #fff; font-weight: 700; }
+  .cal-cell.week-saved { background: var(--green-light); color: var(--green-dark); font-weight: 700; }
+  .cal-cell.today { outline: 2px solid var(--green-dark); }
+
+  /* Settings */
+  .field { margin-bottom: 14px; }
+  .field label { display: block; font-size: 12.5px; color: var(--muted); margin-bottom: 6px; }
+  .field input {
+    width: 100%; padding: 11px 12px; font-size: 15px; border-radius: 10px;
+    border: 1px solid var(--border); background: var(--bg); color: var(--text);
+  }
+  .field-row { display: flex; gap: 10px; }
+  .field-row .field { flex: 1; }
+  .btn-secondary {
+    width: 100%; padding: 13px; font-size: 14px; font-weight: 600;
+    color: var(--green-dark); background: var(--green-light); border: none;
+    border-radius: 10px; cursor: pointer;
+  }
+  .btn-row { display: flex; gap: 10px; }
+  .btn-row .btn-secondary { flex: 1; }
+  .hint { font-size: 11.5px; color: var(--muted); margin-top: 8px; }
+
+  .calc-result {
+    margin-top: 14px; padding: 14px; background: var(--green-light); border-radius: 12px;
+  }
+  .calc-result .row { display: flex; justify-content: space-between; padding: 6px 0; font-size: 13.5px; }
+  .calc-result .row b { color: var(--green-dark); }
+  .calc-result .remaining { font-size: 12px; color: var(--muted); margin-bottom: 6px; }
+
+  .toast {
+    position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(20px);
+    background: var(--green-dark); color: #fff; padding: 12px 20px; border-radius: 10px;
+    font-size: 14px; opacity: 0; pointer-events: none; transition: opacity 0.25s, transform 0.25s;
+    z-index: 50; max-width: 90%; text-align: center;
+  }
+  .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+  #installCard { display: none; }
+  #installCard button {
+    width: 100%; padding: 12px; font-size: 14px; font-weight: 600;
+    color: var(--green-dark); background: var(--green-light); border: none;
+    border-radius: 10px; cursor: pointer;
+  }
+
+  input[type="file"] { display: none; }
+
+  .reminder-chip {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: var(--green-light); color: var(--green-dark);
+    padding: 7px 10px 7px 14px; border-radius: 20px; font-size: 13px; font-weight: 600;
+    margin: 0 6px 8px 0;
+  }
+  .reminder-chip button {
+    background: none; border: none; color: var(--green-dark); font-size: 15px;
+    cursor: pointer; line-height: 1; padding: 0;
+  }
+
+  .confetti-piece {
+    position: fixed; top: -20px; width: 8px; height: 8px; z-index: 60;
+    pointer-events: none; border-radius: 2px;
+  }
+</style>
+</head>
+<body>
+<div class="app">
+  <header>
+    <div class="titles">
+      <h1>💰 500K Challenge</h1>
+      <p id="subtitle">Saving ₦500,000 by Dec 31, 2026</p>
+    </div>
+    <button class="icon-btn" id="darkToggle" title="Toggle dark mode">🌙</button>
+  </header>
+
+  <div class="card" id="installCard">
+    <button id="installBtn">📲 Add to Home Screen</button>
+  </div>
+
+  <div class="card">
+    <div class="mode-toggle">
+      <button class="mode-btn active" id="dailyModeBtn">Daily</button>
+      <button class="mode-btn" id="weeklyModeBtn">Weekly</button>
+    </div>
+
+    <div class="total-label">Total Saved</div>
+    <div class="total-amount" id="totalAmount">₦0</div>
+    <div class="total-target" id="totalTarget">of ₦500,000 target</div>
+    <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+    <div class="progress-pct" id="progressPct">0%</div>
+
+    <div class="stats-row">
+      <div class="stat">
+        <div class="stat-num" id="daysSaved">0</div>
+        <div class="stat-label" id="daysSavedLabel">Days Saved</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num" id="daysLeft">0</div>
+        <div class="stat-label" id="daysLeftLabel">Days Left</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num" id="streak">0</div>
+        <div class="stat-label">Streak</div>
+      </div>
+    </div>
+
+    <div class="projection" id="projection"></div>
+  </div>
+
+  <div class="card">
+    <button class="save-btn" id="saveBtn">I Saved ₦3,676 Today</button>
+    <div style="display:flex; justify-content:center; gap:16px; margin-top:10px;">
+      <button class="undo-link" id="editAmountToggle" style="margin:0;">Enter a different amount</button>
+      <button class="undo-link" id="undoBtn" style="display:none; margin:0;">Undo this entry</button>
+    </div>
+    <div class="field" id="editAmountForm" style="display:none; margin-top:12px;">
+      <label id="editAmountLabel">Actual amount saved (₦)</label>
+      <input type="number" id="editAmountInput" placeholder="e.g. 5000">
+      <button class="btn-secondary" id="editAmountSave" style="margin-top:8px;">Save Amount</button>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Last 7 Days</div>
+    <div class="week-grid" id="weekGrid"></div>
+  </div>
+
+  <div class="card">
+    <div class="cal-header">
+      <button id="prevMonth">‹</button>
+      <span id="calMonthLabel">Month</span>
+      <button id="nextMonth">›</button>
+    </div>
+    <div class="cal-grid" id="calGrid"></div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Goal Calculator</div>
+    <div class="field">
+      <label>Target amount (₦)</label>
+      <input type="number" id="calcGoal" placeholder="500000">
+    </div>
+    <div class="field">
+      <label>Target date</label>
+      <input type="date" id="calcDate">
+    </div>
+    <button class="btn-secondary" id="calcBtn">Calculate</button>
+    <div class="calc-result" id="calcResult" style="display:none;"></div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Goal Settings</div>
+    <div class="field">
+      <label>Daily savings amount (₦)</label>
+      <input type="number" id="settingsDaily">
+    </div>
+    <div class="field">
+      <label>Overall target (₦)</label>
+      <input type="number" id="settingsTarget">
+    </div>
+    <div class="field">
+      <label>Target date</label>
+      <input type="date" id="settingsDate">
+    </div>
+    <button class="btn-secondary" id="saveSettingsBtn">Save Settings</button>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Reminders</div>
+    <div class="mode-toggle" style="margin-bottom:12px;">
+      <button class="mode-btn active" id="remindersOnBtn">On</button>
+      <button class="mode-btn" id="remindersOffBtn">Off</button>
+    </div>
+    <div id="reminderTimesList"></div>
+    <div class="field-row" style="margin-top:4px;">
+      <div class="field" style="margin-bottom:0;">
+        <input type="time" id="newReminderTime" value="09:00">
+      </div>
+      <button class="btn-secondary" id="addReminderBtn" style="flex:0 0 auto; padding:11px 16px;">+ Add</button>
+    </div>
+    <div class="hint">Notifications fire at these times while the app is open, and stop for the day once you've logged your saving. Works best on Android Chrome — treat these as a bonus alongside phone alarms.</div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Backup</div>
+    <div class="btn-row">
+      <button class="btn-secondary" id="exportBtn">⬇ Export Backup</button>
+      <button class="btn-secondary" id="importBtn">⬆ Import Backup</button>
+    </div>
+    <input type="file" id="importFile" accept="application/json">
+    <div class="hint">Export saves your data as a file. Keep it somewhere safe — reinstalling or clearing browser data will erase your progress unless you have a backup.</div>
+  </div>
+
+  <footer style="text-align: center; margin-top: 24px; padding-bottom: 8px; font-size: 12px; color: var(--muted); line-height: 1.6;">
+    <p>Created by <strong>Zuokemefa Oyinmiebi Peter</strong></p>
+    <p>Powered by <a href="https://github.com/nairastreak-labs" target="_blank" rel="noopener noreferrer" style="color: var(--green-dark); font-weight: 600; text-decoration: none;">NairaStreak Labs</a></p>
+  </footer>
+</div>
+
+<div class="toast" id="toast">Saved! Keep it up 🌱</div>
+
+<script>
+  const STORAGE_KEY = 'savings500k';
+  const SETTINGS_KEY = 'savings500k_settings';
+  const MODE_KEY = 'savings500k_mode';
+  const MILESTONE_KEY = 'savings500k_milestones';
+
+  const DEFAULT_SETTINGS = { target: 500000, endDate: '2026-12-31', dailyAmount: 3676, darkMode: false, remindersOn: false, reminderTimes: ['09:00', '14:00', '20:00'] };
+  const NOTIFIED_KEY = 'savings500k_notified';
+
+  function getNotifiedState() {
+    try {
+      const s = JSON.parse(localStorage.getItem(NOTIFIED_KEY));
+      if (s && s.date === todayStr()) return s;
+    } catch (e) {}
+    return { date: todayStr(), times: [] };
+  }
+  function saveNotifiedState(s) { localStorage.setItem(NOTIFIED_KEY, JSON.stringify(s)); }
+
+  function hasLoggedToday() {
+    const entries = getEntries();
+    const today = todayStr();
+    const thisWeek = weekStartStr();
+    return entries.some(e => (e.type === 'daily' && e.date === today) || (e.type === 'weekly' && e.date === thisWeek));
+  }
+
+  function checkReminders() {
+    const settings = getSettings();
+    if (!settings.remindersOn) return;
+    if (hasLoggedToday()) return;
+    if (!('Notification' in window) || Notification.permission !== 'granted') return;
+
+    const now = new Date();
+    const hh = String(now.getHours()).padStart(2, '0');
+    const mm = String(now.getMinutes()).padStart(2, '0');
+    const current = `${hh}:${mm}`;
+
+    const state = getNotifiedState();
+    if (settings.reminderTimes.includes(current) && !state.times.includes(current)) {
+      state.times.push(current);
+      saveNotifiedState(state);
+      if (navigator.serviceWorker && navigator.serviceWorker.ready) {
+        navigator.serviceWorker.ready.then(reg => {
+          reg.showNotification('💰 NairaStreak · 500K Challenge', {
+            body: "Have you saved today? Tap to log it.",
+            icon: 'icon-192.png',
+            badge: 'icon-192.png'
+          });
+        });
+      } else {
+        new Notification('💰 NairaStreak · 500K Challenge', { body: "Have you saved today?", icon: 'icon-192.png' });
+      }
+    }
+  }
+
+  function renderReminderTimes() {
+    const settings = getSettings();
+    const list = document.getElementById('reminderTimesList');
+    list.innerHTML = '';
+    settings.reminderTimes.slice().sort().forEach(t => {
+      const chip = document.createElement('span');
+      chip.className = 'reminder-chip';
+      const [h, m] = t.split(':');
+      const hour12 = ((+h % 12) || 12);
+      const ampm = +h < 12 ? 'AM' : 'PM';
+      chip.innerHTML = `${hour12}:${m} ${ampm} <button data-time="${t}">×</button>`;
+      list.appendChild(chip);
+    });
+    list.querySelectorAll('button[data-time]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const s = getSettings();
+        s.reminderTimes = s.reminderTimes.filter(t => t !== btn.dataset.time);
+        saveSettings(s);
+        renderReminderTimes();
+      });
+    });
+    document.getElementById('remindersOnBtn').classList.toggle('active', settings.remindersOn);
+    document.getElementById('remindersOffBtn').classList.toggle('active', !settings.remindersOn);
+  }
+
+  document.getElementById('remindersOnBtn').addEventListener('click', () => {
+    const s = getSettings();
+    s.remindersOn = true;
+    saveSettings(s);
+    renderReminderTimes();
+    if ('Notification' in window && Notification.permission === 'default') {
+      Notification.requestPermission();
+    }
+  });
+  document.getElementById('remindersOffBtn').addEventListener('click', () => {
+    const s = getSettings();
+    s.remindersOn = false;
+    saveSettings(s);
+    renderReminderTimes();
+  });
+  document.getElementById('addReminderBtn').addEventListener('click', () => {
+    const val = document.getElementById('newReminderTime').value;
+    if (!val) return;
+    const s = getSettings();
+    if (!s.reminderTimes.includes(val)) {
+      s.reminderTimes.push(val);
+      saveSettings(s);
+      renderReminderTimes();
+    }
+  });
+
+  setInterval(checkReminders, 20000);
+
+  let calMonthOffset = 0; // 0 = current month
+
+  function todayStr(d = new Date()) {
+    const year = d.getFullYear();
+    const month = String(d.getMonth() + 1).padStart(2, '0');
+    const day = String(d.getDate()).padStart(2, '0');
+    return `${year}-${month}-${day}`;
+  }
+
+  function weekStartStr(d = new Date()) {
+    const date = new Date(d);
+    const day = date.getDay();
+    const diff = (day === 0 ? -6 : 1) - day;
+    date.setDate(date.getDate() + diff);
+    return todayStr(date);
+  }
+
+  function getSettings() {
+    try {
+      return Object.assign({}, DEFAULT_SETTINGS, JSON.parse(localStorage.getItem(SETTINGS_KEY)) || {});
+    } catch (e) { return { ...DEFAULT_SETTINGS }; }
+  }
+  function saveSettings(s) { localStorage.setItem(SETTINGS_KEY, JSON.stringify(s)); }
+
+  function getMode() { return localStorage.getItem(MODE_KEY) === 'weekly' ? 'weekly' : 'daily'; }
+  function setMode(m) { localStorage.setItem(MODE_KEY, m); }
+
+  function getEntries() {
+    try { return JSON.parse(localStorage.getItem(STORAGE_KEY)) || []; }
+    catch (e) { return []; }
+  }
+  function saveEntries(e) { localStorage.setItem(STORAGE_KEY, JSON.stringify(e)); }
+
+  function getCelebrated() {
+    try { return JSON.parse(localStorage.getItem(MILESTONE_KEY)) || []; }
+    catch (e) { return []; }
+  }
+  function saveCelebrated(arr) { localStorage.setItem(MILESTONE_KEY, JSON.stringify(arr)); }
+
+  function formatMoney(n) { return '₦' + Math.round(n).toLocaleString('en-NG'); }
+
+  function calcDailyStreak(entries) {
+    const dates = new Set(entries.filter(e => e.type === 'daily').map(e => e.date));
+    let streak = 0, d = new Date();
+    while (dates.has(todayStr(d))) { streak++; d.setDate(d.getDate() - 1); }
+    return streak;
+  }
+  function calcWeeklyStreak(entries) {
+    const weeks = new Set(entries.filter(e => e.type === 'weekly').map(e => e.date));
+    let streak = 0, d = new Date();
+    while (weeks.has(weekStartStr(d))) { streak++; d.setDate(d.getDate() - 7); }
+    return streak;
+  }
+
+  function applyTheme() {
+    const s = getSettings();
+    document.body.classList.toggle('dark', !!s.darkMode);
+    document.getElementById('darkToggle').textContent = s.darkMode ? '☀️' : '🌙';
+  }
+
+  function checkMilestones(total, target) {
+    const pct = (total / target) * 100;
+    const thresholds = [25, 50, 75, 100];
+    const celebrated = getCelebrated();
+    for (const t of thresholds) {
+      if (pct >= t && !celebrated.includes(t)) {
+        celebrated.push(t);
+        saveCelebrated(celebrated);
+        launchConfetti();
+        showToast(t === 100 ? '🎉 GOAL REACHED! Incredible work!' : `🎉 ${t}% milestone reached!`);
+      }
+    }
+  }
+
+  function launchConfetti() {
+    const colors = ['#16a34a', '#22c55e', '#86efac', '#fbbf24', '#f472b6'];
+    for (let i = 0; i < 40; i++) {
+      const piece = document.createElement('div');
+      piece.className = 'confetti-piece';
+      piece.style.left = Math.random() * 100 + 'vw';
+      piece.style.background = colors[Math.floor(Math.random() * colors.length)];
+      piece.style.transform = `rotate(${Math.random() * 360}deg)`;
+      document.body.appendChild(piece);
+      const duration = 1800 + Math.random() * 1200;
+      const drift = (Math.random() - 0.5) * 200;
+      piece.animate([
+        { transform: `translate(0,0) rotate(0deg)`, opacity: 1 },
+        { transform: `translate(${drift}px, 100vh) rotate(720deg)`, opacity: 0 }
+      ], { duration, easing: 'ease-in' });
+      setTimeout(() => piece.remove(), duration);
+    }
+  }
+
+  function render() {
+    const settings = getSettings();
+    const mode = getMode();
+    const entries = getEntries();
+    const total = entries.reduce((sum, e) => sum + e.amount, 0);
+    const target = settings.target;
+    const endDate = new Date(settings.endDate);
+    const pct = Math.min(100, (total / target) * 100);
+
+    document.getElementById('subtitle').textContent = `Saving ${formatMoney(target)} by ${endDate.toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'})}`;
+    document.getElementById('totalAmount').textContent = formatMoney(total);
+    document.getElementById('totalTarget').textContent = `of ${formatMoney(target)} target`;
+    document.getElementById('progressFill').style.width = pct + '%';
+    document.getElementById('progressPct').textContent = pct.toFixed(1) + '%';
+
+    document.getElementById('dailyModeBtn').classList.toggle('active', mode === 'daily');
+    document.getElementById('weeklyModeBtn').classList.toggle('active', mode === 'weekly');
+
+    const daysLeft = Math.max(0, Math.ceil((endDate - new Date()) / 86400000));
+    document.getElementById('daysLeft').textContent = mode === 'daily' ? daysLeft : Math.ceil(daysLeft / 7);
+    document.getElementById('daysLeftLabel').textContent = mode === 'daily' ? 'Days Left' : 'Weeks Left';
+
+    const btn = document.getElementById('saveBtn');
+    const undoBtn = document.getElementById('undoBtn');
+    const dailyAmt = settings.dailyAmount;
+    const weeklyAmt = dailyAmt * 7;
+
+    if (mode === 'daily') {
+      const today = todayStr();
+      const savedToday = entries.some(e => e.type === 'daily' && e.date === today);
+      document.getElementById('daysSaved').textContent = entries.filter(e => e.type === 'daily').length;
+      document.getElementById('daysSavedLabel').textContent = 'Days Saved';
+      document.getElementById('streak').textContent = calcDailyStreak(entries);
+      btn.textContent = savedToday ? '✓ Saved Today' : `I Saved ${formatMoney(dailyAmt)} Today`;
+      btn.classList.toggle('saved', savedToday);
+      undoBtn.style.display = savedToday ? 'block' : 'none';
+      document.getElementById('editAmountToggle').textContent = savedToday ? 'Edit amount' : 'Enter a different amount';
+    } else {
+      const thisWeek = weekStartStr();
+      const savedThisWeek = entries.some(e => e.type === 'weekly' && e.date === thisWeek);
+      document.getElementById('daysSaved').textContent = entries.filter(e => e.type === 'weekly').length;
+      document.getElementById('daysSavedLabel').textContent = 'Weeks Saved';
+      document.getElementById('streak').textContent = calcWeeklyStreak(entries);
+      btn.textContent = savedThisWeek ? '✓ Saved This Week' : `I Saved ${formatMoney(weeklyAmt)} This Week`;
+      btn.classList.toggle('saved', savedThisWeek);
+      undoBtn.style.display = savedThisWeek ? 'block' : 'none';
+      document.getElementById('editAmountToggle').textContent = savedThisWeek ? 'Edit amount' : 'Enter a different amount';
+    }
+
+    // Projection
+    const allDates = entries.map(e => e.date).sort();
+    const projBox = document.getElementById('projection');
+    if (entries.length === 0 || total <= 0) {
+      projBox.textContent = 'Start saving to see your projected finish date.';
+      projBox.className = 'projection';
+    } else {
+      const firstDate = new Date(allDates[0]);
+      const daysElapsed = Math.max(1, Math.ceil((new Date() - firstDate) / 86400000));
+      const avgPerDay = total / daysElapsed;
+      const remaining = Math.max(0, target - total);
+      if (avgPerDay <= 0 || remaining === 0) {
+        projBox.textContent = remaining === 0 ? '🎉 Target reached!' : 'Keep saving to build a projection.';
+        projBox.className = 'projection ahead';
+      } else {
+        const daysToFinish = Math.ceil(remaining / avgPerDay);
+        const projectedDate = new Date();
+        projectedDate.setDate(projectedDate.getDate() + daysToFinish);
+        const ahead = projectedDate <= endDate;
+        projBox.className = 'projection ' + (ahead ? 'ahead' : 'behind');
+        projBox.textContent = `At your current pace, you'll hit your goal around ${projectedDate.toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'})}` + (ahead ? ' — right on track! 🎯' : ' — a bit behind target, consider saving more.');
+      }
+    }
+
+    // Last 7 days
+    const grid = document.getElementById('weekGrid');
+    grid.innerHTML = '';
+    const dailySet = new Set(entries.filter(e => e.type === 'daily').map(e => e.date));
+    const labels = ['S','M','T','W','T','F','S'];
+    for (let i = 6; i >= 0; i--) {
+      const d = new Date(); d.setDate(d.getDate() - i);
+      const isSaved = dailySet.has(todayStr(d));
+      const div = document.createElement('div');
+      div.className = 'day' + (isSaved ? ' saved' : '');
+      div.innerHTML = `<div class="day-label">${labels[d.getDay()]}</div><div class="day-mark">${isSaved ? '✓' : '·'}</div>`;
+      grid.appendChild(div);
+    }
+
+    renderCalendar(entries);
+    checkMilestones(total, target);
+  }
+
+  function renderCalendar(entries) {
+    const base = new Date();
+    base.setDate(1);
+    base.setMonth(base.getMonth() + calMonthOffset);
+    const year = base.getFullYear(), month = base.getMonth();
+    document.getElementById('calMonthLabel').textContent = base.toLocaleDateString('en-GB', { month: 'long', year: 'numeric' });
+
+    const dailySet = new Set(entries.filter(e => e.type === 'daily').map(e => e.date));
+    const weekSet = new Set(entries.filter(e => e.type === 'weekly').map(e => e.date));
+
+    const grid = document.getElementById('calGrid');
+    grid.innerHTML = '';
+    ['S','M','T','W','T','F','S'].forEach(l => {
+      const el = document.createElement('div');
+      el.className = 'cal-dow'; el.textContent = l;
+      grid.appendChild(el);
+    });
+
+    const firstDay = new Date(year, month, 1).getDay();
+    const daysInMonth = new Date(year, month + 1, 0).getDate();
+    const todayS = todayStr();
+
+    for (let i = 0; i < firstDay; i++) {
+      const el = document.createElement('div');
+      el.className = 'cal-cell empty';
+      grid.appendChild(el);
+    }
+    for (let d = 1; d <= daysInMonth; d++) {
+      const dateObj = new Date(year, month, d);
+      const dStr = todayStr(dateObj);
+      const inWeekSaved = weekSet.has(weekStartStr(dateObj));
+      const isSaved = dailySet.has(dStr);
+      const el = document.createElement('div');
+      el.className = 'cal-cell' + (isSaved ? ' saved' : (inWeekSaved ? ' week-saved' : '')) + (dStr === todayS ? ' today' : '');
+      el.textContent = d;
+      grid.appendChild(el);
+    }
+  }
+
+  function showToast(msg) {
+    const toast = document.getElementById('toast');
+    toast.textContent = msg;
+    toast.classList.add('show');
+    setTimeout(() => toast.classList.remove('show'), 2400);
+  }
+
+  document.getElementById('saveBtn').addEventListener('click', () => {
+    const settings = getSettings();
+    const mode = getMode();
+    const entries = getEntries();
+    if (mode === 'daily') {
+      const today = todayStr();
+      if (entries.some(e => e.type === 'daily' && e.date === today)) return;
+      entries.push({ date: today, amount: settings.dailyAmount, type: 'daily' });
+    } else {
+      const wk = weekStartStr();
+      if (entries.some(e => e.type === 'weekly' && e.date === wk)) return;
+      entries.push({ date: wk, amount: settings.dailyAmount * 7, type: 'weekly' });
+    }
+    saveEntries(entries);
+    render();
+    showToast('Saved! Keep it up 🌱');
+  });
+
+  document.getElementById('undoBtn').addEventListener('click', () => {
+    const mode = getMode();
+    let entries = getEntries();
+    if (mode === 'daily') {
+      const today = todayStr();
+      entries = entries.filter(e => !(e.type === 'daily' && e.date === today));
+    } else {
+      const wk = weekStartStr();
+      entries = entries.filter(e => !(e.type === 'weekly' && e.date === wk));
+    }
+    saveEntries(entries);
+    render();
+    showToast('Entry removed');
+  });
+
+  document.getElementById('editAmountToggle').addEventListener('click', () => {
+    const form = document.getElementById('editAmountForm');
+    const isOpen = form.style.display !== 'none';
+    if (isOpen) { form.style.display = 'none'; return; }
+
+    const mode = getMode();
+    const entries = getEntries();
+    let existing;
+    if (mode === 'daily') {
+      existing = entries.find(e => e.type === 'daily' && e.date === todayStr());
+    } else {
+      existing = entries.find(e => e.type === 'weekly' && e.date === weekStartStr());
+    }
+    document.getElementById('editAmountInput').value = existing ? existing.amount : '';
+    form.style.display = 'block';
+    document.getElementById('editAmountInput').focus();
+  });
+
+  document.getElementById('editAmountSave').addEventListener('click', () => {
+    const amount = parseFloat(document.getElementById('editAmountInput').value);
+    if (!amount || amount <= 0) { showToast('Enter a valid amount'); return; }
+
+    const mode = getMode();
+    let entries = getEntries();
+    if (mode === 'daily') {
+      const today = todayStr();
+      const idx = entries.findIndex(e => e.type === 'daily' && e.date === today);
+      if (idx >= 0) entries[idx].amount = amount;
+      else entries.push({ date: today, amount, type: 'daily' });
+    } else {
+      const wk = weekStartStr();
+      const idx = entries.findIndex(e => e.type === 'weekly' && e.date === wk);
+      if (idx >= 0) entries[idx].amount = amount;
+      else entries.push({ date: wk, amount, type: 'weekly' });
+    }
+    saveEntries(entries);
+    document.getElementById('editAmountForm').style.display = 'none';
+    render();
+    showToast('Amount saved 🌱');
+  });
+
+  document.getElementById('dailyModeBtn').addEventListener('click', () => { setMode('daily'); render(); });
+  document.getElementById('weeklyModeBtn').addEventListener('click', () => { setMode('weekly'); render(); });
+
+  document.getElementById('prevMonth').addEventListener('click', () => { calMonthOffset--; renderCalendar(getEntries()); });
+  document.getElementById('nextMonth').addEventListener('click', () => { calMonthOffset++; renderCalendar(getEntries()); });
+
+  document.getElementById('darkToggle').addEventListener('click', () => {
+    const s = getSettings();
+    s.darkMode = !s.darkMode;
+    saveSettings(s);
+    applyTheme();
+  });
+
+  // Settings form
+  function loadSettingsForm() {
+    const s = getSettings();
+    document.getElementById('settingsDaily').value = s.dailyAmount;
+    document.getElementById('settingsTarget').value = s.target;
+    document.getElementById('settingsDate').value = s.endDate;
+  }
+  document.getElementById('saveSettingsBtn').addEventListener('click', () => {
+    const daily = parseFloat(document.getElementById('settingsDaily').value);
+    const target = parseFloat(document.getElementById('settingsTarget').value);
+    const date = document.getElementById('settingsDate').value;
+    if (!daily || daily <= 0 || !target || target <= 0 || !date) {
+      showToast('Please fill in valid values');
+      return;
+    }
+    const s = getSettings();
+    s.dailyAmount = daily; s.target = target; s.endDate = date;
+    saveSettings(s);
+    render();
+    showToast('Settings saved');
+  });
+
+  // Goal calculator
+  document.getElementById('calcBtn').addEventListener('click', () => {
+    const goal = parseFloat(document.getElementById('calcGoal').value);
+    const dateStr = document.getElementById('calcDate').value;
+    if (!goal || goal <= 0 || !dateStr) { showToast('Enter a goal amount and date'); return; }
+    const targetDate = new Date(dateStr);
+    const today = new Date();
+    const msLeft = targetDate - today;
+    if (msLeft <= 0) { showToast('Pick a future date'); return; }
+
+    const entries = getEntries();
+    const currentTotal = entries.reduce((sum, e) => sum + e.amount, 0);
+    const remaining = Math.max(0, goal - currentTotal);
+
+    const daysLeft = Math.max(1, Math.ceil(msLeft / 86400000));
+    const weeksLeft = Math.max(1, daysLeft / 7);
+    const monthsLeft = Math.max(1, daysLeft / 30.44);
+
+    const dailyNeeded = remaining / daysLeft;
+    const weeklyNeeded = remaining / weeksLeft;
+    const monthlyNeeded = remaining / monthsLeft;
+
+    const resultBox = document.getElementById('calcResult');
+    resultBox.style.display = 'block';
+    resultBox.innerHTML = `
+      <div class="remaining">You'd need ${formatMoney(remaining)} more (already saved ${formatMoney(currentTotal)})</div>
+      <div class="row"><span>Daily</span><b>${formatMoney(dailyNeeded)}</b></div>
+      <div class="row"><span>Weekly</span><b>${formatMoney(weeklyNeeded)}</b></div>
+      <div class="row"><span>Monthly</span><b>${formatMoney(monthlyNeeded)}</b></div>
+      <button class="btn-secondary" id="applyCalcBtn" style="margin-top:10px;">Apply as my goal</button>
+    `;
+    document.getElementById('applyCalcBtn').addEventListener('click', () => {
+      const s = getSettings();
+      s.target = goal;
+      s.endDate = dateStr;
+      s.dailyAmount = Math.ceil(dailyNeeded);
+      saveSettings(s);
+      loadSettingsForm();
+      render();
+      showToast('New goal applied 🎯');
+    });
+  });
+
+  // Backup / Export / Import
+  document.getElementById('exportBtn').addEventListener('click', () => {
+    const data = {
+      entries: getEntries(),
+      settings: getSettings(),
+      milestones: getCelebrated(),
+      exportedAt: new Date().toISOString()
+    };
+    const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `500k-backup-${todayStr()}.json`;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    URL.revokeObjectURL(url);
+    showToast('Backup downloaded');
+  });
+
+  document.getElementById('importBtn').addEventListener('click', () => {
+    document.getElementById('importFile').click();
+  });
+  document.getElementById('importFile').addEventListener('change', (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = () => {
+      try {
+        const data = JSON.parse(reader.result);
+        if (data.entries) saveEntries(data.entries);
+        if (data.settings) saveSettings(data.settings);
+        if (data.milestones) saveCelebrated(data.milestones);
+        loadSettingsForm();
+        applyTheme();
+        render();
+        showToast('Backup restored ✅');
+      } catch (err) {
+        showToast('Invalid backup file');
+      }
+    };
+    reader.readAsText(file);
+    e.target.value = '';
+  });
+
+  // Init
+  applyTheme();
+  loadSettingsForm();
+  renderReminderTimes();
+  render();
+  checkReminders();
+
+  // PWA install
+  let deferredPrompt = null;
+  window.addEventListener('beforeinstallprompt', (e) => {
+    e.preventDefault();
+    deferredPrompt = e;
+    document.getElementById('installCard').style.display = 'block';
+  });
+  document.getElementById('installBtn').addEventListener('click', async () => {
+    if (!deferredPrompt) return;
+    deferredPrompt.prompt();
+    await deferredPrompt.userChoice;
+    deferredPrompt = null;
+    document.getElementById('installCard').style.display = 'none';
+  });
+  window.addEventListener('appinstalled', () => {
+    document.getElementById('installCard').style.display = 'none';
+  });
+
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('sw.js').catch(() => {});
+    });
+  }
+</script>
+</body>
+</html>

@@ -1,0 +1,25 @@
+{
+  "name": "500K Challenge | NairaStreak",
+  "short_name": "NairaStreak",
+  "description": "Save ₦500,000 by Dec 31, 2026 — one day at a time with NairaStreak.",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#f8faf9",
+  "theme_color": "#16a34a",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}

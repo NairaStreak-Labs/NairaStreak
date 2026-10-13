@@ -1980,11 +1980,14 @@
     to { opacity: 1; transform: translateY(0); }
   }
 
-  /* --- HOME TAB (DASHBOARD) --- */
+  /* --- HOME TAB (DASHBOARD) - MATCHES PDF SPECIFICATION --- */
   .fin-home-grid {
     width: 100%;
     max-width: 440px;
     margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
   }
 
   @media (min-width: 1024px) {
@@ -1992,23 +1995,30 @@
       max-width: 100%;
       display: grid;
       grid-template-columns: repeat(12, 1fr);
-      gap: 24px;
+      gap: 20px;
       align-items: start;
     }
   }
 
-  /* Hero Progress Card */
+  /* 1. Deep Forest Green Hero Card (Matches PDF) */
   .fin-hero-card {
-    background: var(--card);
-    border: 1px solid var(--border);
+    background: #0d3829; /* PDF Signature Forest Green */
+    border: 1px solid #144936;
     border-radius: 20px;
-    padding: 18px 16px;
-    box-shadow: var(--shadow-md);
+    padding: 16px 18px 14px;
+    color: #ffffff;
+    box-shadow: 0 10px 25px -5px rgba(13, 56, 41, 0.35);
+  }
+
+  body.dark .fin-hero-card {
+    background: #09261c;
+    border-color: #10382b;
   }
 
   @media (min-width: 1024px) {
     .fin-hero-card {
       grid-column: span 8;
+      border-radius: 24px;
       padding: 26px 28px;
     }
   }
@@ -2017,73 +2027,40 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 10px;
-  }
-
-  .fin-goal-pill {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    background: var(--green-light);
-    color: var(--green-dark);
-    font-size: 11px;
-    font-weight: 700;
-    padding: 4px 10px;
-    border-radius: 20px;
-    letter-spacing: 0.02em;
-  }
-
-  .fin-mode-segmented {
-    display: flex;
-    background: var(--card-subtle);
-    border: 1px solid var(--border);
-    border-radius: 10px;
-    padding: 2px;
-  }
-
-  .fin-segment-btn {
-    padding: 4px 10px;
-    font-size: 11px;
-    font-weight: 700;
-    color: var(--muted);
-    background: transparent;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: all 0.15s ease;
-  }
-
-  .fin-segment-btn.active {
-    background: var(--green-dark);
-    color: #ffffff;
-    box-shadow: 0 1px 4px rgba(5, 150, 105, 0.25);
-  }
-
-  .fin-hero-amount-block {
-    margin: 8px 0 12px;
-    text-align: left;
+    margin-bottom: 6px;
   }
 
   .fin-amount-eyebrow {
-    font-size: 11px;
-    font-weight: 700;
-    color: var(--muted);
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
+    font-size: 13px;
+    font-weight: 500;
+    color: rgba(255, 255, 255, 0.72);
+  }
+
+  .fin-badge-active {
+    display: inline-flex;
+    align-items: center;
+    background: rgba(255, 255, 255, 0.12);
+    color: #ecfdf5;
+    font-size: 12px;
+    font-weight: 600;
+    padding: 3px 10px;
+    border-radius: 20px;
+    backdrop-filter: blur(4px);
   }
 
   .fin-hero-figure {
-    font-size: 32px;
+    font-size: 34px;
     font-weight: 800;
-    color: var(--green-dark);
+    color: #ffffff;
     line-height: 1.1;
-    margin: 3px 0 4px;
-    letter-spacing: -0.02em;
+    margin: 2px 0 4px;
+    letter-spacing: -0.03em;
   }
 
   @media (min-width: 1024px) {
     .fin-hero-figure {
-      font-size: 42px;
+      font-size: 44px;
+      margin: 4px 0 6px;
     }
   }
 
@@ -2092,17 +2069,25 @@
     align-items: center;
     gap: 6px;
     font-size: 12px;
-    color: var(--muted);
+    color: rgba(255, 255, 255, 0.72);
     font-weight: 500;
   }
 
-  .fin-bullet {
-    color: var(--border-strong);
+  @media (min-width: 1024px) {
+    .fin-amount-meta {
+      font-size: 13px;
+    }
   }
 
-  /* Progress Block */
+  /* Progress Block inside Hero */
   .fin-progress-block {
-    margin-bottom: 12px;
+    margin: 12px 0 10px;
+  }
+
+  @media (min-width: 1024px) {
+    .fin-progress-block {
+      margin: 18px 0 16px;
+    }
   }
 
   .fin-progress-header {
@@ -2110,114 +2095,440 @@
     justify-content: space-between;
     font-size: 12px;
     font-weight: 600;
-    color: var(--muted);
-    margin-bottom: 6px;
-  }
-
-  .fin-progress-header strong {
-    color: var(--green-dark);
-    font-weight: 800;
+    color: rgba(255, 255, 255, 0.75);
+    margin-bottom: 8px;
   }
 
   .fin-progress-track {
     width: 100%;
-    height: 10px;
-    background: var(--card-subtle);
-    border: 1px solid var(--border);
+    height: 8px;
+    background: rgba(255, 255, 255, 0.12);
     border-radius: 6px;
     overflow: hidden;
   }
 
+  @media (min-width: 1024px) {
+    .fin-progress-track {
+      height: 9px;
+    }
+  }
+
   .fin-progress-bar {
     height: 100%;
-    background: linear-gradient(90deg, var(--green-dark), var(--green));
+    background: #34d399; /* Mint accent */
     border-radius: 6px;
     transition: width 0.4s ease;
     width: 0%;
   }
 
-  /* Stats Triad */
-  .fin-stats-triad {
+  /* Mobile Stats Row inside Hero Card (Hidden on Desktop) */
+  .fin-hero-stats-row {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 6px;
-    background: var(--card-subtle);
-    border: 1px solid var(--border);
-    border-radius: 14px;
-    padding: 8px 4px;
-    margin-bottom: 12px;
+    border-top: 1px solid rgba(255, 255, 255, 0.12);
+    padding-top: 12px;
+    margin-top: 10px;
   }
 
-  .fin-stat-box {
+  @media (min-width: 1024px) {
+    .fin-hero-stats-row {
+      display: none !important;
+    }
+  }
+
+  .fin-hero-stat-col {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .fin-hero-stat-val {
+    font-size: 19px;
+    font-weight: 800;
+    color: #ffffff;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+
+  .fin-hero-stat-lbl {
+    font-size: 11px;
+    color: rgba(255, 255, 255, 0.65);
+    margin-top: 2px;
+  }
+
+  /* 2. Desktop Recommended Pace Card (Right of Hero) */
+  .fin-pace-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 24px;
+    padding: 24px 26px;
+    box-shadow: var(--shadow-sm);
+    grid-column: span 4;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-height: 200px;
+  }
+
+  .fin-pace-eyebrow {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--muted);
+  }
+
+  .fin-pace-figure {
+    font-size: 34px;
+    font-weight: 800;
+    color: var(--text);
+    margin: 6px 0 16px;
+    letter-spacing: -0.02em;
+  }
+
+  .fin-pace-unit {
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--muted);
+  }
+
+  .fin-pace-rows {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    border-top: 1px solid var(--border);
+    padding-top: 14px;
+  }
+
+  .fin-pace-meta-row {
+    display: flex;
+    justify-content: space-between;
+    font-size: 13px;
+  }
+  .fin-pace-meta-row span { color: var(--muted); }
+  .fin-pace-meta-row strong { color: var(--text); font-weight: 700; }
+
+  /* 3. Desktop Three Middle Stat Cards (Grid columns span 4 each) */
+  .fin-desktop-stat-row {
+    display: none;
+  }
+
+  @media (min-width: 1024px) {
+    .fin-desktop-stat-row {
+      display: contents;
+    }
+  }
+
+  .fin-stat-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 18px 20px;
+    box-shadow: var(--shadow-sm);
+    grid-column: span 4;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .fin-stat-icon-wrap {
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+  .fin-stat-icon-wrap.green { background: var(--green-light); color: var(--green-dark); }
+  .fin-stat-icon-wrap.amber { background: var(--amber-light); color: #d97706; }
+  .fin-stat-icon-wrap svg { width: 22px; height: 22px; }
+
+  .fin-stat-content {
+    display: flex;
+    flex-direction: column;
+  }
+  .fin-stat-title {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--muted);
+  }
+  .fin-stat-primary-num {
+    font-size: 22px;
+    font-weight: 800;
+    color: var(--text);
+    letter-spacing: -0.02em;
+    margin-top: 2px;
+  }
+  .fin-stat-sub-text {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--muted);
+  }
+
+  /* 4. Last 7 Days Card with Circular Checkmark Badges (Matches PDF) */
+  .fin-last7-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 18px;
+    padding: 14px 16px;
+    box-shadow: var(--shadow-sm);
+  }
+
+  @media (min-width: 1024px) {
+    .fin-last7-card {
+      grid-column: span 7;
+      border-radius: 22px;
+      padding: 24px;
+    }
+  }
+
+  .fin-card-header-flex {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+  }
+  @media (min-width: 1024px) {
+    .fin-card-header-flex {
+      margin-bottom: 16px;
+    }
+  }
+
+  .fin-card-header-flex h3 {
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--text);
+  }
+  @media (min-width: 1024px) {
+    .fin-card-header-flex h3 {
+      font-size: 16px;
+    }
+  }
+
+  .fin-pace-pill-small {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--muted);
+  }
+
+  /* Circular Day Badges */
+  .fin-circle-week-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 6px;
+    text-align: center;
+  }
+  @media (min-width: 1024px) {
+    .fin-circle-week-grid {
+      gap: 10px;
+    }
+  }
+
+  .fin-day-circle-item {
     display: flex;
     flex-direction: column;
     align-items: center;
-    text-align: center;
+    gap: 5px;
   }
 
-  .fin-stat-num {
-    font-size: 16px;
-    font-weight: 800;
-    color: var(--text);
-    line-height: 1.2;
+  .fin-circle-badge {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--card-subtle);
+    border: 1px solid var(--border);
+    color: var(--muted);
+    transition: all 0.2s ease;
   }
 
-  .fin-stat-lbl {
-    font-size: 10px;
+  @media (min-width: 1024px) {
+    .fin-circle-badge {
+      width: 44px;
+      height: 44px;
+    }
+  }
+
+  .fin-circle-badge.saved {
+    background: #0d694b;
+    border-color: #0d694b;
+    color: #ffffff;
+  }
+  body.dark .fin-circle-badge.saved {
+    background: #10b981;
+    border-color: #10b981;
+    color: #ffffff;
+  }
+
+  .fin-circle-badge.saved svg {
+    width: 18px;
+    height: 18px;
+    stroke: currentColor;
+    stroke-width: 3;
+  }
+  @media (min-width: 1024px) {
+    .fin-circle-badge.saved svg {
+      width: 20px;
+      height: 20px;
+    }
+  }
+
+  .fin-circle-badge.today-dashed {
+    background: rgba(13, 105, 75, 0.06);
+    border: 2px dashed #0d694b;
+    color: #0d694b;
+  }
+  body.dark .fin-circle-badge.today-dashed {
+    background: rgba(16, 185, 129, 0.12);
+    border: 2px dashed #10b981;
+    color: #10b981;
+  }
+
+  .fin-day-circle-item span {
+    font-size: 11px;
     font-weight: 600;
     color: var(--muted);
-    margin-top: 2px;
-    text-transform: uppercase;
-    letter-spacing: 0.02em;
+  }
+  .fin-day-circle-item.today span {
+    color: #0d694b;
+    font-weight: 700;
+  }
+  body.dark .fin-day-circle-item.today span {
+    color: #34d399;
   }
 
-  /* Pace Ribbon */
-  .fin-pace-ribbon {
+  /* 5. Recent Activity Card (Matches PDF) */
+  .fin-activity-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 18px;
+    padding: 14px 16px;
+    box-shadow: var(--shadow-sm);
+  }
+
+  @media (min-width: 1024px) {
+    .fin-activity-card {
+      grid-column: span 5;
+      border-radius: 22px;
+      padding: 24px;
+    }
+  }
+
+  .fin-view-all-link {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--green-dark);
+    background: none;
+    border: none;
+    cursor: pointer;
+    text-decoration: none;
+  }
+  .fin-view-all-link:hover { text-decoration: underline; }
+
+  .fin-activity-list {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin-top: 4px;
+  }
+  @media (min-width: 1024px) {
+    .fin-activity-list {
+      gap: 10px;
+      margin-top: 6px;
+    }
+  }
+
+  .fin-activity-item {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    background: var(--bg);
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    padding: 9px 12px;
-    margin-bottom: 14px;
+    padding: 4px 0;
+  }
+  @media (min-width: 1024px) {
+    .fin-activity-item {
+      padding: 6px 0;
+    }
   }
 
-  .fin-pace-item {
+  /* Limit to 2 items on mobile, 4 items on desktop (matches PDF) */
+  .fin-activity-item:nth-child(n+3) {
+    display: none;
+  }
+  @media (min-width: 1024px) {
+    .fin-activity-item:nth-child(n+3) {
+      display: flex;
+    }
+  }
+
+  .fin-activity-left {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  @media (min-width: 1024px) {
+    .fin-activity-left {
+      gap: 12px;
+    }
+  }
+
+  .fin-activity-check {
+    width: 30px;
+    height: 30px;
+    border-radius: 8px;
+    background: var(--green-light);
+    color: var(--green-dark);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+  @media (min-width: 1024px) {
+    .fin-activity-check {
+      width: 34px;
+      height: 34px;
+      border-radius: 9px;
+    }
+  }
+  .fin-activity-check svg {
+    width: 15px;
+    height: 15px;
+    stroke-width: 2.6;
+  }
+
+  .fin-activity-details {
     display: flex;
     flex-direction: column;
   }
-
-  .fin-pace-label {
-    font-size: 10px;
-    font-weight: 600;
-    color: var(--muted);
-    text-transform: uppercase;
-    letter-spacing: 0.03em;
-  }
-
-  .fin-pace-item strong {
+  .fin-activity-title {
     font-size: 13px;
     font-weight: 700;
     color: var(--text);
-    margin-top: 1px;
+  }
+  .fin-activity-date {
+    font-size: 11px;
+    color: var(--muted);
   }
 
-  .fin-pace-divider {
-    width: 1px;
-    height: 22px;
-    background: var(--border);
+  .fin-activity-amount {
+    font-size: 14px;
+    font-weight: 800;
+    color: var(--green-dark);
+  }
+  body.dark .fin-activity-amount {
+    color: #34d399;
   }
 
-  /* ONE PROMINENT PRIMARY ACTION BUTTON */
+  /* 6. Primary Action Button (Matches PDF) */
   .fin-action-container {
     width: 100%;
+    margin-top: 2px;
   }
 
   .fin-save-btn {
     width: 100%;
     height: 48px;
-    background: var(--green-dark);
+    background: #0d3829; /* Matches PDF dark green CTA */
     color: #ffffff;
     border: none;
     border-radius: 14px;
@@ -2228,14 +2539,22 @@
     align-items: center;
     justify-content: center;
     gap: 8px;
-    box-shadow: 0 4px 14px rgba(5, 150, 105, 0.28);
+    box-shadow: 0 4px 14px rgba(13, 56, 41, 0.28);
     transition: transform 0.15s ease, background 0.15s ease, box-shadow 0.15s ease;
   }
 
+  body.dark .fin-save-btn {
+    background: var(--green);
+    box-shadow: 0 4px 14px rgba(16, 185, 129, 0.28);
+  }
+
   .fin-save-btn:hover {
-    background: var(--emerald-deep);
+    background: #08261c;
     transform: translateY(-1px);
-    box-shadow: 0 6px 18px rgba(5, 150, 105, 0.35);
+    box-shadow: 0 6px 18px rgba(13, 56, 41, 0.38);
+  }
+  body.dark .fin-save-btn:hover {
+    background: var(--green-dark);
   }
 
   .fin-save-btn:active {
@@ -2254,57 +2573,17 @@
   }
 
   .fin-save-icon svg {
-    width: 17px;
-    height: 17px;
+    width: 18px;
+    height: 18px;
     stroke: #ffffff;
-    stroke-width: 2.5;
+    stroke-width: 2.6;
   }
 
-  /* Desktop Companion Card */
-  .fin-companion-card {
-    background: var(--card);
-    border: 1px solid var(--border);
-    border-radius: 20px;
-    padding: 24px;
-    box-shadow: var(--shadow-md);
-    grid-column: span 4;
-  }
-
-  .fin-companion-desc {
-    font-size: 12px;
-    color: var(--muted);
-    margin: 4px 0 16px;
-    line-height: 1.4;
-  }
-
-  .fin-companion-summary {
+  /* Topbar Buttons in Desktop */
+  .fin-topbar-cta-row {
     display: flex;
-    flex-direction: column;
-    gap: 10px;
-    background: var(--card-subtle);
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    padding: 14px;
-    margin: 16px 0;
-  }
-
-  .fin-summary-row {
-    display: flex;
-    justify-content: space-between;
-    font-size: 12px;
-  }
-
-  .fin-summary-row span {
-    color: var(--muted);
-  }
-
-  .fin-summary-row strong {
-    color: var(--text);
-    font-weight: 700;
-  }
-
-  .full-width {
-    width: 100%;
+    align-items: center;
+    gap: 8px;
   }
 
   /* --- CARDS & CONTAINERS FOR OTHER TABS --- */
@@ -3850,28 +4129,10 @@
     <aside class="fin-sidebar" id="appSidebar">
       <div class="fin-sidebar-brand">
         <div class="fin-brand-mark">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
-          </svg>
+          <span>N</span>
         </div>
         <div class="fin-brand-info">
           <span class="fin-brand-name">NairaStreak</span>
-          <span class="fin-brand-tag">Consistency Engine</span>
-        </div>
-      </div>
-
-      <!-- Active Goal Selector Card in Sidebar -->
-      <div class="fin-sidebar-goal-badge">
-        <div class="fin-badge-head">
-          <span class="fin-badge-dot"></span>
-          <span class="fin-badge-label">Active Goal</span>
-        </div>
-        <h4 id="sidebarGoalName" class="fin-sidebar-goal-title">My Savings Goal</h4>
-        <div class="fin-sidebar-progress-mini">
-          <div class="fin-mini-track">
-            <div id="sidebarProgressMini" class="fin-mini-fill" style="width: 0%;"></div>
-          </div>
-          <span id="sidebarProgressPct" class="tabular">0%</span>
         </div>
       </div>
 
@@ -3900,7 +4161,7 @@
             <circle cx="12" cy="12" r="6"/>
             <circle cx="12" cy="12" r="2"/>
           </svg>
-          <span>Plan & Goals</span>
+          <span>Plan</span>
         </button>
         <button type="button" class="fin-nav-item" data-tab="settings" id="sideNavSettings">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
@@ -3911,19 +4172,14 @@
         </button>
       </nav>
 
-      <!-- Sidebar Footer -->
+      <!-- Sidebar Footer (Matches PDF Page 2) -->
       <div class="fin-sidebar-footer">
-        <button type="button" class="fin-theme-toggle" id="appDarkToggle" title="Toggle theme">
-          <span class="fin-theme-icon-sun">☀️ Light Mode</span>
-          <span class="fin-theme-icon-moon">🌙 Dark Mode</span>
-        </button>
         <div class="fin-user-profile">
-          <div class="fin-user-avatar" id="sidebarAvatar">T</div>
-          <div class="fin-user-meta">
-            <span class="fin-user-name" id="sidebarUserName">Account</span>
-            <span class="fin-user-status">Cloud Connected</span>
+          <div class="fin-user-badge">
+            <div class="fin-user-avatar" id="sidebarAvatar">T</div>
+            <span class="fin-user-name" id="sidebarUserName">Timi</span>
           </div>
-          <button type="button" class="fin-logout-btn" id="sidebarLogoutBtn" title="Log out">
+          <button type="button" class="fin-logout-btn" id="sidebarLogoutBtn" title="Log out" aria-label="Log out">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
               <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
               <polyline points="16 17 21 12 16 7"/>
@@ -3939,146 +4195,185 @@
       <!-- Top Mobile / Desktop Bar -->
       <header class="fin-topbar">
         <div class="fin-topbar-left">
-          <div class="fin-mobile-brand">
-            <div class="fin-brand-mark sm">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
-              </svg>
-            </div>
-          </div>
           <div class="fin-page-titles">
-            <h1 class="fin-page-title" id="appHeaderTitle">My Savings Goal</h1>
-            <p class="fin-page-sub" id="appHeaderSubtitle">Saving ₦500,000 by 13 Oct 2027</p>
+            <h1 class="fin-page-title" id="appHeaderTitle">Emergency Fund</h1>
+            <p class="fin-page-sub" id="appHeaderSubtitle">Target ₦500,000 by 13 Oct 2027</p>
           </div>
         </div>
 
         <div class="fin-topbar-right">
-          <div class="fin-streak-pill" id="topbarStreakPill" title="Your unbroken streak">
-            <svg viewBox="0 0 24 24" fill="currentColor">
-              <path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/>
-            </svg>
-            <span id="topbarStreakVal" class="tabular">0 Day Streak</span>
-          </div>
-
-          <button type="button" class="fin-btn-secondary" id="appNewGoalBtn">
-            <span>+ New Goal</span>
-          </button>
-
-          <button type="button" class="fin-icon-btn mobile-only" id="mobileDarkToggle" title="Toggle theme">
+          <!-- Theme Toggle -->
+          <button type="button" class="fin-icon-btn" id="headerDarkToggle" title="Toggle theme" aria-label="Toggle dark mode">
             🌙
           </button>
+
+          <!-- Topbar Actions (Desktop Only - Matches PDF Header) -->
+          <div class="fin-topbar-cta-row desktop-only">
+            <button type="button" class="fin-btn-secondary" id="appNewGoalBtn">
+              <span>+ New goal</span>
+            </button>
+            <button type="button" class="fin-save-btn" id="topbarSaveBtn" style="height: 38px; padding: 0 16px; font-size: 13px;">
+              <span>✓ I saved ₦1,370 today</span>
+            </button>
+          </div>
         </div>
       </header>
 
       <!-- Content Container -->
       <div class="fin-content">
-        <!-- 1. HOME TAB PANEL (Fits one mobile screen without scrolling) -->
+        <!-- 1. HOME TAB PANEL (MATCHES PDF SPECIFICATION) -->
         <section class="fin-tab-panel active" id="tabHome" role="tabpanel" aria-label="Dashboard">
           <div class="fin-home-grid">
-            <!-- Hero Card -->
+            <!-- 1. Deep Forest Green Hero Card (PDF Signature Element) -->
             <div class="fin-hero-card">
               <div class="fin-hero-header">
-                <div class="fin-goal-pill" id="dashboardPlanBadge">Daily Plan</div>
-                <div class="fin-mode-segmented">
-                  <button type="button" class="fin-segment-btn active" id="dailyModeBtn">Daily</button>
-                  <button type="button" class="fin-segment-btn" id="weeklyModeBtn">Weekly</button>
-                </div>
+                <span class="fin-amount-eyebrow">Total saved</span>
+                <span class="fin-badge-active" id="dashboardGoalStatus">Active</span>
               </div>
 
-              <!-- Hero Number -->
-              <div class="fin-hero-amount-block">
-                <span class="fin-amount-eyebrow">Total Saved</span>
-                <div class="fin-hero-figure tabular" id="totalAmount">₦0</div>
-                <div class="fin-amount-meta">
-                  <span id="totalTarget" class="tabular">of ₦500,000 target</span>
-                  <span class="fin-bullet">•</span>
-                  <span id="dashboardRemaining" class="tabular">₦500,000 left</span>
-                </div>
+              <!-- Hero Big Amount -->
+              <div class="fin-hero-figure tabular" id="totalAmount">₦34,250</div>
+              
+              <!-- Meta target & remaining -->
+              <div class="fin-amount-meta">
+                <span id="totalTarget" class="tabular">of ₦500,000 target</span>
+                <span class="fin-bullet">•</span>
+                <span id="dashboardRemaining" class="tabular">₦465,750 remaining</span>
               </div>
 
-              <!-- High Contrast Progress Bar with Visible Track -->
+              <!-- Mint Progress Bar -->
               <div class="fin-progress-block">
                 <div class="fin-progress-header">
-                  <span>Goal Progress</span>
-                  <strong id="progressPct" class="tabular">0%</strong>
+                  <span id="progressPctLabel" class="tabular">6.9% complete</span>
+                  <span id="progressTargetLabel" class="tabular desktop-only">₦500,000</span>
+                  <span id="daysLeftTopLabel" class="tabular mobile-only">340 days left</span>
                 </div>
                 <div class="fin-progress-track">
-                  <div class="fin-progress-bar" id="progressFill" style="width: 0%;"></div>
+                  <div class="fin-progress-bar" id="progressFill" style="width: 6.9%;"></div>
                 </div>
               </div>
 
-              <!-- Stats Triad -->
-              <div class="fin-stats-triad">
-                <div class="fin-stat-box">
-                  <span class="fin-stat-num tabular" id="daysSaved">0</span>
-                  <span class="fin-stat-lbl" id="daysSavedLabel">Days Saved</span>
+              <!-- Stats Row inside Hero (Mobile) -->
+              <div class="fin-hero-stats-row">
+                <div class="fin-hero-stat-col">
+                  <span class="fin-hero-stat-val tabular" id="daysSaved">25</span>
+                  <span class="fin-hero-stat-lbl">Days saved</span>
                 </div>
-                <div class="fin-stat-box">
-                  <span class="fin-stat-num tabular" id="daysLeft">0</span>
-                  <span class="fin-stat-lbl" id="daysLeftLabel">Days Left</span>
+                <div class="fin-hero-stat-col">
+                  <span class="fin-hero-stat-val tabular" id="daysLeft">340</span>
+                  <span class="fin-hero-stat-lbl">Days left</span>
                 </div>
-                <div class="fin-stat-box">
-                  <span class="fin-stat-num tabular" id="streak">0</span>
-                  <span class="fin-stat-lbl">Streak</span>
-                </div>
-              </div>
-
-              <!-- Pace & Deadline Ribbon -->
-              <div class="fin-pace-ribbon">
-                <div class="fin-pace-item">
-                  <span class="fin-pace-label">Recommended Pace</span>
-                  <strong id="dashboardRecPace" class="tabular">₦1,370 / day</strong>
-                </div>
-                <div class="fin-pace-divider"></div>
-                <div class="fin-pace-item">
-                  <span class="fin-pace-label">Target Deadline</span>
-                  <strong id="dashboardDeadlineVal" class="tabular">13 Oct 2027</strong>
-                </div>
-              </div>
-
-              <!-- ONE PROMINENT PRIMARY ACTION BUTTON -->
-              <div class="fin-action-container">
-                <button type="button" class="fin-save-btn" id="saveBtn">
-                  <span class="fin-save-icon">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
-                      <polyline points="20 6 9 17 4 12"/>
-                    </svg>
+                <div class="fin-hero-stat-col">
+                  <span class="fin-hero-stat-val tabular">
+                    <span id="streak">23</span>
+                    <span style="font-size: 15px;">🔥</span>
                   </span>
-                  <span id="saveBtnText">I Saved ₦1,370 Today</span>
-                </button>
+                  <span class="fin-hero-stat-lbl">Day streak</span>
+                </div>
               </div>
             </div>
 
-            <!-- Desktop Companion Card (Shows next to hero on desktop >= 1024px) -->
-            <div class="fin-companion-card desktop-only">
-              <div class="fin-card-heading">
-                <div>
-                  <h3>Consistency Pace</h3>
-                  <p class="fin-card-sub">Last 7 days habit breakdown</p>
+            <!-- 2. Desktop Recommended Pace Card (Span 4, right of Hero) -->
+            <div class="fin-pace-card desktop-only">
+              <div>
+                <span class="fin-pace-eyebrow">Recommended pace</span>
+                <div class="fin-pace-figure tabular">
+                  <span id="desktopPaceVal">₦1,370</span>
+                  <span class="fin-pace-unit">/ day</span>
                 </div>
               </div>
-              <p class="fin-companion-desc">Big goals become achievable when broken into small daily actions.</p>
-
-              <!-- Companion week dots -->
-              <div class="week-grid" id="desktopWeekGrid"></div>
-
-              <div class="fin-companion-summary">
-                <div class="fin-summary-row">
-                  <span>Current Target:</span>
-                  <strong id="desktopTargetVal" class="tabular">₦500,000</strong>
-                </div>
-                <div class="fin-summary-row">
-                  <span>Target Date:</span>
+              <div class="fin-pace-rows">
+                <div class="fin-pace-meta-row">
+                  <span>Deadline</span>
                   <strong id="desktopDateVal" class="tabular">13 Oct 2027</strong>
                 </div>
-                <div class="fin-summary-row">
-                  <span>Required Pace:</span>
-                  <strong id="desktopPaceVal" class="tabular">₦1,370 / day</strong>
+                <div class="fin-pace-meta-row">
+                  <span>Remaining</span>
+                  <strong id="desktopRemainingVal" class="tabular">₦465,750</strong>
+                </div>
+              </div>
+            </div>
+
+            <!-- 3. Desktop Three Middle Stat Cards (Span 4 each, Middle row in PDF) -->
+            <div class="fin-desktop-stat-row">
+              <div class="fin-stat-card">
+                <div class="fin-stat-icon-wrap green">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <rect width="18" height="18" x="3" y="4" rx="2" ry="2"/>
+                    <line x1="16" x2="16" y1="2" y2="6"/>
+                    <line x1="8" x2="8" y1="2" y2="6"/>
+                    <line x1="3" x2="21" y1="10" y2="10"/>
+                  </svg>
+                </div>
+                <div class="fin-stat-content">
+                  <span class="fin-stat-title">Days saved</span>
+                  <div class="fin-stat-primary-num tabular">
+                    <span id="desktopDaysSavedVal">25</span>
+                    <span class="fin-stat-sub-text">of 365</span>
+                  </div>
                 </div>
               </div>
 
-              <button type="button" class="fin-btn-secondary full-width" id="jumpToHistoryBtn">
-                View Full Calendar & Ledger →
+              <div class="fin-stat-card">
+                <div class="fin-stat-icon-wrap green">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="10"/>
+                    <polyline points="12 6 12 12 16 14"/>
+                  </svg>
+                </div>
+                <div class="fin-stat-content">
+                  <span class="fin-stat-title">Days left</span>
+                  <div class="fin-stat-primary-num tabular" id="desktopDaysLeftVal">340</div>
+                </div>
+              </div>
+
+              <div class="fin-stat-card">
+                <div class="fin-stat-icon-wrap amber">
+                  <svg viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/>
+                  </svg>
+                </div>
+                <div class="fin-stat-content">
+                  <span class="fin-stat-title">Current streak</span>
+                  <div class="fin-stat-primary-num tabular">
+                    <span id="desktopStreakVal">23</span>
+                    <span class="fin-stat-sub-text">days</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- 4. Last 7 Days Card (Circular Checkmark Badges - PDF Element) -->
+            <div class="fin-last7-card">
+              <div class="fin-card-header-flex">
+                <h3>Last 7 days</h3>
+                <span class="fin-pace-pill-small tabular" id="homePaceLabel">Pace ₦1,370 / day</span>
+              </div>
+              <div class="fin-circle-week-grid" id="homeCircleWeekGrid">
+                <!-- Dynamically rendered 7 circular badges -->
+              </div>
+            </div>
+
+            <!-- 5. Recent Activity Card (PDF Element) -->
+            <div class="fin-activity-card">
+              <div class="fin-card-header-flex">
+                <h3>Recent activity</h3>
+                <button type="button" class="fin-view-all-link" id="homeViewAllActivityBtn">View all</button>
+              </div>
+              <div class="fin-activity-list" id="homeRecentActivityList">
+                <!-- Dynamically rendered recent activity items -->
+              </div>
+            </div>
+
+            <!-- 6. Mobile Prominent Action CTA -->
+            <div class="fin-action-container mobile-only">
+              <button type="button" class="fin-save-btn" id="saveBtn">
+                <span class="fin-save-icon">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="20 6 9 17 4 12"/>
+                  </svg>
+                </span>
+                <span id="saveBtnText">I saved ₦1,370 today</span>
               </button>
             </div>
           </div>
@@ -5377,6 +5672,8 @@
     if (landingDarkPublic) landingDarkPublic.textContent = icon;
     const landingDarkAuth = document.getElementById('landingDarkToggleAuth');
     if (landingDarkAuth) landingDarkAuth.textContent = icon;
+    const headerDark = document.getElementById('headerDarkToggle');
+    if (headerDark) headerDark.textContent = icon;
   }
 
   function toggleDarkMode() {
@@ -5640,7 +5937,7 @@
     const badgeEl = document.getElementById('dashboardPlanBadge');
     
     if (titleEl) titleEl.textContent = goal.name;
-    if (subEl) subEl.textContent = `Saving ${formatNaira(goal.target)} by ${formatDateNice(goal.endDate)}`;
+    if (subEl) subEl.textContent = `Target ${formatNaira(goal.target)} by ${formatDateNice(goal.endDate)}`;
     if (badgeEl) badgeEl.textContent = mode === 'weekly' ? 'Weekly Plan' : 'Daily Plan';
 
     const dailyModeBtn = document.getElementById('dailyModeBtn');
@@ -5657,17 +5954,22 @@
     const totalTargetEl = document.getElementById('totalTarget');
     const dashboardRemainingEl = document.getElementById('dashboardRemaining');
     const progressFillEl = document.getElementById('progressFill');
-    const progressPctEl = document.getElementById('progressPct');
+    const progressPctLabel = document.getElementById('progressPctLabel');
+    const progressTargetLabel = document.getElementById('progressTargetLabel');
+    const daysLeftTopLabel = document.getElementById('daysLeftTopLabel');
 
     if (totalAmountEl) totalAmountEl.textContent = formatNaira(total);
     if (totalTargetEl) totalTargetEl.textContent = `of ${formatNaira(target)} target`;
-    if (dashboardRemainingEl) dashboardRemainingEl.textContent = `${formatNaira(remaining)} left`;
-    if (progressFillEl) progressFillEl.style.width = pct + '%';
-    if (progressPctEl) progressPctEl.textContent = pct + '%';
+    if (dashboardRemainingEl) dashboardRemainingEl.textContent = `${formatNaira(remaining)} remaining`;
+    if (progressFillEl) progressFillEl.style.width = Math.min(100, Math.max(pct, 2)) + '%';
+    if (progressPctLabel) progressPctLabel.textContent = `${pct}% complete`;
+    if (progressTargetLabel) progressTargetLabel.textContent = formatNaira(target);
 
     // Days & Weeks remaining
     const diffDays = Math.max(1, NairaStreakCalc.calculateDaysRemaining(goal.endDate));
     const diffWeeks = Math.max(1, Math.ceil(diffDays / 7));
+
+    if (daysLeftTopLabel) daysLeftTopLabel.textContent = `${diffDays} days left`;
 
     const daysSavedCount = entries.filter(e => e.type === 'daily').length;
     const weeksSavedCount = entries.filter(e => e.type === 'weekly').length;
@@ -5679,14 +5981,14 @@
 
     if (mode === 'daily') {
       if (daysSavedEl) daysSavedEl.textContent = daysSavedCount;
-      if (daysSavedLabelEl) daysSavedLabelEl.textContent = 'Days Saved';
+      if (daysSavedLabelEl) daysSavedLabelEl.textContent = 'Days saved';
       if (daysLeftEl) daysLeftEl.textContent = diffDays;
-      if (daysLeftLabelEl) daysLeftLabelEl.textContent = 'Days Left';
+      if (daysLeftLabelEl) daysLeftLabelEl.textContent = 'Days left';
     } else {
       if (daysSavedEl) daysSavedEl.textContent = weeksSavedCount;
-      if (daysSavedLabelEl) daysSavedLabelEl.textContent = 'Weeks Saved';
+      if (daysSavedLabelEl) daysSavedLabelEl.textContent = 'Weeks saved';
       if (daysLeftEl) daysLeftEl.textContent = diffWeeks;
-      if (daysLeftLabelEl) daysLeftLabelEl.textContent = 'Weeks Left';
+      if (daysLeftLabelEl) daysLeftLabelEl.textContent = 'Weeks left';
     }
 
     const streak = calculateStreak(entries, mode);
@@ -5696,8 +5998,8 @@
     if (topbarStreakVal) topbarStreakVal.textContent = `${streak} Day Streak`;
 
     // Derived Consistency Pace
-    const dailyPace = NairaStreakCalc.calculateDailyContribution(target, goal.endDate, total);
-    const weeklyPace = NairaStreakCalc.calculateWeeklyContribution(target, goal.endDate, total);
+    const dailyPace = Math.round(NairaStreakCalc.calculateDailyContribution(target, goal.endDate, total));
+    const weeklyPace = Math.round(NairaStreakCalc.calculateWeeklyContribution(target, goal.endDate, total));
 
     const recPaceEl = document.getElementById('dashboardRecPace');
     const deadlineValEl = document.getElementById('dashboardDeadlineVal');
@@ -5708,19 +6010,37 @@
     }
     if (deadlineValEl) deadlineValEl.textContent = formatDateNice(goal.endDate);
 
-    // Desktop Companion Card
+    // Desktop Companion Pace Card
     const desktopTargetVal = document.getElementById('desktopTargetVal');
     const desktopDateVal = document.getElementById('desktopDateVal');
     const desktopPaceVal = document.getElementById('desktopPaceVal');
+    const desktopRemainingVal = document.getElementById('desktopRemainingVal');
     if (desktopTargetVal) desktopTargetVal.textContent = formatNaira(target);
     if (desktopDateVal) desktopDateVal.textContent = formatDateNice(goal.endDate);
     if (desktopPaceVal) {
       desktopPaceVal.textContent = mode === 'weekly'
         ? `${formatNaira(weeklyPace)} / wk`
-        : `${formatNaira(dailyPace)} / day`;
+        : formatNaira(dailyPace);
+    }
+    if (desktopRemainingVal) desktopRemainingVal.textContent = formatNaira(remaining);
+
+    // Desktop Middle Stat Cards (Span 4 each)
+    const desktopDaysSavedVal = document.getElementById('desktopDaysSavedVal');
+    const desktopDaysLeftVal = document.getElementById('desktopDaysLeftVal');
+    const desktopStreakVal = document.getElementById('desktopStreakVal');
+    if (desktopDaysSavedVal) desktopDaysSavedVal.textContent = daysSavedCount;
+    if (desktopDaysLeftVal) desktopDaysLeftVal.textContent = diffDays;
+    if (desktopStreakVal) desktopStreakVal.textContent = streak;
+
+    // Home "Last 7 days" Pace Label
+    const homePaceLabel = document.getElementById('homePaceLabel');
+    if (homePaceLabel) {
+      homePaceLabel.textContent = mode === 'weekly'
+        ? `Pace ${formatNaira(weeklyPace)} / wk`
+        : `Pace ${formatNaira(dailyPace)} / day`;
     }
 
-    // Ledger card empty state vs list
+    // Ledger card empty state vs list (History tab)
     const ledgerEmptyState = document.getElementById('ledgerEmptyState');
     const ledgerList = document.getElementById('ledgerList');
     if (entries.length === 0) {
@@ -5735,10 +6055,96 @@
     }
 
     renderSaveButton(entries, mode, dailyPace, weeklyPace);
+    renderHomeCircleGrid(entries);
+    renderHomeRecentActivity(entries);
     renderWeekGrid(entries);
     renderCalendar(entries);
 
     checkMilestones(total, target);
+  }
+
+  function renderHomeCircleGrid(entries) {
+    const container = document.getElementById('homeCircleWeekGrid');
+    if (!container) return;
+    container.innerHTML = '';
+
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    const dayNames = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+    const savedDates = new Set(entries.filter(e => e.type === 'daily').map(e => e.date));
+
+    // Render 7 days: 6 days ago up to today
+    for (let i = 6; i >= 0; i--) {
+      const d = new Date(today);
+      d.setDate(d.getDate() - i);
+      const dateStr = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+      const isToday = (i === 0);
+      const isSaved = savedDates.has(dateStr);
+
+      const item = document.createElement('div');
+      item.className = 'fin-day-circle-item' + (isToday ? ' today' : '');
+
+      let badgeClass = 'fin-circle-badge';
+      let badgeContent = '';
+
+      if (isSaved) {
+        badgeClass += ' saved';
+        badgeContent = `
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="20 6 9 17 4 12"/>
+          </svg>
+        `;
+      } else if (isToday) {
+        badgeClass += ' today-dashed';
+      }
+
+      const labelText = isToday ? 'Today' : `${dayNames[d.getDay()]} ${d.getDate()}`;
+
+      item.innerHTML = `
+        <div class="${badgeClass}">${badgeContent}</div>
+        <span class="tabular">${labelText}</span>
+      `;
+      container.appendChild(item);
+    }
+  }
+
+  function renderHomeRecentActivity(entries) {
+    const container = document.getElementById('homeRecentActivityList');
+    if (!container) return;
+
+    if (entries.length === 0) {
+      container.innerHTML = `
+        <div style="text-align: center; padding: 18px 0; color: var(--muted); font-size: 13px;">
+          No savings recorded yet. Tap below to log today!
+        </div>
+      `;
+      return;
+    }
+
+    const sorted = [...entries].sort((a, b) => b.id - a.id);
+    const recent = sorted.slice(0, 4);
+
+    container.innerHTML = recent.map(e => {
+      const d = new Date(e.date);
+      const dateFormatted = isNaN(d.getTime()) ? e.date : d.toLocaleDateString('en-NG', { weekday: 'short', day: 'numeric', month: 'short' });
+      const typeLabel = e.type === 'weekly' ? 'Weekly saving' : 'Daily saving';
+      return `
+        <div class="fin-activity-item">
+          <div class="fin-activity-left">
+            <div class="fin-activity-check">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="20 6 9 17 4 12"/>
+              </svg>
+            </div>
+            <div class="fin-activity-details">
+              <span class="fin-activity-title">${typeLabel}</span>
+              <span class="fin-activity-date">${dateFormatted}</span>
+            </div>
+          </div>
+          <div class="fin-activity-amount tabular">+${formatNaira(e.amount)}</div>
+        </div>
+      `;
+    }).join('');
   }
 
   function renderLedgerList(entries) {
@@ -5807,6 +6213,7 @@
   function renderSaveButton(entries, mode, dailyPace, weeklyPace) {
     const saveBtn = document.getElementById('saveBtn');
     const saveBtnText = document.getElementById('saveBtnText');
+    const topbarSaveBtn = document.getElementById('topbarSaveBtn');
     const today = todayStr();
     const thisWeek = weekStartStr();
     const entry = mode === 'daily'
@@ -5817,14 +6224,18 @@
 
     if (entry) {
       if (saveBtn) saveBtn.disabled = true;
-      const text = `Saved ${formatNaira(entry.amount)} ${mode === 'daily' ? 'Today' : 'This Week'} ✓`;
+      if (topbarSaveBtn) topbarSaveBtn.disabled = true;
+      const text = `Saved ${formatNaira(entry.amount)} ${mode === 'daily' ? 'today' : 'this week'} ✓`;
       if (saveBtnText) saveBtnText.textContent = text;
       else if (saveBtn) saveBtn.textContent = text;
+      if (topbarSaveBtn) topbarSaveBtn.innerHTML = `<span>✓ ${text}</span>`;
     } else {
       if (saveBtn) saveBtn.disabled = false;
-      const text = `I Saved ${formatNaira(amount)} ${mode === 'daily' ? 'Today' : 'This Week'}`;
+      if (topbarSaveBtn) topbarSaveBtn.disabled = false;
+      const text = `I saved ${formatNaira(amount)} ${mode === 'daily' ? 'today' : 'this week'}`;
       if (saveBtnText) saveBtnText.textContent = text;
       else if (saveBtn) saveBtn.textContent = text;
+      if (topbarSaveBtn) topbarSaveBtn.innerHTML = `<span>✓ ${text}</span>`;
     }
   }
 
@@ -5894,18 +6305,28 @@
   document.getElementById('dailyModeBtn').addEventListener('click', () => { saveMode('daily'); render(); });
   document.getElementById('weeklyModeBtn').addEventListener('click', () => { saveMode('weekly'); render(); });
 
-  document.getElementById('saveBtn').addEventListener('click', () => {
+  function handleRecordDeposit() {
     const mode = getMode();
-    const settings = getSettings();
+    const goal = getEffectiveGoal();
     const entries = getEntries();
-    const amount = mode === 'daily' ? settings.dailyAmount : settings.dailyAmount * 7;
+    const total = entries.reduce((sum, e) => sum + e.amount, 0);
+    const amount = mode === 'weekly'
+      ? Math.round(NairaStreakCalc.calculateWeeklyContribution(goal.target, goal.endDate, total))
+      : Math.round(NairaStreakCalc.calculateDailyContribution(goal.target, goal.endDate, total));
     const date = mode === 'daily' ? todayStr() : weekStartStr();
 
     entries.push({ id: Date.now(), date, amount, type: mode });
     saveEntries(entries);
     showToast(`Saved ${formatNaira(amount)}! Keep it up 🌱`);
     render();
+  }
+
+  document.getElementById('saveBtn')?.addEventListener('click', handleRecordDeposit);
+  document.getElementById('topbarSaveBtn')?.addEventListener('click', handleRecordDeposit);
+  document.getElementById('homeViewAllActivityBtn')?.addEventListener('click', () => {
+    switchAppTab('history');
   });
+  document.getElementById('headerDarkToggle')?.addEventListener('click', toggleDarkMode);
 
   document.getElementById('undoBtn')?.addEventListener('click', () => {
     const mode = getMode();

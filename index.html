@@ -5637,12 +5637,14 @@
   });
 
   // CTA Click handlers
+  // CTA Click handlers
   function handleStartStreakAction() {
-    // Preserve simulator values into draft goal
-    if (simGoalInput && simDateInput) {
+    const simGoal = document.getElementById('simGoalAmount');
+    const simDate = document.getElementById('simGoalDate');
+    if (simGoal && simDate) {
       sessionStorage.setItem('nairastreak_draft_goal', JSON.stringify({
-        targetAmount: simGoalInput.value,
-        targetDate: simDateInput.value
+        targetAmount: simGoal.value,
+        targetDate: simDate.value
       }));
     }
 
@@ -5654,10 +5656,10 @@
     }
   }
 
-  document.getElementById('heroStartBtn').addEventListener('click', handleStartStreakAction);
-  document.getElementById('finalStartBtn').addEventListener('click', handleStartStreakAction);
-  document.getElementById('mobileStickyBtn').addEventListener('click', handleStartStreakAction);
-  document.getElementById('openStoryBtn').addEventListener('click', () => { window.location.hash = '#landing'; });
+  document.getElementById('heroStartBtn')?.addEventListener('click', handleStartStreakAction);
+  document.getElementById('finalStartBtn')?.addEventListener('click', handleStartStreakAction);
+  document.getElementById('mobileStickyBtn')?.addEventListener('click', handleStartStreakAction);
+  document.getElementById('openStoryBtn')?.addEventListener('click', () => { window.location.hash = '#landing'; });
 
   // Theme Management
   function applyTheme() {
@@ -5682,7 +5684,7 @@
     saveSettings(s);
     applyTheme();
   }
-  document.getElementById('darkToggle').addEventListener('click', toggleDarkMode);
+  document.getElementById('darkToggle')?.addEventListener('click', toggleDarkMode);
 
   // ==========================================================================
   // SCROLLYTELLING LOGIC & PROGRESS OBSERVER
@@ -5813,7 +5815,7 @@
     });
   });
 
-  document.getElementById('simApplyBtn').addEventListener('click', () => {
+  document.getElementById('simApplyBtn')?.addEventListener('click', () => {
     const targetAmt = parseFloat(simGoalInput.value) || 500000;
     const targetDate = simDateInput.value || '2026-12-31';
 
@@ -6302,8 +6304,8 @@
   }
 
   // Dashboard Interaction Events
-  document.getElementById('dailyModeBtn').addEventListener('click', () => { saveMode('daily'); render(); });
-  document.getElementById('weeklyModeBtn').addEventListener('click', () => { saveMode('weekly'); render(); });
+  document.getElementById('dailyModeBtn')?.addEventListener('click', () => { saveMode('daily'); render(); });
+  document.getElementById('weeklyModeBtn')?.addEventListener('click', () => { saveMode('weekly'); render(); });
 
   function handleRecordDeposit() {
     const mode = getMode();
@@ -6364,19 +6366,19 @@
     render();
   });
 
-  document.getElementById('prevMonth').addEventListener('click', () => {
+  document.getElementById('prevMonth')?.addEventListener('click', () => {
     calViewMonth--;
     if (calViewMonth < 0) { calViewMonth = 11; calViewYear--; }
     render();
   });
-  document.getElementById('nextMonth').addEventListener('click', () => {
+  document.getElementById('nextMonth')?.addEventListener('click', () => {
     calViewMonth++;
     if (calViewMonth > 11) { calViewMonth = 0; calViewYear++; }
     render();
   });
 
   // Goal Calculator Card
-  document.getElementById('calcBtn').addEventListener('click', () => {
+  document.getElementById('calcBtn')?.addEventListener('click', () => {
     const goal = parseFloat(document.getElementById('calcGoal').value);
     const dateStr = document.getElementById('calcDate').value;
     const res = document.getElementById('calcResult');
@@ -6492,7 +6494,7 @@
     render();
   });
 
-  document.getElementById('remindersOnBtn').addEventListener('click', async () => {
+  document.getElementById('remindersOnBtn')?.addEventListener('click', async () => {
     if ('Notification' in window && Notification.permission !== 'granted') {
       const res = await Notification.requestPermission();
       if (res !== 'granted') {
@@ -6507,7 +6509,7 @@
     showToast('Reminders enabled');
   });
 
-  document.getElementById('remindersOffBtn').addEventListener('click', () => {
+  document.getElementById('remindersOffBtn')?.addEventListener('click', () => {
     const s = getSettings();
     s.remindersOn = false;
     saveSettings(s);
@@ -6515,8 +6517,8 @@
     showToast('Reminders disabled');
   });
 
-  document.getElementById('addReminderBtn').addEventListener('click', () => {
-    const time = document.getElementById('newReminderTime').value;
+  document.getElementById('addReminderBtn')?.addEventListener('click', () => {
+    const time = document.getElementById('newReminderTime')?.value;
     if (!time) return;
     const s = getSettings();
     if (!s.reminderTimes.includes(time)) {
@@ -6528,7 +6530,7 @@
   });
 
   // Backup Export/Import
-  document.getElementById('exportBtn').addEventListener('click', () => {
+  document.getElementById('exportBtn')?.addEventListener('click', () => {
     const data = {
       entries: getEntries(),
       settings: getSettings(),
@@ -6547,10 +6549,10 @@
     showToast('Backup downloaded');
   });
 
-  document.getElementById('importBtn').addEventListener('click', () => {
-    document.getElementById('importFile').click();
+  document.getElementById('importBtn')?.addEventListener('click', () => {
+    document.getElementById('importFile')?.click();
   });
-  document.getElementById('importFile').addEventListener('change', (e) => {
+  document.getElementById('importFile')?.addEventListener('change', (e) => {
     const file = e.target.files[0];
     if (!file) return;
     const reader = new FileReader();
@@ -6577,17 +6579,20 @@
   window.addEventListener('beforeinstallprompt', (e) => {
     e.preventDefault();
     deferredPrompt = e;
-    document.getElementById('installCard').style.display = 'block';
+    const card = document.getElementById('installCard');
+    if (card) card.style.display = 'block';
   });
-  document.getElementById('installBtn').addEventListener('click', async () => {
+  document.getElementById('installBtn')?.addEventListener('click', async () => {
     if (!deferredPrompt) return;
     deferredPrompt.prompt();
     await deferredPrompt.userChoice;
     deferredPrompt = null;
-    document.getElementById('installCard').style.display = 'none';
+    const card = document.getElementById('installCard');
+    if (card) card.style.display = 'none';
   });
   window.addEventListener('appinstalled', () => {
-    document.getElementById('installCard').style.display = 'none';
+    const card = document.getElementById('installCard');
+    if (card) card.style.display = 'none';
   });
 
   if ('serviceWorker' in navigator) {

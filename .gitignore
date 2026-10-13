@@ -19,3 +19,7 @@ Thumbs.db
 supabase/.temp/
 # Playwright CLI output (may contain credentials)
 .playwright-cli/
+
+# Vercel deployment metadata
+.vercel/
+.vercel

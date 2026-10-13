@@ -1,0 +1,9 @@
+*.zip
+.git
+.agents
+.claude
+.playwright-cli
+vercel
+docs
+tests
+supabase

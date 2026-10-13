@@ -67,13 +67,11 @@
 
   /* App (Dashboard) View Wrapper */
   #appView {
-    width: 100%;
-    min-height: 100vh;
-    padding: 0;
-    margin: 0;
-    display: block;
+    display: flex;
+    justify-content: center;
+    padding: 20px 16px 40px;
   }
-  #appView.hidden { display: none !important; }
+  .app { width: 100%; max-width: 440px; }
 
   /* Shared UI Utilities */
   .tabular { font-variant-numeric: tabular-nums; }
@@ -1433,1622 +1431,186 @@
     cursor: pointer;
   }
 
-  /* ==========================================================================
-     NAIRASTREAK FINTECH DASHBOARD & LAYOUT STYLES
-     ========================================================================== */
-  .fin-layout {
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
-    width: 100%;
-    background: var(--bg);
-    padding-bottom: 90px; /* Generous clearance for mobile bottom bar */
-  }
-
-  @media (min-width: 1024px) {
-    .fin-layout {
-      flex-direction: row;
-      padding-bottom: 0;
-    }
-  }
-
-  /* --- DESKTOP SIDEBAR (>= 1024px) --- */
-  .fin-sidebar {
-    display: none;
-  }
-
-  @media (min-width: 1024px) {
-    .fin-sidebar {
-      display: flex;
-      flex-direction: column;
-      width: 260px;
-      min-width: 260px;
-      height: 100vh;
-      position: sticky;
-      top: 0;
-      background: var(--card);
-      border-right: 1px solid var(--border);
-      padding: 24px 18px;
-      z-index: 50;
-    }
-  }
-
-  .fin-sidebar-brand {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    padding: 0 4px 18px;
-    border-bottom: 1px solid var(--border);
-  }
-
-  .fin-brand-mark {
-    width: 36px;
-    height: 36px;
-    border-radius: 11px;
-    background: linear-gradient(135deg, var(--green-dark), var(--green));
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: #ffffff;
-    box-shadow: 0 4px 12px rgba(5, 150, 105, 0.25);
-    flex-shrink: 0;
-  }
-  .fin-brand-mark.sm {
-    width: 30px;
-    height: 30px;
-    border-radius: 9px;
-  }
-  .fin-brand-mark svg {
-    width: 18px;
-    height: 18px;
-    stroke: #ffffff;
-  }
-
-  .fin-brand-info {
-    display: flex;
-    flex-direction: column;
-  }
-
-  .fin-brand-name {
-    font-size: 16px;
-    font-weight: 800;
-    color: var(--text);
-    letter-spacing: -0.02em;
-    line-height: 1.2;
-  }
-
-  .fin-brand-tag {
-    font-size: 10px;
-    font-weight: 700;
-    color: var(--green-dark);
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-  }
-
-  /* Active Goal Mini Card in Sidebar */
-  .fin-sidebar-goal-badge {
-    margin: 16px 0 14px;
-    background: var(--card-subtle);
-    border: 1px solid var(--border);
-    border-radius: 14px;
-    padding: 12px;
-  }
-
-  .fin-badge-head {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    margin-bottom: 4px;
-  }
-
-  .fin-badge-dot {
-    width: 7px;
-    height: 7px;
-    border-radius: 50%;
-    background: var(--green);
-    box-shadow: 0 0 6px var(--green);
-  }
-
-  .fin-badge-label {
-    font-size: 10px;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    color: var(--muted);
-  }
-
-  .fin-sidebar-goal-title {
-    font-size: 13px;
-    font-weight: 700;
-    color: var(--text);
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    margin-bottom: 8px;
-  }
-
-  .fin-sidebar-progress-mini {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
-
-  .fin-mini-track {
-    flex: 1;
-    height: 6px;
-    background: var(--border);
-    border-radius: 3px;
-    overflow: hidden;
-  }
-
-  .fin-mini-fill {
-    height: 100%;
-    background: var(--green);
-    border-radius: 3px;
-    transition: width 0.3s ease;
-  }
-
-  .fin-sidebar-progress-mini span {
-    font-size: 11px;
-    font-weight: 700;
-    color: var(--muted);
-  }
-
-  /* Sidebar Navigation */
-  .fin-sidebar-nav {
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-    flex: 1;
-  }
-
-  .fin-nav-item {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    padding: 11px 14px;
-    border-radius: 12px;
-    font-size: 14px;
-    font-weight: 600;
-    color: var(--muted);
-    background: transparent;
-    border: none;
-    cursor: pointer;
-    text-align: left;
-    transition: all 0.15s ease;
-  }
-
-  .fin-nav-item:hover {
-    background: var(--card-subtle);
-    color: var(--text);
-  }
-
-  .fin-nav-item.active {
-    background: var(--green-light);
-    color: var(--green-dark);
-    font-weight: 700;
-  }
-
-  .fin-nav-item svg {
-    width: 18px;
-    height: 18px;
-    stroke: currentColor;
-    stroke-width: 2;
-    flex-shrink: 0;
-  }
-
-  /* Sidebar Footer */
-  .fin-sidebar-footer {
-    padding-top: 16px;
-    border-top: 1px solid var(--border);
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-  }
-
-  .fin-theme-toggle {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-    padding: 8px 12px;
-    border-radius: 10px;
-    background: var(--card-subtle);
-    border: 1px solid var(--border);
-    font-size: 12px;
-    font-weight: 600;
-    color: var(--muted);
-    cursor: pointer;
-    transition: all 0.15s ease;
-  }
-
-  .fin-theme-toggle:hover {
-    color: var(--text);
-    border-color: var(--border-strong);
-  }
-
-  body.dark .fin-theme-icon-sun { display: inline; }
-  body.dark .fin-theme-icon-moon { display: none; }
-  body:not(.dark) .fin-theme-icon-sun { display: none; }
-  body:not(.dark) .fin-theme-icon-moon { display: inline; }
-
-  .fin-user-profile {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-  }
-
-  .fin-user-avatar {
-    width: 34px;
-    height: 34px;
-    border-radius: 10px;
-    background: var(--green-light);
-    color: var(--green-dark);
-    font-weight: 800;
-    font-size: 13px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border: 1px solid var(--border);
-    flex-shrink: 0;
-  }
-  .fin-user-avatar.lg {
-    width: 48px;
-    height: 48px;
-    font-size: 18px;
-    border-radius: 14px;
-  }
-
-  .fin-user-meta {
-    flex: 1;
-    min-width: 0;
-    display: flex;
-    flex-direction: column;
-  }
-
-  .fin-user-name {
-    font-size: 13px;
-    font-weight: 700;
-    color: var(--text);
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
-
-  .fin-user-status {
-    font-size: 11px;
-    color: var(--green-dark);
-    font-weight: 600;
-  }
-
-  .fin-logout-btn {
-    background: transparent;
-    border: none;
-    color: var(--muted);
-    cursor: pointer;
-    padding: 6px;
-    border-radius: 8px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: all 0.15s ease;
-  }
-
-  .fin-logout-btn:hover {
-    color: #ef4444;
-    background: rgba(239, 68, 68, 0.1);
-  }
-  .fin-logout-btn svg {
-    width: 18px;
-    height: 18px;
-  }
-
-  /* --- MAIN CONTENT LAYOUT --- */
-  .fin-main {
-    flex: 1;
-    min-width: 0;
-    display: flex;
-    flex-direction: column;
-  }
-
-  /* Topbar */
-  .fin-topbar {
-    height: 58px;
-    padding: 0 16px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    background: var(--bg);
-    border-bottom: 1px solid var(--border);
-    position: sticky;
-    top: 0;
-    z-index: 40;
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-  }
-
-  @media (min-width: 1024px) {
-    .fin-topbar {
-      height: 66px;
-      padding: 0 32px;
-    }
-  }
-
-  .fin-topbar-left {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    min-width: 0;
-  }
-
-  .fin-mobile-brand {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
-
-  @media (min-width: 1024px) {
-    .fin-mobile-brand {
-      display: none;
-    }
-  }
-
-  .fin-page-titles {
-    display: flex;
-    flex-direction: column;
-    min-width: 0;
-  }
-
-  .fin-page-title {
-    font-size: 15px;
-    font-weight: 800;
-    color: var(--text);
-    letter-spacing: -0.02em;
-    line-height: 1.2;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
-
-  @media (min-width: 1024px) {
-    .fin-page-title {
-      font-size: 19px;
-    }
-  }
-
-  .fin-page-sub {
-    font-size: 11px;
-    color: var(--muted);
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
-
-  @media (min-width: 1024px) {
-    .fin-page-sub {
-      font-size: 12px;
-    }
-  }
-
-  .fin-topbar-right {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    flex-shrink: 0;
-  }
-
-  .fin-streak-pill {
-    display: inline-flex;
-    align-items: center;
-    gap: 5px;
-    background: var(--amber-light);
-    color: #b45309;
-    padding: 5px 10px;
-    border-radius: 20px;
-    font-size: 11px;
-    font-weight: 700;
-  }
-  body.dark .fin-streak-pill {
-    color: #fbbf24;
-  }
-
-  .fin-streak-pill svg {
-    width: 13px;
-    height: 13px;
-    fill: currentColor;
-  }
-
-  .fin-btn-secondary {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 6px;
-    background: var(--card);
-    color: var(--text);
-    border: 1px solid var(--border-strong);
-    border-radius: 10px;
-    padding: 7px 12px;
-    font-size: 12px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.15s ease;
-  }
-
-  .fin-btn-secondary:hover {
-    background: var(--card-subtle);
-    border-color: var(--muted);
-  }
-
-  .fin-btn-primary {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-    background: var(--green-dark);
-    color: #ffffff;
-    border: none;
-    border-radius: 12px;
-    padding: 12px 20px;
-    font-size: 14px;
-    font-weight: 700;
-    cursor: pointer;
-    transition: all 0.15s ease;
-    box-shadow: 0 2px 8px rgba(5, 150, 105, 0.25);
-  }
-
-  .fin-btn-primary:hover {
-    background: var(--emerald-deep);
-    transform: translateY(-1px);
-    box-shadow: 0 4px 14px rgba(5, 150, 105, 0.35);
-  }
-
-  .fin-btn-primary.sm {
-    padding: 8px 14px;
-    font-size: 12px;
-    border-radius: 9px;
-  }
-
-  .fin-btn-danger {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 6px;
-    background: rgba(239, 68, 68, 0.08);
-    color: #ef4444;
-    border: 1px solid rgba(239, 68, 68, 0.2);
-    border-radius: 10px;
-    padding: 8px 14px;
-    font-size: 12px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.15s ease;
-  }
-
-  .fin-btn-danger:hover {
-    background: rgba(239, 68, 68, 0.15);
-  }
-
-  .fin-icon-btn {
-    width: 32px;
-    height: 32px;
-    border-radius: 9px;
-    background: var(--card);
-    border: 1px solid var(--border);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: var(--text);
-    cursor: pointer;
-    font-size: 13px;
-  }
-
-  .mobile-only { display: inline-flex; }
-  @media (min-width: 1024px) {
-    .mobile-only { display: none !important; }
-    .desktop-only { display: block !important; }
-  }
-  @media (max-width: 1023px) {
-    .desktop-only { display: none !important; }
-  }
-
-  /* Content Area */
-  .fin-content {
-    padding: 14px 12px;
-    width: 100%;
-    max-width: 1200px;
-    margin: 0 auto;
-  }
-
-  @media (min-width: 1024px) {
-    .fin-content {
-      padding: 24px 32px;
-    }
-  }
-
-  /* Tab Panels */
-  .fin-tab-panel {
-    display: none;
-  }
-
-  .fin-tab-panel.active {
-    display: block;
-    animation: finFadeIn 0.2s ease-out;
-  }
-
-  @keyframes finFadeIn {
-    from { opacity: 0; transform: translateY(4px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
-
-  /* --- HOME TAB (DASHBOARD) - MATCHES PDF SPECIFICATION --- */
-  .fin-home-grid {
-    width: 100%;
-    max-width: 440px;
-    margin: 0 auto;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-  }
-
-  @media (min-width: 1024px) {
-    .fin-home-grid {
-      max-width: 100%;
-      display: grid;
-      grid-template-columns: repeat(12, 1fr);
-      gap: 20px;
-      align-items: start;
-    }
-  }
-
-  /* 1. Deep Forest Green Hero Card (Matches PDF) */
-  .fin-hero-card {
-    background: #0d3829; /* PDF Signature Forest Green */
-    border: 1px solid #144936;
-    border-radius: 20px;
-    padding: 16px 18px 14px;
-    color: #ffffff;
-    box-shadow: 0 10px 25px -5px rgba(13, 56, 41, 0.35);
-  }
-
-  body.dark .fin-hero-card {
-    background: #09261c;
-    border-color: #10382b;
-  }
-
-  @media (min-width: 1024px) {
-    .fin-hero-card {
-      grid-column: span 8;
-      border-radius: 24px;
-      padding: 26px 28px;
-    }
-  }
-
-  .fin-hero-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 6px;
-  }
-
-  .fin-amount-eyebrow {
-    font-size: 13px;
-    font-weight: 500;
-    color: rgba(255, 255, 255, 0.72);
-  }
-
-  .fin-badge-active {
-    display: inline-flex;
-    align-items: center;
-    background: rgba(255, 255, 255, 0.12);
-    color: #ecfdf5;
-    font-size: 12px;
-    font-weight: 600;
-    padding: 3px 10px;
-    border-radius: 20px;
-    backdrop-filter: blur(4px);
-  }
-
-  .fin-hero-figure {
-    font-size: 34px;
-    font-weight: 800;
-    color: #ffffff;
-    line-height: 1.1;
-    margin: 2px 0 4px;
-    letter-spacing: -0.03em;
-  }
-
-  @media (min-width: 1024px) {
-    .fin-hero-figure {
-      font-size: 44px;
-      margin: 4px 0 6px;
-    }
-  }
-
-  .fin-amount-meta {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    font-size: 12px;
-    color: rgba(255, 255, 255, 0.72);
-    font-weight: 500;
-  }
-
-  @media (min-width: 1024px) {
-    .fin-amount-meta {
-      font-size: 13px;
-    }
-  }
-
-  /* Progress Block inside Hero */
-  .fin-progress-block {
-    margin: 12px 0 10px;
-  }
-
-  @media (min-width: 1024px) {
-    .fin-progress-block {
-      margin: 18px 0 16px;
-    }
-  }
-
-  .fin-progress-header {
-    display: flex;
-    justify-content: space-between;
-    font-size: 12px;
-    font-weight: 600;
-    color: rgba(255, 255, 255, 0.75);
-    margin-bottom: 8px;
-  }
-
-  .fin-progress-track {
-    width: 100%;
-    height: 8px;
-    background: rgba(255, 255, 255, 0.12);
-    border-radius: 6px;
-    overflow: hidden;
-  }
-
-  @media (min-width: 1024px) {
-    .fin-progress-track {
-      height: 9px;
-    }
-  }
-
-  .fin-progress-bar {
-    height: 100%;
-    background: #34d399; /* Mint accent */
-    border-radius: 6px;
-    transition: width 0.4s ease;
-    width: 0%;
-  }
-
-  /* Mobile Stats Row inside Hero Card (Hidden on Desktop) */
-  .fin-hero-stats-row {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    border-top: 1px solid rgba(255, 255, 255, 0.12);
-    padding-top: 12px;
-    margin-top: 10px;
-  }
-
-  @media (min-width: 1024px) {
-    .fin-hero-stats-row {
-      display: none !important;
-    }
-  }
-
-  .fin-hero-stat-col {
-    display: flex;
-    flex-direction: column;
-  }
-
-  .fin-hero-stat-val {
-    font-size: 19px;
-    font-weight: 800;
-    color: #ffffff;
-    display: flex;
-    align-items: center;
-    gap: 4px;
-  }
-
-  .fin-hero-stat-lbl {
-    font-size: 11px;
-    color: rgba(255, 255, 255, 0.65);
-    margin-top: 2px;
-  }
-
-  /* 2. Desktop Recommended Pace Card (Right of Hero) */
-  .fin-pace-card {
-    background: var(--card);
-    border: 1px solid var(--border);
-    border-radius: 24px;
-    padding: 24px 26px;
-    box-shadow: var(--shadow-sm);
-    grid-column: span 4;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    min-height: 200px;
-  }
-
-  .fin-pace-eyebrow {
-    font-size: 13px;
-    font-weight: 500;
-    color: var(--muted);
-  }
-
-  .fin-pace-figure {
-    font-size: 34px;
-    font-weight: 800;
-    color: var(--text);
-    margin: 6px 0 16px;
-    letter-spacing: -0.02em;
-  }
-
-  .fin-pace-unit {
-    font-size: 15px;
-    font-weight: 500;
-    color: var(--muted);
-  }
-
-  .fin-pace-rows {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    border-top: 1px solid var(--border);
-    padding-top: 14px;
-  }
-
-  .fin-pace-meta-row {
-    display: flex;
-    justify-content: space-between;
-    font-size: 13px;
-  }
-  .fin-pace-meta-row span { color: var(--muted); }
-  .fin-pace-meta-row strong { color: var(--text); font-weight: 700; }
-
-  /* 3. Desktop Three Middle Stat Cards (Grid columns span 4 each) */
-  .fin-desktop-stat-row {
-    display: none;
-  }
-
-  @media (min-width: 1024px) {
-    .fin-desktop-stat-row {
-      display: contents;
-    }
-  }
-
-  .fin-stat-card {
-    background: var(--card);
-    border: 1px solid var(--border);
-    border-radius: 20px;
-    padding: 18px 20px;
-    box-shadow: var(--shadow-sm);
-    grid-column: span 4;
-    display: flex;
-    align-items: center;
-    gap: 16px;
-  }
-
-  .fin-stat-icon-wrap {
-    width: 44px;
-    height: 44px;
-    border-radius: 12px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
-  }
-  .fin-stat-icon-wrap.green { background: var(--green-light); color: var(--green-dark); }
-  .fin-stat-icon-wrap.amber { background: var(--amber-light); color: #d97706; }
-  .fin-stat-icon-wrap svg { width: 22px; height: 22px; }
-
-  .fin-stat-content {
-    display: flex;
-    flex-direction: column;
-  }
-  .fin-stat-title {
-    font-size: 12px;
-    font-weight: 600;
-    color: var(--muted);
-  }
-  .fin-stat-primary-num {
-    font-size: 22px;
-    font-weight: 800;
-    color: var(--text);
-    letter-spacing: -0.02em;
-    margin-top: 2px;
-  }
-  .fin-stat-sub-text {
-    font-size: 13px;
-    font-weight: 500;
-    color: var(--muted);
-  }
-
-  /* 4. Last 7 Days Card with Circular Checkmark Badges (Matches PDF) */
-  .fin-last7-card {
-    background: var(--card);
-    border: 1px solid var(--border);
-    border-radius: 18px;
-    padding: 14px 16px;
-    box-shadow: var(--shadow-sm);
-  }
-
-  @media (min-width: 1024px) {
-    .fin-last7-card {
-      grid-column: span 7;
-      border-radius: 22px;
-      padding: 24px;
-    }
-  }
-
-  .fin-card-header-flex {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 12px;
-  }
-  @media (min-width: 1024px) {
-    .fin-card-header-flex {
-      margin-bottom: 16px;
-    }
-  }
-
-  .fin-card-header-flex h3 {
-    font-size: 15px;
-    font-weight: 700;
-    color: var(--text);
-  }
-  @media (min-width: 1024px) {
-    .fin-card-header-flex h3 {
-      font-size: 16px;
-    }
-  }
-
-  .fin-pace-pill-small {
-    font-size: 12px;
-    font-weight: 600;
-    color: var(--muted);
-  }
-
-  /* Circular Day Badges */
-  .fin-circle-week-grid {
-    display: grid;
-    grid-template-columns: repeat(7, 1fr);
-    gap: 6px;
-    text-align: center;
-  }
-  @media (min-width: 1024px) {
-    .fin-circle-week-grid {
-      gap: 10px;
-    }
-  }
-
-  .fin-day-circle-item {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 5px;
-  }
-
-  .fin-circle-badge {
-    width: 36px;
-    height: 36px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: var(--card-subtle);
-    border: 1px solid var(--border);
-    color: var(--muted);
-    transition: all 0.2s ease;
-  }
-
-  @media (min-width: 1024px) {
-    .fin-circle-badge {
-      width: 44px;
-      height: 44px;
-    }
-  }
-
-  .fin-circle-badge.saved {
-    background: #0d694b;
-    border-color: #0d694b;
-    color: #ffffff;
-  }
-  body.dark .fin-circle-badge.saved {
-    background: #10b981;
-    border-color: #10b981;
-    color: #ffffff;
-  }
-
-  .fin-circle-badge.saved svg {
-    width: 18px;
-    height: 18px;
-    stroke: currentColor;
-    stroke-width: 3;
-  }
-  @media (min-width: 1024px) {
-    .fin-circle-badge.saved svg {
-      width: 20px;
-      height: 20px;
-    }
-  }
-
-  .fin-circle-badge.today-dashed {
-    background: rgba(13, 105, 75, 0.06);
-    border: 2px dashed #0d694b;
-    color: #0d694b;
-  }
-  body.dark .fin-circle-badge.today-dashed {
-    background: rgba(16, 185, 129, 0.12);
-    border: 2px dashed #10b981;
-    color: #10b981;
-  }
-
-  .fin-day-circle-item span {
-    font-size: 11px;
-    font-weight: 600;
-    color: var(--muted);
-  }
-  .fin-day-circle-item.today span {
-    color: #0d694b;
-    font-weight: 700;
-  }
-  body.dark .fin-day-circle-item.today span {
-    color: #34d399;
-  }
-
-  /* 5. Recent Activity Card (Matches PDF) */
-  .fin-activity-card {
-    background: var(--card);
-    border: 1px solid var(--border);
-    border-radius: 18px;
-    padding: 14px 16px;
-    box-shadow: var(--shadow-sm);
-  }
-
-  @media (min-width: 1024px) {
-    .fin-activity-card {
-      grid-column: span 5;
-      border-radius: 22px;
-      padding: 24px;
-    }
-  }
-
-  .fin-view-all-link {
-    font-size: 12px;
-    font-weight: 600;
-    color: var(--green-dark);
-    background: none;
-    border: none;
-    cursor: pointer;
-    text-decoration: none;
-  }
-  .fin-view-all-link:hover { text-decoration: underline; }
-
-  .fin-activity-list {
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-    margin-top: 4px;
-  }
-  @media (min-width: 1024px) {
-    .fin-activity-list {
-      gap: 10px;
-      margin-top: 6px;
-    }
-  }
-
-  .fin-activity-item {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 4px 0;
-  }
-  @media (min-width: 1024px) {
-    .fin-activity-item {
-      padding: 6px 0;
-    }
-  }
-
-  /* Limit to 2 items on mobile, 4 items on desktop (matches PDF) */
-  .fin-activity-item:nth-child(n+3) {
-    display: none;
-  }
-  @media (min-width: 1024px) {
-    .fin-activity-item:nth-child(n+3) {
-      display: flex;
-    }
-  }
-
-  .fin-activity-left {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-  }
-  @media (min-width: 1024px) {
-    .fin-activity-left {
-      gap: 12px;
-    }
-  }
-
-  .fin-activity-check {
-    width: 30px;
-    height: 30px;
-    border-radius: 8px;
-    background: var(--green-light);
-    color: var(--green-dark);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
-  }
-  @media (min-width: 1024px) {
-    .fin-activity-check {
-      width: 34px;
-      height: 34px;
-      border-radius: 9px;
-    }
-  }
-  .fin-activity-check svg {
-    width: 15px;
-    height: 15px;
-    stroke-width: 2.6;
-  }
-
-  .fin-activity-details {
-    display: flex;
-    flex-direction: column;
-  }
-  .fin-activity-title {
-    font-size: 13px;
-    font-weight: 700;
-    color: var(--text);
-  }
-  .fin-activity-date {
-    font-size: 11px;
-    color: var(--muted);
-  }
-
-  .fin-activity-amount {
-    font-size: 14px;
-    font-weight: 800;
-    color: var(--green-dark);
-  }
-  body.dark .fin-activity-amount {
-    color: #34d399;
-  }
-
-  /* 6. Primary Action Button (Matches PDF) */
-  .fin-action-container {
-    width: 100%;
-    margin-top: 2px;
-  }
-
-  .fin-save-btn {
-    width: 100%;
-    height: 48px;
-    background: #0d3829; /* Matches PDF dark green CTA */
-    color: #ffffff;
-    border: none;
-    border-radius: 14px;
-    font-size: 15px;
-    font-weight: 700;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-    box-shadow: 0 4px 14px rgba(13, 56, 41, 0.28);
-    transition: transform 0.15s ease, background 0.15s ease, box-shadow 0.15s ease;
-  }
-
-  body.dark .fin-save-btn {
-    background: var(--green);
-    box-shadow: 0 4px 14px rgba(16, 185, 129, 0.28);
-  }
-
-  .fin-save-btn:hover {
-    background: #08261c;
-    transform: translateY(-1px);
-    box-shadow: 0 6px 18px rgba(13, 56, 41, 0.38);
-  }
-  body.dark .fin-save-btn:hover {
-    background: var(--green-dark);
-  }
-
-  .fin-save-btn:active {
-    transform: translateY(1px);
-  }
-
-  .fin-save-btn:focus-visible {
-    outline: 2px solid var(--green);
-    outline-offset: 3px;
-  }
-
-  .fin-save-btn:disabled {
-    opacity: 0.6;
-    cursor: not-allowed;
-    transform: none;
-  }
-
-  .fin-save-icon svg {
-    width: 18px;
-    height: 18px;
-    stroke: #ffffff;
-    stroke-width: 2.6;
-  }
-
-  /* Topbar Buttons in Desktop */
-  .fin-topbar-cta-row {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
-
-  /* --- CARDS & CONTAINERS FOR OTHER TABS --- */
-  .fin-history-container,
-  .fin-plan-container,
-  .fin-settings-container {
-    max-width: 800px;
-    margin: 0 auto;
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-    padding-bottom: 70px;
-  }
-
-  @media (min-width: 1024px) {
-    .fin-history-container,
-    .fin-plan-container,
-    .fin-settings-container {
-      padding-bottom: 20px;
-    }
-  }
-
-  .fin-card {
-    background: var(--card);
-    border: 1px solid var(--border);
-    border-radius: 18px;
-    padding: 20px;
-    box-shadow: var(--shadow-sm);
-  }
-
-  .fin-card-heading {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    margin-bottom: 14px;
-  }
-
-  .fin-card-heading h3 {
-    font-size: 15px;
-    font-weight: 700;
-    color: var(--text);
-    letter-spacing: -0.01em;
-  }
-
-  .fin-card-sub {
-    font-size: 12px;
-    color: var(--muted);
-    margin-top: 2px;
-  }
-
-  /* Calendar & Week Grid Styles */
-  .week-grid {
-    display: grid;
-    grid-template-columns: repeat(7, 1fr);
-    gap: 6px;
-    margin-top: 8px;
-  }
-
-  .week-day {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 8px 4px;
-    border-radius: 10px;
-    background: var(--card-subtle);
-    border: 1px solid var(--border);
-    font-size: 11px;
-    color: var(--text);
-  }
-
-  .week-day.saved {
-    background: var(--green-light);
-    border-color: var(--green);
-    color: var(--green-dark);
-    font-weight: 700;
-  }
-
-  .week-day.today {
-    outline: 2px solid var(--green);
-  }
-
-  .week-day .d-name {
-    font-size: 10px;
-    color: var(--muted);
-    margin-bottom: 3px;
-    font-weight: 600;
-  }
-
-  .week-day.saved .d-name {
-    color: var(--green-dark);
-  }
-
-  .cal-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 8px;
-  }
-
-  .cal-header button {
-    background: var(--card-subtle);
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    width: 28px;
-    height: 28px;
-    cursor: pointer;
-    color: var(--text);
-    font-weight: 700;
-    transition: background 0.15s ease;
-  }
-
-  .cal-header button:hover {
-    background: var(--green-light);
-    color: var(--green-dark);
-  }
-
-  .cal-header span {
-    font-size: 13px;
-    font-weight: 700;
-    color: var(--text);
-  }
-
-  .cal-grid {
-    display: grid;
-    grid-template-columns: repeat(7, 1fr);
-    gap: 4px;
-    margin-top: 10px;
-  }
-
-  .cal-cell {
-    aspect-ratio: 1;
-    border-radius: 8px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 12px;
-    color: var(--muted);
-    background: var(--card-subtle);
-    border: 1px solid transparent;
-  }
-
-  .cal-cell.day-saved {
-    background: var(--green-dark);
-    color: #ffffff;
-    font-weight: 700;
-  }
-
-  .cal-cell.day-today {
-    border-color: var(--green);
-    font-weight: 800;
-    color: var(--text);
-  }
-
-  /* Forms and Inputs */
-  .fin-form-grid {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-  }
-
-  @media (min-width: 600px) {
-    .fin-form-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 14px;
-    }
-  }
-
-  .fin-field {
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-  }
-
-  .fin-field label {
-    font-size: 11px;
-    font-weight: 700;
-    color: var(--muted);
-    text-transform: uppercase;
-    letter-spacing: 0.03em;
-  }
-
-  .fin-input {
-    width: 100%;
-    height: 42px;
-    padding: 8px 12px;
-    background: var(--card);
-    border: 1px solid var(--border-strong);
-    border-radius: 10px;
-    font-size: 14px;
-    color: var(--text);
-    transition: border-color 0.15s, box-shadow 0.15s;
-  }
-
-  .fin-input:focus {
-    outline: none;
-    border-color: var(--green);
-    box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.15);
-  }
-
-  .fin-input.sm {
-    height: 36px;
-    font-size: 13px;
-  }
-
-  .fin-field-hint {
-    font-size: 11px;
-    color: var(--muted);
-    margin-top: 2px;
-  }
-
-  .fin-form-actions {
-    margin-top: 16px;
-    display: flex;
-    justify-content: flex-end;
-  }
-
-  .calc-result {
-    margin-top: 14px;
-    padding: 12px 14px;
+  .auth-banner-welcome {
     background: var(--green-light);
     border: 1px solid var(--green);
+    border-radius: var(--radius-md);
+    padding: 14px 16px;
+    margin-bottom: 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .auth-banner-welcome div p { font-size: 11px; color: var(--green-dark); }
+  .auth-banner-welcome div strong { font-size: 14px; color: var(--green-dark); }
+
+  .card {
+    background: var(--card);
+    border-radius: 16px;
+    padding: 20px;
+    margin-bottom: 16px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+    border: 1px solid var(--border);
+  }
+  .card-title { font-size: 13px; font-weight: 700; color: var(--muted); margin-bottom: 12px; text-transform: uppercase; letter-spacing: 0.03em; }
+
+  .mode-toggle {
+    display: flex;
+    background: var(--green-light);
     border-radius: 12px;
-    font-size: 13px;
-    color: var(--green-dark);
-    line-height: 1.5;
+    padding: 4px;
+    margin-bottom: 16px;
   }
-
-  /* Ledger Empty State */
-  .fin-ledger-empty {
+  .mode-btn {
+    flex: 1;
     text-align: center;
-    padding: 30px 16px;
-    background: var(--card-subtle);
-    border-radius: 14px;
-    border: 1px dashed var(--border-strong);
+    padding: 9px 0;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--green-dark);
+    background: transparent;
+    border: none;
+    border-radius: 9px;
+    cursor: pointer;
   }
+  .mode-btn.active { background: var(--green); color: #fff; }
 
-  .fin-empty-icon {
-    font-size: 28px;
-    margin-bottom: 8px;
+  .total-label { font-size: 13px; color: var(--muted); }
+  .total-amount { font-size: 32px; font-weight: 700; color: var(--green-dark); margin: 4px 0; }
+  .total-target { font-size: 13px; color: var(--muted); }
+
+  .progress-track {
+    width: 100%; height: 14px;
+    background: var(--green-light);
+    border-radius: 7px;
+    overflow: hidden;
+    margin: 14px 0 6px;
   }
-
-  .fin-ledger-empty h4 {
-    font-size: 14px;
-    font-weight: 700;
-    color: var(--text);
-    margin-bottom: 4px;
+  .progress-fill {
+    height: 100%; background: var(--green);
+    border-radius: 7px; transition: width 0.4s ease; width: 0%;
   }
+  .progress-pct { font-size: 12px; font-weight: 600; color: var(--muted); text-align: right; }
 
-  .fin-ledger-empty p {
-    font-size: 12px;
-    color: var(--muted);
-    max-width: 320px;
-    margin: 0 auto 14px;
+  .stats-row {
+    display: flex; justify-content: space-between;
+    margin-top: 14px; padding-top: 14px;
+    border-top: 1px solid var(--border);
+  }
+  .stat { text-align: center; flex: 1; }
+  .stat-num { font-size: 17px; font-weight: 700; color: var(--text); }
+  .stat-label { font-size: 11px; color: var(--muted); margin-top: 2px; }
+
+  .projection {
+    margin-top: 14px; padding: 10px 12px;
+    background: var(--green-light);
+    border-radius: 10px;
+    font-size: 12px; color: var(--green-dark);
     line-height: 1.4;
   }
 
-  /* Profile Card */
-  .fin-profile-row {
-    display: flex;
-    align-items: center;
-    gap: 14px;
-    margin-bottom: 16px;
+  .save-btn {
+    width: 100%;
+    background: var(--green);
+    color: #fff;
+    border: none;
+    border-radius: 12px;
+    padding: 14px;
+    font-size: 15px; font-weight: 600;
+    cursor: pointer;
+    box-shadow: 0 2px 6px rgba(22, 163, 74, 0.3);
   }
+  .save-btn:disabled { opacity: 0.5; cursor: not-allowed; }
 
-  .fin-profile-info {
-    display: flex;
-    flex-direction: column;
-    gap: 2px;
-  }
-
-  .fin-profile-info strong {
-    font-size: 15px;
-    color: var(--text);
-  }
-
-  .fin-profile-info span {
-    font-size: 12px;
-    color: var(--muted);
-  }
-
-  .fin-cloud-badge {
-    color: var(--green-dark) !important;
-    font-weight: 600;
-    font-size: 11px !important;
-  }
-
-  .fin-profile-actions {
-    display: flex;
-    gap: 10px;
-    border-top: 1px solid var(--border);
-    padding-top: 14px;
-  }
-
-  .fin-reminder-add-row {
-    display: flex;
-    gap: 8px;
+  .undo-link {
+    display: block; text-align: center;
+    font-size: 12px; color: var(--muted);
+    background: none; border: none;
+    cursor: pointer; text-decoration: underline;
     margin-top: 10px;
+  }
+
+  .week-grid {
+    display: grid; grid-template-columns: repeat(7, 1fr);
+    gap: 6px; margin-top: 8px;
+  }
+  .week-day {
+    display: flex; flex-direction: column; align-items: center;
+    padding: 8px 4px; border-radius: 8px;
+    background: var(--border); font-size: 11px;
+  }
+  .week-day.saved { background: var(--green-light); color: var(--green-dark); font-weight: 600; }
+  .week-day.today { outline: 2px solid var(--green); }
+  .week-day .d-name { font-size: 10px; color: var(--muted); margin-bottom: 2px; }
+  .week-day.saved .d-name { color: var(--green-dark); }
+
+  .cal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+  .cal-header button {
+    background: var(--green-light); border: none; border-radius: 8px;
+    width: 28px; height: 28px; cursor: pointer; color: var(--green-dark); font-weight: 700;
+  }
+  .cal-header span { font-size: 13px; font-weight: 600; }
+  .cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; }
+  .cal-cell {
+    aspect-ratio: 1; border-radius: 6px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 11px; color: var(--muted);
+  }
+  .cal-cell.day-saved { background: var(--green); color: #fff; font-weight: 600; }
+  .cal-cell.day-today { outline: 2px solid var(--green-dark); font-weight: 700; }
+
+  .field { margin-bottom: 12px; }
+  .field label { display: block; font-size: 11px; color: var(--muted); margin-bottom: 4px; font-weight: 600; }
+  .field input {
+    width: 100%; padding: 10px 12px;
+    border: 1px solid var(--border); border-radius: 8px;
+    font-size: 14px; background: var(--card); color: var(--text);
+  }
+  .calc-result {
+    margin-top: 12px; padding: 10px 12px;
+    background: var(--green-light); border-radius: 8px;
+    font-size: 12px; color: var(--green-dark); line-height: 1.5;
   }
 
   .reminder-chip {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    background: var(--green-light);
-    color: var(--green-dark);
-    padding: 4px 10px;
-    border-radius: 20px;
-    font-size: 12px;
-    font-weight: 600;
-    margin: 2px 4px 2px 0;
+    display: inline-flex; align-items: center; gap: 6px;
+    background: var(--green-light); color: var(--green-dark);
+    padding: 4px 10px; border-radius: 20px;
+    font-size: 12px; font-weight: 600; margin: 2px 4px 2px 0;
   }
-
   .reminder-chip button {
-    background: none;
-    border: none;
-    color: var(--green-dark);
-    cursor: pointer;
-    font-size: 14px;
-    line-height: 1;
-    padding: 0;
+    background: none; border: none; color: var(--green-dark);
+    cursor: pointer; font-size: 14px; line-height: 1; padding: 0;
   }
+  .btn-row { display: flex; gap: 8px; margin-top: 8px; }
+  .btn-row button { flex: 1; }
+  .hint { font-size: 11px; color: var(--muted); margin-top: 8px; line-height: 1.4; }
 
-  .fin-btn-row {
-    display: flex;
-    gap: 8px;
-    margin-top: 8px;
-  }
-  .fin-btn-row button {
-    flex: 1;
-  }
-
-  .fin-hint {
-    font-size: 11px;
-    color: var(--muted);
-    margin-top: 10px;
-    line-height: 1.4;
-  }
-
-  .fin-about-card {
-    text-align: center;
-    font-size: 12px;
-    color: var(--muted);
-    line-height: 1.6;
-  }
-
-  .fin-version-tag {
-    display: inline-block;
-    margin-top: 6px;
-    font-size: 10px;
-    font-weight: 700;
-    color: var(--green-dark);
-    background: var(--green-light);
-    padding: 2px 8px;
-    border-radius: 10px;
-  }
-
-  /* --- MOBILE BOTTOM NAVIGATION (< 1024px) --- */
-  .fin-bottom-nav {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    height: 62px;
-    background: var(--card);
-    border-top: 1px solid var(--border);
-    display: flex;
-    align-items: center;
-    justify-content: space-around;
-    z-index: 100;
-    padding-bottom: env(safe-area-inset-bottom, 0);
-    box-shadow: 0 -2px 10px rgba(0,0,0,0.03);
-  }
-
-  @media (min-width: 1024px) {
-    .fin-bottom-nav {
-      display: none !important;
-    }
-  }
-
-  .fin-tab-btn {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 3px;
-    background: transparent;
-    border: none;
-    color: var(--muted);
-    font-size: 10px;
-    font-weight: 600;
-    cursor: pointer;
-    width: 64px;
-    height: 48px;
-    border-radius: 10px;
-    transition: all 0.15s ease;
-  }
-
-  .fin-tab-btn:hover {
-    color: var(--text);
-  }
-
-  .fin-tab-btn.active {
-    color: var(--green-dark);
-    font-weight: 800;
-  }
-
-  .fin-tab-icon {
-    width: 20px;
-    height: 20px;
-    stroke: currentColor;
-    stroke-width: 2;
-  }
-
-  .fin-tab-btn.active .fin-tab-icon {
-    stroke-width: 2.4;
-  }
-
-  /* Dismissible Top Toast */
   .toast {
-    position: fixed;
-    top: 20px;
-    left: 50%;
-    transform: translateX(-50%) translateY(-100px);
-    background: var(--card);
-    color: var(--text);
-    border: 1px solid var(--border-strong);
-    padding: 10px 16px;
-    border-radius: 14px;
-    font-size: 13px;
-    font-weight: 600;
-    box-shadow: var(--shadow-lg);
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    z-index: 1000;
-    opacity: 0;
-    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s ease;
-    pointer-events: none;
+    position: fixed; bottom: 20px; left: 50%;
+    transform: translateX(-50%) translateY(100px);
+    background: #1f2937; color: #fff;
+    padding: 10px 18px; border-radius: 20px;
+    font-size: 13px; font-weight: 600;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    transition: transform 0.3s ease;
+    z-index: 400; pointer-events: none;
   }
-  .toast.show {
-    transform: translateX(-50%) translateY(0);
-    opacity: 1;
-    pointer-events: auto;
+  .toast.show { transform: translateX(-50%) translateY(0); }
+
+  #installCard { display: none; }
+  #installBtn {
+    width: 100%; background: var(--green-light);
+    color: var(--green-dark); border: none;
+    border-radius: 10px; padding: 10px;
+    font-size: 13px; font-weight: 600; cursor: pointer;
   }
-  .toast-close-btn {
-    background: none;
-    border: none;
-    color: var(--muted);
-    font-size: 16px;
-    line-height: 1;
-    cursor: pointer;
-    padding: 2px 4px;
-    border-radius: 4px;
-    margin-left: 4px;
-  }
-  .toast-close-btn:hover {
-    color: var(--text);
-  }
+  #importFile { display: none; }
 
   .confetti-piece {
     position: fixed; top: -20px; width: 8px; height: 8px; z-index: 250;
     pointer-events: none; border-radius: 2px;
   }
-
 
   /* ==========================================================================
      ONBOARDING STYLES (PHASE 3)
@@ -4124,481 +2686,167 @@
      VIEW 2: FULL WORKING SAVINGS TRACKER & DASHBOARD (PROTECTED)
      ========================================================================== -->
 <div id="appView" class="view-container hidden">
-  <div class="fin-layout">
-    <!-- Desktop Sidebar (>= 1024px) -->
-    <aside class="fin-sidebar" id="appSidebar">
-      <div class="fin-sidebar-brand">
-        <div class="fin-brand-mark">
-          <span>N</span>
+  <div class="app">
+    <header>
+      <div class="titles">
+        <h1 id="appHeaderTitle">💰 500K Challenge</h1>
+        <p id="subtitle">Saving ₦500,000 by Dec 31, 2026</p>
+      </div>
+      <div class="header-actions">
+        <button class="btn-secondary" id="appNewGoalBtn" style="padding: 8px 12px; font-size: 12px;">+ New Goal</button>
+        <button class="story-toggle-btn" id="openStoryBtn" title="View interactive guide & story">📖 Story</button>
+        <button class="icon-btn" id="darkToggle" title="Toggle dark mode">🌙</button>
+        <button class="btn-secondary" id="appSignOutBtn" style="padding: 8px 12px; font-size: 12px;">Log Out</button>
+      </div>
+    </header>
+
+    <!-- Authenticated User Greeting Banner -->
+    <div class="auth-banner-welcome" id="authWelcomeBanner">
+      <div>
+        <p>Authenticated Session</p>
+        <strong id="authUserName">Welcome to NairaStreak!</strong>
+      </div>
+      <span style="font-size: 12px; color: var(--green-dark); font-weight: 700;">Cloud Connected ☁️</span>
+    </div>
+
+    <div class="card" id="installCard">
+      <button id="installBtn">📲 Add to Home Screen</button>
+    </div>
+
+    <div class="card">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+        <span class="onboarding-badge" id="dashboardPlanBadge" style="margin-bottom:0;">Daily Plan</span>
+        <span id="dashboardGoalStatus" style="font-size:12px; font-weight:700; color:var(--green-dark); background:var(--green-light); padding:3px 8px; border-radius:12px;">Active</span>
+      </div>
+
+      <div class="mode-toggle">
+        <button class="mode-btn active" id="dailyModeBtn">Daily</button>
+        <button class="mode-btn" id="weeklyModeBtn">Weekly</button>
+      </div>
+
+      <div class="total-label">Total Saved</div>
+      <div class="total-amount tabular" id="totalAmount">₦0</div>
+      <div class="total-target" id="totalTarget">of ₦0 target</div>
+      <div id="dashboardRemaining" style="font-size: 13px; color: var(--muted); margin-top: 4px; font-variant-numeric: tabular-nums;">Remaining: ₦0</div>
+      <div class="progress-track" style="margin-top: 12px;"><div class="progress-fill" id="progressFill" style="width: 0%;"></div></div>
+      <div class="progress-pct tabular" id="progressPct">0%</div>
+
+      <div class="stats-row">
+        <div class="stat">
+          <div class="stat-num tabular" id="daysSaved">0</div>
+          <div class="stat-label" id="daysSavedLabel">Days Saved</div>
         </div>
-        <div class="fin-brand-info">
-          <span class="fin-brand-name">NairaStreak</span>
+        <div class="stat">
+          <div class="stat-num tabular" id="daysLeft">0</div>
+          <div class="stat-label" id="daysLeftLabel">Days Left</div>
+        </div>
+        <div class="stat">
+          <div class="stat-num tabular" id="streak">0</div>
+          <div class="stat-label">Streak</div>
         </div>
       </div>
 
-      <!-- Sidebar Navigation Links -->
-      <nav class="fin-sidebar-nav" aria-label="Main Navigation">
-        <button type="button" class="fin-nav-item active" data-tab="home" id="sideNavHome">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
-            <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
-            <polyline points="9 22 9 12 15 12 15 22"/>
-          </svg>
-          <span>Home</span>
-        </button>
-        <button type="button" class="fin-nav-item" data-tab="history" id="sideNavHistory">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
-            <rect width="18" height="18" x="3" y="4" rx="2" ry="2"/>
-            <line x1="16" x2="16" y1="2" y2="6"/>
-            <line x1="8" x2="8" y1="2" y2="6"/>
-            <line x1="3" x2="21" y1="10" y2="10"/>
-            <path d="m9 16 2 2 4-4"/>
-          </svg>
-          <span>History</span>
-        </button>
-        <button type="button" class="fin-nav-item" data-tab="plan" id="sideNavPlan">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
-            <circle cx="12" cy="12" r="10"/>
-            <circle cx="12" cy="12" r="6"/>
-            <circle cx="12" cy="12" r="2"/>
-          </svg>
-          <span>Plan</span>
-        </button>
-        <button type="button" class="fin-nav-item" data-tab="settings" id="sideNavSettings">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
-            <circle cx="12" cy="12" r="3"/>
-            <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/>
-          </svg>
-          <span>Settings</span>
-        </button>
-      </nav>
-
-      <!-- Sidebar Footer (Matches PDF Page 2) -->
-      <div class="fin-sidebar-footer">
-        <div class="fin-user-profile">
-          <div class="fin-user-badge">
-            <div class="fin-user-avatar" id="sidebarAvatar">T</div>
-            <span class="fin-user-name" id="sidebarUserName">Timi</span>
-          </div>
-          <button type="button" class="fin-logout-btn" id="sidebarLogoutBtn" title="Log out" aria-label="Log out">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
-              <polyline points="16 17 21 12 16 7"/>
-              <line x1="21" x2="9" y1="12" y2="12"/>
-            </svg>
-          </button>
+      <!-- Live Recommended Pace Breakdown -->
+      <div style="background:var(--bg); border:1px solid var(--border-strong); border-radius:var(--radius-md); padding:12px 14px; margin-top:16px;">
+        <div style="display:flex; justify-content:space-between; margin-bottom:4px; font-size:12px;">
+          <span style="color:var(--muted);">Recommended Pace:</span>
+          <strong id="dashboardRecPace" class="tabular" style="color:var(--green-dark);">₦0 / day</strong>
+        </div>
+        <div style="display:flex; justify-content:space-between; font-size:12px;">
+          <span style="color:var(--muted);">Target Deadline:</span>
+          <strong id="dashboardDeadlineVal" class="tabular">—</strong>
         </div>
       </div>
-    </aside>
 
-    <!-- Main Content Area -->
-    <main class="fin-main">
-      <!-- Top Mobile / Desktop Bar -->
-      <header class="fin-topbar">
-        <div class="fin-topbar-left">
-          <div class="fin-page-titles">
-            <h1 class="fin-page-title" id="appHeaderTitle">Emergency Fund</h1>
-            <p class="fin-page-sub" id="appHeaderSubtitle">Target ₦500,000 by 13 Oct 2027</p>
-          </div>
-        </div>
+      <div class="projection" id="projection"></div>
+    </div>
 
-        <div class="fin-topbar-right">
-          <!-- Theme Toggle -->
-          <button type="button" class="fin-icon-btn" id="headerDarkToggle" title="Toggle theme" aria-label="Toggle dark mode">
-            🌙
-          </button>
-
-          <!-- Topbar Actions (Desktop Only - Matches PDF Header) -->
-          <div class="fin-topbar-cta-row desktop-only">
-            <button type="button" class="fin-btn-secondary" id="appNewGoalBtn">
-              <span>+ New goal</span>
-            </button>
-            <button type="button" class="fin-save-btn" id="topbarSaveBtn" style="height: 38px; padding: 0 16px; font-size: 13px;">
-              <span>✓ I saved ₦1,370 today</span>
-            </button>
-          </div>
-        </div>
-      </header>
-
-      <!-- Content Container -->
-      <div class="fin-content">
-        <!-- 1. HOME TAB PANEL (MATCHES PDF SPECIFICATION) -->
-        <section class="fin-tab-panel active" id="tabHome" role="tabpanel" aria-label="Dashboard">
-          <div class="fin-home-grid">
-            <!-- 1. Deep Forest Green Hero Card (PDF Signature Element) -->
-            <div class="fin-hero-card">
-              <div class="fin-hero-header">
-                <span class="fin-amount-eyebrow">Total saved</span>
-                <span class="fin-badge-active" id="dashboardGoalStatus">Active</span>
-              </div>
-
-              <!-- Hero Big Amount -->
-              <div class="fin-hero-figure tabular" id="totalAmount">₦34,250</div>
-              
-              <!-- Meta target & remaining -->
-              <div class="fin-amount-meta">
-                <span id="totalTarget" class="tabular">of ₦500,000 target</span>
-                <span class="fin-bullet">•</span>
-                <span id="dashboardRemaining" class="tabular">₦465,750 remaining</span>
-              </div>
-
-              <!-- Mint Progress Bar -->
-              <div class="fin-progress-block">
-                <div class="fin-progress-header">
-                  <span id="progressPctLabel" class="tabular">6.9% complete</span>
-                  <span id="progressTargetLabel" class="tabular desktop-only">₦500,000</span>
-                  <span id="daysLeftTopLabel" class="tabular mobile-only">340 days left</span>
-                </div>
-                <div class="fin-progress-track">
-                  <div class="fin-progress-bar" id="progressFill" style="width: 6.9%;"></div>
-                </div>
-              </div>
-
-              <!-- Stats Row inside Hero (Mobile) -->
-              <div class="fin-hero-stats-row">
-                <div class="fin-hero-stat-col">
-                  <span class="fin-hero-stat-val tabular" id="daysSaved">25</span>
-                  <span class="fin-hero-stat-lbl">Days saved</span>
-                </div>
-                <div class="fin-hero-stat-col">
-                  <span class="fin-hero-stat-val tabular" id="daysLeft">340</span>
-                  <span class="fin-hero-stat-lbl">Days left</span>
-                </div>
-                <div class="fin-hero-stat-col">
-                  <span class="fin-hero-stat-val tabular">
-                    <span id="streak">23</span>
-                    <span style="font-size: 15px;">🔥</span>
-                  </span>
-                  <span class="fin-hero-stat-lbl">Day streak</span>
-                </div>
-              </div>
-            </div>
-
-            <!-- 2. Desktop Recommended Pace Card (Span 4, right of Hero) -->
-            <div class="fin-pace-card desktop-only">
-              <div>
-                <span class="fin-pace-eyebrow">Recommended pace</span>
-                <div class="fin-pace-figure tabular">
-                  <span id="desktopPaceVal">₦1,370</span>
-                  <span class="fin-pace-unit">/ day</span>
-                </div>
-              </div>
-              <div class="fin-pace-rows">
-                <div class="fin-pace-meta-row">
-                  <span>Deadline</span>
-                  <strong id="desktopDateVal" class="tabular">13 Oct 2027</strong>
-                </div>
-                <div class="fin-pace-meta-row">
-                  <span>Remaining</span>
-                  <strong id="desktopRemainingVal" class="tabular">₦465,750</strong>
-                </div>
-              </div>
-            </div>
-
-            <!-- 3. Desktop Three Middle Stat Cards (Span 4 each, Middle row in PDF) -->
-            <div class="fin-desktop-stat-row">
-              <div class="fin-stat-card">
-                <div class="fin-stat-icon-wrap green">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <rect width="18" height="18" x="3" y="4" rx="2" ry="2"/>
-                    <line x1="16" x2="16" y1="2" y2="6"/>
-                    <line x1="8" x2="8" y1="2" y2="6"/>
-                    <line x1="3" x2="21" y1="10" y2="10"/>
-                  </svg>
-                </div>
-                <div class="fin-stat-content">
-                  <span class="fin-stat-title">Days saved</span>
-                  <div class="fin-stat-primary-num tabular">
-                    <span id="desktopDaysSavedVal">25</span>
-                    <span class="fin-stat-sub-text">of 365</span>
-                  </div>
-                </div>
-              </div>
-
-              <div class="fin-stat-card">
-                <div class="fin-stat-icon-wrap green">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <circle cx="12" cy="12" r="10"/>
-                    <polyline points="12 6 12 12 16 14"/>
-                  </svg>
-                </div>
-                <div class="fin-stat-content">
-                  <span class="fin-stat-title">Days left</span>
-                  <div class="fin-stat-primary-num tabular" id="desktopDaysLeftVal">340</div>
-                </div>
-              </div>
-
-              <div class="fin-stat-card">
-                <div class="fin-stat-icon-wrap amber">
-                  <svg viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/>
-                  </svg>
-                </div>
-                <div class="fin-stat-content">
-                  <span class="fin-stat-title">Current streak</span>
-                  <div class="fin-stat-primary-num tabular">
-                    <span id="desktopStreakVal">23</span>
-                    <span class="fin-stat-sub-text">days</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <!-- 4. Last 7 Days Card (Circular Checkmark Badges - PDF Element) -->
-            <div class="fin-last7-card">
-              <div class="fin-card-header-flex">
-                <h3>Last 7 days</h3>
-                <span class="fin-pace-pill-small tabular" id="homePaceLabel">Pace ₦1,370 / day</span>
-              </div>
-              <div class="fin-circle-week-grid" id="homeCircleWeekGrid">
-                <!-- Dynamically rendered 7 circular badges -->
-              </div>
-            </div>
-
-            <!-- 5. Recent Activity Card (PDF Element) -->
-            <div class="fin-activity-card">
-              <div class="fin-card-header-flex">
-                <h3>Recent activity</h3>
-                <button type="button" class="fin-view-all-link" id="homeViewAllActivityBtn">View all</button>
-              </div>
-              <div class="fin-activity-list" id="homeRecentActivityList">
-                <!-- Dynamically rendered recent activity items -->
-              </div>
-            </div>
-
-            <!-- 6. Mobile Prominent Action CTA -->
-            <div class="fin-action-container mobile-only">
-              <button type="button" class="fin-save-btn" id="saveBtn">
-                <span class="fin-save-icon">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
-                    <polyline points="20 6 9 17 4 12"/>
-                  </svg>
-                </span>
-                <span id="saveBtnText">I saved ₦1,370 today</span>
-              </button>
-            </div>
-          </div>
-        </section>
-
-        <!-- 2. HISTORY TAB PANEL -->
-        <section class="fin-tab-panel" id="tabHistory" role="tabpanel" aria-label="Savings History">
-          <div class="fin-history-container">
-            <div class="fin-card">
-              <div class="fin-card-heading">
-                <div>
-                  <h3>Last 7 Days</h3>
-                  <p class="fin-card-sub">Your recent savings consistency at a glance</p>
-                </div>
-              </div>
-              <div class="week-grid" id="weekGrid"></div>
-            </div>
-
-            <div class="fin-card">
-              <div class="fin-card-heading">
-                <div>
-                  <h3>Savings Calendar</h3>
-                  <p class="fin-card-sub">Every day you completed your habit streak</p>
-                </div>
-                <div class="cal-header">
-                  <button type="button" id="prevMonth" aria-label="Previous month">‹</button>
-                  <span id="calMonthLabel" class="tabular">Month</span>
-                  <button type="button" id="nextMonth" aria-label="Next month">›</button>
-                </div>
-              </div>
-              <div class="cal-grid" id="calGrid"></div>
-            </div>
-
-            <!-- Deposits Ledger Card with Empty State -->
-            <div class="fin-card">
-              <div class="fin-card-heading">
-                <div>
-                  <h3>Deposits Ledger</h3>
-                  <p class="fin-card-sub">Confirmed contributions history</p>
-                </div>
-              </div>
-              <div class="fin-ledger-empty" id="ledgerEmptyState">
-                <div class="fin-empty-icon">🌱</div>
-                <h4>No deposits recorded yet</h4>
-                <p>When you log daily or weekly contributions, they will appear here in chronological order.</p>
-                <button type="button" class="fin-btn-primary sm" id="ledgerStartBtn">Log Today's Savings</button>
-              </div>
-              <div class="fin-ledger-list hidden" id="ledgerList"></div>
-            </div>
-          </div>
-        </section>
-
-        <!-- 3. PLAN TAB PANEL -->
-        <section class="fin-tab-panel" id="tabPlan" role="tabpanel" aria-label="Goal Planning">
-          <div class="fin-plan-container">
-            <!-- Goal Settings Card (Single Source of Truth) -->
-            <div class="fin-card">
-              <div class="fin-card-heading">
-                <div>
-                  <h3>Goal Parameters</h3>
-                  <p class="fin-card-sub">Adjust your target and target deadline</p>
-                </div>
-              </div>
-              <form id="goalSettingsForm" onsubmit="return false;">
-                <div class="fin-form-grid">
-                  <div class="fin-field">
-                    <label for="settingsTarget">Overall Target (₦)</label>
-                    <input type="number" id="settingsTarget" class="fin-input" placeholder="500000" min="1000" required>
-                  </div>
-                  <div class="fin-field">
-                    <label for="settingsDate">Target Deadline</label>
-                    <input type="date" id="settingsDate" class="fin-input" required>
-                  </div>
-                  <div class="fin-field">
-                    <label for="settingsDaily">Derived Daily Contribution (₦)</label>
-                    <input type="number" id="settingsDaily" class="fin-input" readonly style="opacity: 0.85; background: var(--bg);">
-                    <small class="fin-field-hint">Automatically calculated from target and deadline.</small>
-                  </div>
-                </div>
-                <div class="fin-form-actions">
-                  <button type="button" class="fin-btn-primary" id="saveSettingsBtn">Save Goal Changes</button>
-                </div>
-              </form>
-            </div>
-
-            <!-- Goal Calculator Card -->
-            <div class="fin-card">
-              <div class="fin-card-heading">
-                <div>
-                  <h3>Goal Calculator</h3>
-                  <p class="fin-card-sub">Simulate another milestone or experiment with deadlines</p>
-                </div>
-              </div>
-              <div class="fin-form-grid">
-                <div class="fin-field">
-                  <label for="calcGoal">Target Amount (₦)</label>
-                  <input type="number" id="calcGoal" class="fin-input" placeholder="1000000">
-                </div>
-                <div class="fin-field">
-                  <label for="calcDate">Target Date</label>
-                  <input type="date" id="calcDate" class="fin-input">
-                </div>
-              </div>
-              <div class="fin-form-actions">
-                <button type="button" class="fin-btn-secondary" id="calcBtn">Calculate Pace</button>
-              </div>
-              <div class="calc-result" id="calcResult" style="display:none;"></div>
-            </div>
-          </div>
-        </section>
-
-        <!-- 4. SETTINGS TAB PANEL -->
-        <section class="fin-tab-panel" id="tabSettings" role="tabpanel" aria-label="Settings">
-          <div class="fin-settings-container">
-            <!-- Account & Profile -->
-            <div class="fin-card">
-              <div class="fin-card-heading">
-                <div>
-                  <h3>Account & Cloud Sync</h3>
-                  <p class="fin-card-sub">Your authenticated NairaStreak account</p>
-                </div>
-              </div>
-              <div class="fin-profile-row">
-                <div class="fin-user-avatar lg" id="settingsAvatar">T</div>
-                <div class="fin-profile-info">
-                  <strong id="settingsDisplayName">User</strong>
-                  <span id="settingsEmail">user@example.com</span>
-                  <span class="fin-cloud-badge">☁️ Cloud Connected (Supabase RLS Protected)</span>
-                </div>
-              </div>
-              <div class="fin-profile-actions">
-                <button type="button" class="fin-btn-secondary" id="settingsNewGoalBtn">+ Create New Goal</button>
-                <button type="button" class="fin-btn-danger" id="appSignOutBtn">Log Out</button>
-              </div>
-            </div>
-
-            <!-- Savings Reminders -->
-            <div class="fin-card">
-              <div class="fin-card-heading">
-                <div>
-                  <h3>Savings Reminders</h3>
-                  <p class="fin-card-sub">Gentle daily prompts to keep your streak unbroken</p>
-                </div>
-                <div class="mode-toggle" style="margin-bottom:0; width:120px;">
-                  <button type="button" class="mode-btn active" id="remindersOnBtn">On</button>
-                  <button type="button" class="mode-btn" id="remindersOffBtn">Off</button>
-                </div>
-              </div>
-              <div id="reminderTimesList"></div>
-              <div class="fin-reminder-add-row">
-                <input type="time" id="newReminderTime" class="fin-input sm" value="09:00" style="width:140px;">
-                <button type="button" class="fin-btn-secondary sm" id="addReminderBtn">+ Add Time</button>
-              </div>
-              <p class="fin-hint">Notifications fire while the app is active, stopping once today's saving is logged.</p>
-            </div>
-
-            <!-- Data Backup & Portability -->
-            <div class="fin-card">
-              <div class="fin-card-heading">
-                <div>
-                  <h3>Data Backup & Portability</h3>
-                  <p class="fin-card-sub">Export or import your offline archive</p>
-                </div>
-              </div>
-              <div class="fin-btn-row">
-                <button type="button" class="fin-btn-secondary" id="exportBtn">⬇ Export Backup (JSON)</button>
-                <button type="button" class="fin-btn-secondary" id="importBtn">⬆ Import Backup</button>
-              </div>
-              <input type="file" id="importFile" accept="application/json" class="hidden">
-              <p class="fin-hint">Safely download your complete savings record to your personal device anytime.</p>
-            </div>
-
-            <!-- About / Attribution -->
-            <div class="fin-card fin-about-card">
-              <p>Created by <strong>Zuokemefa Oyinmiebi Peter</strong> (Learn2Earn)</p>
-              <p>Re-engineered & Maintained by <a href="https://github.com/NairaStreak-Labs" target="_blank" rel="noopener noreferrer" style="color:var(--green-dark); font-weight:600; text-decoration:none;">NairaStreak Labs</a></p>
-              <span class="fin-version-tag">NairaStreak Web V1 Production</span>
-            </div>
-          </div>
-        </section>
+    <div class="card">
+      <button class="save-btn" id="saveBtn">Add Savings</button>
+      <div style="font-size:12px; color:var(--muted); text-align:center; margin-top:8px;">
+        💡 Granular savings entry ledger & history will be activated in Phase 4.
       </div>
+    </div>
 
-      <!-- Mobile Bottom Navigation Bar (< 1024px) -->
-      <nav class="fin-bottom-nav" aria-label="Mobile Navigation">
-        <button type="button" class="fin-tab-btn active" data-tab="home" id="tabBtnHome">
-          <svg class="fin-tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
-            <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
-            <polyline points="9 22 9 12 15 12 15 22"/>
-          </svg>
-          <span>Home</span>
-        </button>
-        <button type="button" class="fin-tab-btn" data-tab="history" id="tabBtnHistory">
-          <svg class="fin-tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
-            <rect width="18" height="18" x="3" y="4" rx="2" ry="2"/>
-            <line x1="16" x2="16" y1="2" y2="6"/>
-            <line x1="8" x2="8" y1="2" y2="6"/>
-            <line x1="3" x2="21" y1="10" y2="10"/>
-            <path d="m9 16 2 2 4-4"/>
-          </svg>
-          <span>History</span>
-        </button>
-        <button type="button" class="fin-tab-btn" data-tab="plan" id="tabBtnPlan">
-          <svg class="fin-tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
-            <circle cx="12" cy="12" r="10"/>
-            <circle cx="12" cy="12" r="6"/>
-            <circle cx="12" cy="12" r="2"/>
-          </svg>
-          <span>Plan</span>
-        </button>
-        <button type="button" class="fin-tab-btn" data-tab="settings" id="tabBtnSettings">
-          <svg class="fin-tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
-            <circle cx="12" cy="12" r="3"/>
-            <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/>
-          </svg>
-          <span>Settings</span>
-        </button>
-      </nav>
-    </main>
+    <div class="card">
+      <div class="card-title">Last 7 Days</div>
+      <div class="week-grid" id="weekGrid"></div>
+    </div>
+
+    <div class="card">
+      <div class="cal-header">
+        <button id="prevMonth">‹</button>
+        <span id="calMonthLabel">Month</span>
+        <button id="nextMonth">›</button>
+      </div>
+      <div class="cal-grid" id="calGrid"></div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">Goal Calculator</div>
+      <div class="field">
+        <label>Target amount (₦)</label>
+        <input type="number" id="calcGoal" placeholder="500000">
+      </div>
+      <div class="field">
+        <label>Target date</label>
+        <input type="date" id="calcDate">
+      </div>
+      <button class="btn-secondary" id="calcBtn">Calculate</button>
+      <div class="calc-result" id="calcResult" style="display:none;"></div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">Goal Settings</div>
+      <div class="field">
+        <label>Daily savings amount (₦)</label>
+        <input type="number" id="settingsDaily">
+      </div>
+      <div class="field">
+        <label>Overall target (₦)</label>
+        <input type="number" id="settingsTarget">
+      </div>
+      <div class="field">
+        <label>Target date</label>
+        <input type="date" id="settingsDate">
+      </div>
+      <button class="btn-secondary" id="saveSettingsBtn">Save Settings</button>
+    </div>
+
+    <div class="card">
+      <div class="card-title">Reminders</div>
+      <div class="mode-toggle" style="margin-bottom:12px;">
+        <button class="mode-btn active" id="remindersOnBtn">On</button>
+        <button class="mode-btn" id="remindersOffBtn">Off</button>
+      </div>
+      <div id="reminderTimesList"></div>
+      <div class="field-row" style="margin-top:4px; display:flex; gap:8px;">
+        <div class="field" style="margin-bottom:0; flex:1;">
+          <input type="time" id="newReminderTime" value="09:00">
+        </div>
+        <button class="btn-secondary" id="addReminderBtn" style="flex:0 0 auto; padding:11px 16px;">+ Add</button>
+      </div>
+      <div class="hint">Notifications fire at these times while the app is open, and stop for the day once you've logged your saving. Works best on Android Chrome — treat these as a bonus alongside phone alarms.</div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">Backup</div>
+      <div class="btn-row">
+        <button class="btn-secondary" id="exportBtn">⬇ Export Backup</button>
+        <button class="btn-secondary" id="importBtn">⬆ Import Backup</button>
+      </div>
+      <input type="file" id="importFile" accept="application/json">
+      <div class="hint">Export saves your data as a file. Keep it somewhere safe — reinstalling or clearing browser data will erase your progress unless you have a backup.</div>
+    </div>
+
+    <footer style="text-align: center; margin-top: 24px; padding-bottom: 8px; font-size: 12px; color: var(--muted); line-height: 1.6;">
+      <p>Created by <strong>Zuokemefa Oyinmiebi Peter</strong></p>
+      <p>Powered by <a href="https://github.com/nairastreak-labs" target="_blank" rel="noopener noreferrer" style="color: var(--green-dark); font-weight: 600; text-decoration: none;">NairaStreak Labs</a></p>
+    </footer>
   </div>
 </div>
 
-<div class="toast" id="toast">
-  <span id="toastMessage">Saved! Keep it up 🌱</span>
-  <button type="button" class="toast-close-btn" id="toastCloseBtn" aria-label="Close notification">×</button>
-</div>
+<div class="toast" id="toast">Saved! Keep it up 🌱</div>
 
 <script>
   // ==========================================================================
@@ -4634,43 +2882,14 @@
   const MILESTONE_KEY = 'savings500k_milestones';
   const NOTIFIED_KEY = 'savings500k_notified';
 
-  var calViewYear = new Date().getFullYear();
-  var calViewMonth = new Date().getMonth();
-
-  // Helper to ensure one consistent default deadline (1 year out from today)
-  function getDefaultEndDate() {
-    const d = new Date();
-    d.setFullYear(d.getFullYear() + 1);
-    return d.toISOString().split('T')[0];
-  }
-
   const DEFAULT_SETTINGS = {
     target: 500000,
-    endDate: getDefaultEndDate(),
-    dailyAmount: 1370,
+    endDate: '2026-12-31',
+    dailyAmount: 3676,
     darkMode: false,
     remindersOn: false,
     reminderTimes: ['09:00', '14:00', '20:00']
   };
-
-  // Single Source of Truth for Goal Data
-  function getEffectiveGoal() {
-    if (activeGoal) {
-      return {
-        name: activeGoal.name || 'My Savings Goal',
-        target: Number(activeGoal.target_amount) || 500000,
-        endDate: activeGoal.target_date || getDefaultEndDate(),
-        mode: activeGoal.contribution_mode || getMode() || 'daily'
-      };
-    }
-    const s = getSettings();
-    return {
-      name: '500K Savings Goal',
-      target: Number(s.target) || 500000,
-      endDate: s.endDate || getDefaultEndDate(),
-      mode: getMode() || 'daily'
-    };
-  }
 
   // State Getters & Setters
   function getEntries() {
@@ -4688,10 +2907,7 @@
   function saveSettings(s) { localStorage.setItem(SETTINGS_KEY, JSON.stringify(s)); }
 
   function getMode() { return localStorage.getItem(MODE_KEY) || 'daily'; }
-  function saveMode(m) {
-    localStorage.setItem(MODE_KEY, m);
-    if (activeGoal) activeGoal.contribution_mode = m;
-  }
+  function saveMode(m) { localStorage.setItem(MODE_KEY, m); }
 
   function getCelebrated() {
     try { return JSON.parse(localStorage.getItem(MILESTONE_KEY)) || []; }
@@ -4724,69 +2940,13 @@
     return '₦' + Math.round(amount).toLocaleString('en-NG');
   }
 
-  // Dismissible Toast Notifications
-  let toastTimer = null;
+  // Toast notifications
   function showToast(msg) {
     const t = document.getElementById('toast');
-    const msgEl = document.getElementById('toastMessage');
-    if (!t) return;
-    if (msgEl) msgEl.textContent = msg;
-    else t.textContent = msg;
+    t.textContent = msg;
     t.classList.add('show');
-    if (toastTimer) clearTimeout(toastTimer);
-    toastTimer = setTimeout(() => {
-      t.classList.remove('show');
-    }, 3800);
+    setTimeout(() => t.classList.remove('show'), 2600);
   }
-
-  // Dismiss button for toast
-  document.getElementById('toastCloseBtn')?.addEventListener('click', () => {
-    const t = document.getElementById('toast');
-    if (t) t.classList.remove('show');
-    if (toastTimer) clearTimeout(toastTimer);
-  });
-
-  // Tab View Switcher (Home, History, Plan, Settings)
-  function switchAppTab(tabId) {
-    const panels = {
-      home: document.getElementById('tabHome'),
-      history: document.getElementById('tabHistory'),
-      plan: document.getElementById('tabPlan'),
-      settings: document.getElementById('tabSettings')
-    };
-
-    Object.keys(panels).forEach(key => {
-      if (panels[key]) {
-        panels[key].classList.toggle('active', key === tabId);
-      }
-    });
-
-    // Update bottom nav active state
-    document.querySelectorAll('.fin-bottom-nav .fin-tab-btn').forEach(btn => {
-      btn.classList.toggle('active', btn.dataset.tab === tabId);
-    });
-
-    // Update sidebar nav active state
-    document.querySelectorAll('.fin-sidebar .fin-nav-item').forEach(btn => {
-      btn.classList.toggle('active', btn.dataset.tab === tabId);
-    });
-
-    // Re-render sub-panels if needed
-    if (tabId === 'history') {
-      renderWeekGrid(getEntries());
-      renderCalendar(getEntries());
-    } else if (tabId === 'plan') {
-      loadSettingsForm();
-    } else if (tabId === 'settings') {
-      loadSettingsForm();
-      renderReminderTimes();
-      updateSettingsProfileUI();
-    } else if (tabId === 'home') {
-      render();
-    }
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  }
-  window.switchAppTab = switchAppTab;
 
   // ==========================================================================
   // AUTHENTICATION MODAL MANAGEMENT
@@ -5188,7 +3348,6 @@
       window.scrollTo(0, 0);
     }
   }
-  window.showView = showView;
 
   // Routing Guard
   async function checkRoute() {
@@ -5248,27 +3407,86 @@
     return d.toLocaleDateString('en-NG', { day: 'numeric', month: 'short', year: 'numeric' });
   }
 
-  // Updates user profile labels in sidebar & settings tab
-  function updateSettingsProfileUI() {
-    const avatarEls = [document.getElementById('sidebarAvatar'), document.getElementById('settingsAvatar')];
-    const nameEls = [document.getElementById('sidebarUserName'), document.getElementById('settingsDisplayName')];
-    const emailEl = document.getElementById('settingsEmail');
-
-    const name = currentUser
-      ? ((currentUser.user_metadata && currentUser.user_metadata.display_name) || currentUser.email.split('@')[0])
-      : 'Streak Saver';
-    const email = currentUser ? currentUser.email : 'local@device.user';
-    const initial = (name.charAt(0) || 'S').toUpperCase();
-
-    avatarEls.forEach(el => { if (el) el.textContent = initial; });
-    nameEls.forEach(el => { if (el) el.textContent = name; });
-    if (emailEl) emailEl.textContent = email;
-  }
-
   // Renders the real goal dashboard with active goal data
   function renderActiveGoalView() {
-    render();
-    updateSettingsProfileUI();
+    if (!activeGoal) {
+      render(); // Fallback to prototype view if no goal
+      return;
+    }
+
+    // Dynamic Title & Subtitle
+    const titleEl = document.getElementById('appHeaderTitle');
+    const subEl = document.getElementById('subtitle');
+    const badgeEl = document.getElementById('dashboardPlanBadge');
+    const statusEl = document.getElementById('dashboardGoalStatus');
+    const totalTargetEl = document.getElementById('totalTarget');
+    const totalAmountEl = document.getElementById('totalAmount');
+    const remainingEl = document.getElementById('dashboardRemaining');
+    const progressFillEl = document.getElementById('progressFill');
+    const progressPctEl = document.getElementById('progressPct');
+    const daysLeftEl = document.getElementById('daysLeft');
+    const daysSavedEl = document.getElementById('daysSaved');
+    const streakEl = document.getElementById('streak');
+    const recPaceEl = document.getElementById('dashboardRecPace');
+    const deadlineValEl = document.getElementById('dashboardDeadlineVal');
+    const saveBtnEl = document.getElementById('saveBtn');
+
+    if (titleEl) titleEl.textContent = '🎯 ' + activeGoal.name;
+    if (subEl) subEl.textContent = `Target: ${NairaStreakCalc.formatNaira(activeGoal.target_amount)} by ${formatDateNice(activeGoal.target_date)}`;
+    if (badgeEl) badgeEl.textContent = activeGoal.contribution_mode === 'weekly' ? 'Weekly Plan' : 'Daily Plan';
+    if (statusEl) statusEl.textContent = (activeGoal.status || 'Active').toUpperCase();
+    if (totalTargetEl) totalTargetEl.textContent = `of ${NairaStreakCalc.formatNaira(activeGoal.target_amount)} target`;
+    if (deadlineValEl) deadlineValEl.textContent = formatDateNice(activeGoal.target_date);
+
+    const daysRemaining = NairaStreakCalc.calculateDaysRemaining(activeGoal.target_date);
+    if (daysLeftEl) daysLeftEl.textContent = daysRemaining;
+    if (daysSavedEl) daysSavedEl.textContent = '0';
+    if (streakEl) streakEl.textContent = '0';
+
+    // Amount saved is initially ₦0 (before Phase 4 entries are added)
+    const currentSaved = 0;
+    const progress = NairaStreakCalc.calculateProgress(currentSaved, activeGoal.target_amount);
+
+    if (totalAmountEl) totalAmountEl.textContent = NairaStreakCalc.formatNaira(currentSaved);
+    if (remainingEl) remainingEl.textContent = `Remaining: ${NairaStreakCalc.formatNaira(progress.remaining)}`;
+    if (progressFillEl) progressFillEl.style.width = `${progress.percent}%`;
+    if (progressPctEl) progressPctEl.textContent = `${progress.percent}%`;
+
+    const dailyRec = NairaStreakCalc.calculateDailyContribution(activeGoal.target_amount, activeGoal.target_date, currentSaved);
+    const weeklyRec = NairaStreakCalc.calculateWeeklyContribution(activeGoal.target_amount, activeGoal.target_date, currentSaved);
+
+    if (recPaceEl) {
+      recPaceEl.textContent = activeGoal.contribution_mode === 'weekly'
+        ? `${NairaStreakCalc.formatNaira(weeklyRec)} / week`
+        : `${NairaStreakCalc.formatNaira(dailyRec)} / day`;
+    }
+
+    if (saveBtnEl) {
+      saveBtnEl.textContent = activeGoal.contribution_mode === 'weekly'
+        ? `I Saved ${NairaStreakCalc.formatNaira(weeklyRec)} This Week`
+        : `I Saved ${NairaStreakCalc.formatNaira(dailyRec)} Today`;
+    }
+
+    // Sync mode button UI
+    const dailyModeBtn = document.getElementById('dailyModeBtn');
+    const weeklyModeBtn = document.getElementById('weeklyModeBtn');
+    if (dailyModeBtn && weeklyModeBtn) {
+      if (activeGoal.contribution_mode === 'weekly') {
+        dailyModeBtn.classList.remove('active');
+        weeklyModeBtn.classList.add('active');
+      } else {
+        dailyModeBtn.classList.add('active');
+        weeklyModeBtn.classList.remove('active');
+      }
+    }
+  }
+
+  // Hook save buttons in dashboard to inform user about Phase 4
+  const appSaveBtn = document.getElementById('saveBtn');
+  if (appSaveBtn) {
+    appSaveBtn.addEventListener('click', () => {
+      showToast('Savings entry logging & history will be activated in Phase 4 (Next Phase)!');
+    });
   }
 
   const newGoalNavBtn = document.getElementById('appNewGoalBtn');
@@ -5637,14 +3855,12 @@
   });
 
   // CTA Click handlers
-  // CTA Click handlers
   function handleStartStreakAction() {
-    const simGoal = document.getElementById('simGoalAmount');
-    const simDate = document.getElementById('simGoalDate');
-    if (simGoal && simDate) {
+    // Preserve simulator values into draft goal
+    if (simGoalInput && simDateInput) {
       sessionStorage.setItem('nairastreak_draft_goal', JSON.stringify({
-        targetAmount: simGoal.value,
-        targetDate: simDate.value
+        targetAmount: simGoalInput.value,
+        targetDate: simDateInput.value
       }));
     }
 
@@ -5656,10 +3872,10 @@
     }
   }
 
-  document.getElementById('heroStartBtn')?.addEventListener('click', handleStartStreakAction);
-  document.getElementById('finalStartBtn')?.addEventListener('click', handleStartStreakAction);
-  document.getElementById('mobileStickyBtn')?.addEventListener('click', handleStartStreakAction);
-  document.getElementById('openStoryBtn')?.addEventListener('click', () => { window.location.hash = '#landing'; });
+  document.getElementById('heroStartBtn').addEventListener('click', handleStartStreakAction);
+  document.getElementById('finalStartBtn').addEventListener('click', handleStartStreakAction);
+  document.getElementById('mobileStickyBtn').addEventListener('click', handleStartStreakAction);
+  document.getElementById('openStoryBtn').addEventListener('click', () => { window.location.hash = '#landing'; });
 
   // Theme Management
   function applyTheme() {
@@ -5674,8 +3890,6 @@
     if (landingDarkPublic) landingDarkPublic.textContent = icon;
     const landingDarkAuth = document.getElementById('landingDarkToggleAuth');
     if (landingDarkAuth) landingDarkAuth.textContent = icon;
-    const headerDark = document.getElementById('headerDarkToggle');
-    if (headerDark) headerDark.textContent = icon;
   }
 
   function toggleDarkMode() {
@@ -5684,7 +3898,7 @@
     saveSettings(s);
     applyTheme();
   }
-  document.getElementById('darkToggle')?.addEventListener('click', toggleDarkMode);
+  document.getElementById('darkToggle').addEventListener('click', toggleDarkMode);
 
   // ==========================================================================
   // SCROLLYTELLING LOGIC & PROGRESS OBSERVER
@@ -5815,7 +4029,7 @@
     });
   });
 
-  document.getElementById('simApplyBtn')?.addEventListener('click', () => {
+  document.getElementById('simApplyBtn').addEventListener('click', () => {
     const targetAmt = parseFloat(simGoalInput.value) || 500000;
     const targetDate = simDateInput.value || '2026-12-31';
 
@@ -5928,240 +4142,61 @@
     }
   }
 
+  let calViewYear = new Date().getFullYear();
+  let calViewMonth = new Date().getMonth();
+
   function render() {
-    const goal = getEffectiveGoal();
+    const settings = getSettings();
     const entries = getEntries();
     const mode = getMode();
 
-    // Single source of truth updates
-    const titleEl = document.getElementById('appHeaderTitle');
-    const subEl = document.getElementById('appHeaderSubtitle');
-    const badgeEl = document.getElementById('dashboardPlanBadge');
-    
-    if (titleEl) titleEl.textContent = goal.name;
-    if (subEl) subEl.textContent = `Target ${formatNaira(goal.target)} by ${formatDateNice(goal.endDate)}`;
-    if (badgeEl) badgeEl.textContent = mode === 'weekly' ? 'Weekly Plan' : 'Daily Plan';
+    document.getElementById('appHeaderTitle').textContent = `💰 ${settings.target >= 1000000 ? formatNaira(settings.target) : '500K'} Challenge`;
+    document.getElementById('subtitle').textContent = `Saving ${formatNaira(settings.target)} by ${settings.endDate}`;
 
-    const dailyModeBtn = document.getElementById('dailyModeBtn');
-    const weeklyModeBtn = document.getElementById('weeklyModeBtn');
-    if (dailyModeBtn) dailyModeBtn.classList.toggle('active', mode === 'daily');
-    if (weeklyModeBtn) weeklyModeBtn.classList.toggle('active', mode === 'weekly');
+    document.getElementById('dailyModeBtn').classList.toggle('active', mode === 'daily');
+    document.getElementById('weeklyModeBtn').classList.toggle('active', mode === 'weekly');
 
     const total = entries.reduce((sum, e) => sum + e.amount, 0);
-    const target = goal.target;
-    const remaining = Math.max(0, target - total);
+    const target = settings.target;
     const pct = Math.min(100, Math.round((total / target) * 100));
 
-    const totalAmountEl = document.getElementById('totalAmount');
-    const totalTargetEl = document.getElementById('totalTarget');
-    const dashboardRemainingEl = document.getElementById('dashboardRemaining');
-    const progressFillEl = document.getElementById('progressFill');
-    const progressPctLabel = document.getElementById('progressPctLabel');
-    const progressTargetLabel = document.getElementById('progressTargetLabel');
-    const daysLeftTopLabel = document.getElementById('daysLeftTopLabel');
+    document.getElementById('totalAmount').textContent = formatNaira(total);
+    document.getElementById('totalTarget').textContent = `of ${formatNaira(target)} target`;
+    document.getElementById('progressFill').style.width = pct + '%';
+    document.getElementById('progressPct').textContent = pct + '%';
 
-    if (totalAmountEl) totalAmountEl.textContent = formatNaira(total);
-    if (totalTargetEl) totalTargetEl.textContent = `of ${formatNaira(target)} target`;
-    if (dashboardRemainingEl) dashboardRemainingEl.textContent = `${formatNaira(remaining)} remaining`;
-    if (progressFillEl) progressFillEl.style.width = Math.min(100, Math.max(pct, 2)) + '%';
-    if (progressPctLabel) progressPctLabel.textContent = `${pct}% complete`;
-    if (progressTargetLabel) progressTargetLabel.textContent = formatNaira(target);
+    const end = new Date(settings.endDate);
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    end.setHours(0, 0, 0, 0);
 
-    // Days & Weeks remaining
-    const diffDays = Math.max(1, NairaStreakCalc.calculateDaysRemaining(goal.endDate));
-    const diffWeeks = Math.max(1, Math.ceil(diffDays / 7));
-
-    if (daysLeftTopLabel) daysLeftTopLabel.textContent = `${diffDays} days left`;
+    const diffDays = Math.max(0, Math.ceil((end - today) / (1000 * 60 * 60 * 24)));
+    const diffWeeks = Math.max(0, Math.ceil(diffDays / 7));
 
     const daysSavedCount = entries.filter(e => e.type === 'daily').length;
     const weeksSavedCount = entries.filter(e => e.type === 'weekly').length;
 
-    const daysSavedEl = document.getElementById('daysSaved');
-    const daysSavedLabelEl = document.getElementById('daysSavedLabel');
-    const daysLeftEl = document.getElementById('daysLeft');
-    const daysLeftLabelEl = document.getElementById('daysLeftLabel');
-
     if (mode === 'daily') {
-      if (daysSavedEl) daysSavedEl.textContent = daysSavedCount;
-      if (daysSavedLabelEl) daysSavedLabelEl.textContent = 'Days saved';
-      if (daysLeftEl) daysLeftEl.textContent = diffDays;
-      if (daysLeftLabelEl) daysLeftLabelEl.textContent = 'Days left';
+      document.getElementById('daysSaved').textContent = daysSavedCount;
+      document.getElementById('daysSavedLabel').textContent = 'Days Saved';
+      document.getElementById('daysLeft').textContent = diffDays;
+      document.getElementById('daysLeftLabel').textContent = 'Days Left';
     } else {
-      if (daysSavedEl) daysSavedEl.textContent = weeksSavedCount;
-      if (daysSavedLabelEl) daysSavedLabelEl.textContent = 'Weeks saved';
-      if (daysLeftEl) daysLeftEl.textContent = diffWeeks;
-      if (daysLeftLabelEl) daysLeftLabelEl.textContent = 'Weeks left';
+      document.getElementById('daysSaved').textContent = weeksSavedCount;
+      document.getElementById('daysSavedLabel').textContent = 'Weeks Saved';
+      document.getElementById('daysLeft').textContent = diffWeeks;
+      document.getElementById('daysLeftLabel').textContent = 'Weeks Left';
     }
 
     const streak = calculateStreak(entries, mode);
-    const streakEl = document.getElementById('streak');
-    const topbarStreakVal = document.getElementById('topbarStreakVal');
-    if (streakEl) streakEl.textContent = streak;
-    if (topbarStreakVal) topbarStreakVal.textContent = `${streak} Day Streak`;
+    document.getElementById('streak').textContent = streak + (streak === 1 ? ' day' : ' days');
 
-    // Derived Consistency Pace
-    const dailyPace = Math.round(NairaStreakCalc.calculateDailyContribution(target, goal.endDate, total));
-    const weeklyPace = Math.round(NairaStreakCalc.calculateWeeklyContribution(target, goal.endDate, total));
-
-    const recPaceEl = document.getElementById('dashboardRecPace');
-    const deadlineValEl = document.getElementById('dashboardDeadlineVal');
-    if (recPaceEl) {
-      recPaceEl.textContent = mode === 'weekly'
-        ? `${formatNaira(weeklyPace)} / week`
-        : `${formatNaira(dailyPace)} / day`;
-    }
-    if (deadlineValEl) deadlineValEl.textContent = formatDateNice(goal.endDate);
-
-    // Desktop Companion Pace Card
-    const desktopTargetVal = document.getElementById('desktopTargetVal');
-    const desktopDateVal = document.getElementById('desktopDateVal');
-    const desktopPaceVal = document.getElementById('desktopPaceVal');
-    const desktopRemainingVal = document.getElementById('desktopRemainingVal');
-    if (desktopTargetVal) desktopTargetVal.textContent = formatNaira(target);
-    if (desktopDateVal) desktopDateVal.textContent = formatDateNice(goal.endDate);
-    if (desktopPaceVal) {
-      desktopPaceVal.textContent = mode === 'weekly'
-        ? `${formatNaira(weeklyPace)} / wk`
-        : formatNaira(dailyPace);
-    }
-    if (desktopRemainingVal) desktopRemainingVal.textContent = formatNaira(remaining);
-
-    // Desktop Middle Stat Cards (Span 4 each)
-    const desktopDaysSavedVal = document.getElementById('desktopDaysSavedVal');
-    const desktopDaysLeftVal = document.getElementById('desktopDaysLeftVal');
-    const desktopStreakVal = document.getElementById('desktopStreakVal');
-    if (desktopDaysSavedVal) desktopDaysSavedVal.textContent = daysSavedCount;
-    if (desktopDaysLeftVal) desktopDaysLeftVal.textContent = diffDays;
-    if (desktopStreakVal) desktopStreakVal.textContent = streak;
-
-    // Home "Last 7 days" Pace Label
-    const homePaceLabel = document.getElementById('homePaceLabel');
-    if (homePaceLabel) {
-      homePaceLabel.textContent = mode === 'weekly'
-        ? `Pace ${formatNaira(weeklyPace)} / wk`
-        : `Pace ${formatNaira(dailyPace)} / day`;
-    }
-
-    // Ledger card empty state vs list (History tab)
-    const ledgerEmptyState = document.getElementById('ledgerEmptyState');
-    const ledgerList = document.getElementById('ledgerList');
-    if (entries.length === 0) {
-      if (ledgerEmptyState) ledgerEmptyState.classList.remove('hidden');
-      if (ledgerList) ledgerList.classList.add('hidden');
-    } else {
-      if (ledgerEmptyState) ledgerEmptyState.classList.add('hidden');
-      if (ledgerList) {
-        ledgerList.classList.remove('hidden');
-        renderLedgerList(entries);
-      }
-    }
-
-    renderSaveButton(entries, mode, dailyPace, weeklyPace);
-    renderHomeCircleGrid(entries);
-    renderHomeRecentActivity(entries);
+    renderProjection(entries, total, target, end, today, mode, settings);
+    renderSaveButton(entries, mode, settings);
     renderWeekGrid(entries);
     renderCalendar(entries);
 
     checkMilestones(total, target);
-  }
-
-  function renderHomeCircleGrid(entries) {
-    const container = document.getElementById('homeCircleWeekGrid');
-    if (!container) return;
-    container.innerHTML = '';
-
-    const today = new Date();
-    today.setHours(0, 0, 0, 0);
-    const dayNames = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
-    const savedDates = new Set(entries.filter(e => e.type === 'daily').map(e => e.date));
-
-    // Render 7 days: 6 days ago up to today
-    for (let i = 6; i >= 0; i--) {
-      const d = new Date(today);
-      d.setDate(d.getDate() - i);
-      const dateStr = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
-      const isToday = (i === 0);
-      const isSaved = savedDates.has(dateStr);
-
-      const item = document.createElement('div');
-      item.className = 'fin-day-circle-item' + (isToday ? ' today' : '');
-
-      let badgeClass = 'fin-circle-badge';
-      let badgeContent = '';
-
-      if (isSaved) {
-        badgeClass += ' saved';
-        badgeContent = `
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
-            <polyline points="20 6 9 17 4 12"/>
-          </svg>
-        `;
-      } else if (isToday) {
-        badgeClass += ' today-dashed';
-      }
-
-      const labelText = isToday ? 'Today' : `${dayNames[d.getDay()]} ${d.getDate()}`;
-
-      item.innerHTML = `
-        <div class="${badgeClass}">${badgeContent}</div>
-        <span class="tabular">${labelText}</span>
-      `;
-      container.appendChild(item);
-    }
-  }
-
-  function renderHomeRecentActivity(entries) {
-    const container = document.getElementById('homeRecentActivityList');
-    if (!container) return;
-
-    if (entries.length === 0) {
-      container.innerHTML = `
-        <div style="text-align: center; padding: 18px 0; color: var(--muted); font-size: 13px;">
-          No savings recorded yet. Tap below to log today!
-        </div>
-      `;
-      return;
-    }
-
-    const sorted = [...entries].sort((a, b) => b.id - a.id);
-    const recent = sorted.slice(0, 4);
-
-    container.innerHTML = recent.map(e => {
-      const d = new Date(e.date);
-      const dateFormatted = isNaN(d.getTime()) ? e.date : d.toLocaleDateString('en-NG', { weekday: 'short', day: 'numeric', month: 'short' });
-      const typeLabel = e.type === 'weekly' ? 'Weekly saving' : 'Daily saving';
-      return `
-        <div class="fin-activity-item">
-          <div class="fin-activity-left">
-            <div class="fin-activity-check">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
-                <polyline points="20 6 9 17 4 12"/>
-              </svg>
-            </div>
-            <div class="fin-activity-details">
-              <span class="fin-activity-title">${typeLabel}</span>
-              <span class="fin-activity-date">${dateFormatted}</span>
-            </div>
-          </div>
-          <div class="fin-activity-amount tabular">+${formatNaira(e.amount)}</div>
-        </div>
-      `;
-    }).join('');
-  }
-
-  function renderLedgerList(entries) {
-    const list = document.getElementById('ledgerList');
-    if (!list) return;
-    const sorted = [...entries].sort((a, b) => b.id - a.id);
-    list.innerHTML = sorted.slice(0, 15).map(e => `
-      <div class="fin-ledger-item">
-        <div class="fin-ledger-left">
-          <span class="fin-ledger-type">${e.type === 'weekly' ? 'Weekly Deposit' : 'Daily Deposit'}</span>
-          <span class="fin-ledger-date">${formatDateNice(e.date)}</span>
-        </div>
-        <div class="fin-ledger-amount tabular">+${formatNaira(e.amount)}</div>
-      </div>
-    `).join('');
   }
 
   function calculateStreak(entries, mode) {
@@ -6212,63 +4247,84 @@
     return streak;
   }
 
-  function renderSaveButton(entries, mode, dailyPace, weeklyPace) {
+  function renderProjection(entries, total, target, end, today, mode, settings) {
+    const el = document.getElementById('projection');
+    if (total >= target) {
+      el.textContent = '🎉 Goal reached! Amazing work!';
+      return;
+    }
+    if (entries.length < 2) {
+      const dailyReq = diffDaysRemaining(end, today) > 0 ? (target - total) / diffDaysRemaining(end, today) : 0;
+      el.textContent = `Target pace: ${formatNaira(mode === 'daily' ? settings.dailyAmount : settings.dailyAmount * 7)} per ${mode === 'daily' ? 'day' : 'week'}.`;
+      return;
+    }
+
+    const sorted = [...entries].sort((a, b) => new Date(a.date) - new Date(b.date));
+    const firstDate = new Date(sorted[0].date);
+    const daysElapsed = Math.max(1, Math.ceil((today - firstDate) / (1000 * 60 * 60 * 24)));
+    const dailyRate = total / daysElapsed;
+    const daysNeeded = Math.ceil((target - total) / dailyRate);
+    const projectedDate = new Date(today.getTime() + daysNeeded * 24 * 60 * 60 * 1000);
+
+    const projectedStr = projectedDate.toLocaleDateString('en-NG', { month: 'short', day: 'numeric', year: 'numeric' });
+    const diffDays = Math.ceil((projectedDate - end) / (1000 * 60 * 60 * 24));
+
+    if (diffDays <= 0) {
+      el.textContent = `📈 At your current pace, you'll finish around ${projectedStr} — ahead of schedule!`;
+    } else {
+      el.textContent = `📈 At your current pace, you'll finish around ${projectedStr} (${diffDays} days behind target).`;
+    }
+  }
+
+  function diffDaysRemaining(end, today) {
+    return Math.max(1, Math.ceil((end - today) / (1000 * 60 * 60 * 24)));
+  }
+
+  function renderSaveButton(entries, mode, settings) {
     const saveBtn = document.getElementById('saveBtn');
-    const saveBtnText = document.getElementById('saveBtnText');
-    const topbarSaveBtn = document.getElementById('topbarSaveBtn');
+    const undoBtn = document.getElementById('undoBtn');
     const today = todayStr();
     const thisWeek = weekStartStr();
     const entry = mode === 'daily'
       ? entries.find(e => e.type === 'daily' && e.date === today)
       : entries.find(e => e.type === 'weekly' && e.date === thisWeek);
 
-    const amount = mode === 'weekly' ? weeklyPace : dailyPace;
+    const amount = mode === 'daily' ? settings.dailyAmount : settings.dailyAmount * 7;
 
     if (entry) {
-      if (saveBtn) saveBtn.disabled = true;
-      if (topbarSaveBtn) topbarSaveBtn.disabled = true;
-      const text = `Saved ${formatNaira(entry.amount)} ${mode === 'daily' ? 'today' : 'this week'} ✓`;
-      if (saveBtnText) saveBtnText.textContent = text;
-      else if (saveBtn) saveBtn.textContent = text;
-      if (topbarSaveBtn) topbarSaveBtn.innerHTML = `<span>✓ ${text}</span>`;
+      saveBtn.disabled = true;
+      saveBtn.textContent = `✅ Saved ${formatNaira(entry.amount)} ${mode === 'daily' ? 'Today' : 'This Week'}`;
+      undoBtn.style.display = 'inline-block';
     } else {
-      if (saveBtn) saveBtn.disabled = false;
-      if (topbarSaveBtn) topbarSaveBtn.disabled = false;
-      const text = `I saved ${formatNaira(amount)} ${mode === 'daily' ? 'today' : 'this week'}`;
-      if (saveBtnText) saveBtnText.textContent = text;
-      else if (saveBtn) saveBtn.textContent = text;
-      if (topbarSaveBtn) topbarSaveBtn.innerHTML = `<span>✓ ${text}</span>`;
+      saveBtn.disabled = false;
+      saveBtn.textContent = `I Saved ${formatNaira(amount)} ${mode === 'daily' ? 'Today' : 'This Week'}`;
+      undoBtn.style.display = 'none';
     }
   }
 
   function renderWeekGrid(entries) {
     const grid = document.getElementById('weekGrid');
-    const desktopGrid = document.getElementById('desktopWeekGrid');
-    const targets = [grid, desktopGrid].filter(Boolean);
-    if (targets.length === 0) return;
-
+    grid.innerHTML = '';
     const today = new Date();
     today.setHours(0, 0, 0, 0);
     const days = ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'];
+
     const dates = new Map(entries.filter(e => e.type === 'daily').map(e => [e.date, e.amount]));
 
-    targets.forEach(targetEl => {
-      targetEl.innerHTML = '';
-      for (let i = 6; i >= 0; i--) {
-        const d = new Date(today);
-        d.setDate(d.getDate() - i);
-        const str = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
-        const saved = dates.has(str);
+    for (let i = 6; i >= 0; i--) {
+      const d = new Date(today);
+      d.setDate(d.getDate() - i);
+      const str = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+      const saved = dates.has(str);
 
-        const cell = document.createElement('div');
-        cell.className = 'week-day' + (saved ? ' saved' : '') + (i === 0 ? ' today' : '');
-        cell.innerHTML = `
-          <span class="d-name">${days[d.getDay()]}</span>
-          <span>${saved ? '✓' : d.getDate()}</span>
-        `;
-        targetEl.appendChild(cell);
-      }
-    });
+      const cell = document.createElement('div');
+      cell.className = 'week-day' + (saved ? ' saved' : '') + (i === 0 ? ' today' : '');
+      cell.innerHTML = `
+        <span class="d-name">${days[d.getDay()]}</span>
+        <span>${saved ? '✓' : d.getDate()}</span>
+      `;
+      grid.appendChild(cell);
+    }
   }
 
   function renderCalendar(entries) {
@@ -6304,31 +4360,21 @@
   }
 
   // Dashboard Interaction Events
-  document.getElementById('dailyModeBtn')?.addEventListener('click', () => { saveMode('daily'); render(); });
-  document.getElementById('weeklyModeBtn')?.addEventListener('click', () => { saveMode('weekly'); render(); });
+  document.getElementById('dailyModeBtn').addEventListener('click', () => { saveMode('daily'); render(); });
+  document.getElementById('weeklyModeBtn').addEventListener('click', () => { saveMode('weekly'); render(); });
 
-  function handleRecordDeposit() {
+  document.getElementById('saveBtn').addEventListener('click', () => {
     const mode = getMode();
-    const goal = getEffectiveGoal();
+    const settings = getSettings();
     const entries = getEntries();
-    const total = entries.reduce((sum, e) => sum + e.amount, 0);
-    const amount = mode === 'weekly'
-      ? Math.round(NairaStreakCalc.calculateWeeklyContribution(goal.target, goal.endDate, total))
-      : Math.round(NairaStreakCalc.calculateDailyContribution(goal.target, goal.endDate, total));
+    const amount = mode === 'daily' ? settings.dailyAmount : settings.dailyAmount * 7;
     const date = mode === 'daily' ? todayStr() : weekStartStr();
 
     entries.push({ id: Date.now(), date, amount, type: mode });
     saveEntries(entries);
     showToast(`Saved ${formatNaira(amount)}! Keep it up 🌱`);
     render();
-  }
-
-  document.getElementById('saveBtn')?.addEventListener('click', handleRecordDeposit);
-  document.getElementById('topbarSaveBtn')?.addEventListener('click', handleRecordDeposit);
-  document.getElementById('homeViewAllActivityBtn')?.addEventListener('click', () => {
-    switchAppTab('history');
   });
-  document.getElementById('headerDarkToggle')?.addEventListener('click', toggleDarkMode);
 
   document.getElementById('undoBtn')?.addEventListener('click', () => {
     const mode = getMode();
@@ -6366,19 +4412,19 @@
     render();
   });
 
-  document.getElementById('prevMonth')?.addEventListener('click', () => {
+  document.getElementById('prevMonth').addEventListener('click', () => {
     calViewMonth--;
     if (calViewMonth < 0) { calViewMonth = 11; calViewYear--; }
     render();
   });
-  document.getElementById('nextMonth')?.addEventListener('click', () => {
+  document.getElementById('nextMonth').addEventListener('click', () => {
     calViewMonth++;
     if (calViewMonth > 11) { calViewMonth = 0; calViewYear++; }
     render();
   });
 
   // Goal Calculator Card
-  document.getElementById('calcBtn')?.addEventListener('click', () => {
+  document.getElementById('calcBtn').addEventListener('click', () => {
     const goal = parseFloat(document.getElementById('calcGoal').value);
     const dateStr = document.getElementById('calcDate').value;
     const res = document.getElementById('calcResult');
@@ -6411,90 +4457,27 @@
     `;
   });
 
-  // Settings Card (Single Source of Truth)
+  // Settings Card
   function loadSettingsForm() {
-    const goal = getEffectiveGoal();
-    const targetInput = document.getElementById('settingsTarget');
-    const dateInput = document.getElementById('settingsDate');
-    const dailyInput = document.getElementById('settingsDaily');
-
-    if (targetInput) targetInput.value = goal.target;
-    if (dateInput) dateInput.value = goal.endDate;
-
-    const entries = getEntries();
-    const total = entries.reduce((sum, e) => sum + e.amount, 0);
-    const dailyPace = NairaStreakCalc.calculateDailyContribution(goal.target, goal.endDate, total);
-    if (dailyInput) dailyInput.value = Math.round(dailyPace);
-
     const s = getSettings();
-    const remindersOnBtn = document.getElementById('remindersOnBtn');
-    const remindersOffBtn = document.getElementById('remindersOffBtn');
-    if (remindersOnBtn) remindersOnBtn.classList.toggle('active', s.remindersOn);
-    if (remindersOffBtn) remindersOffBtn.classList.toggle('active', !s.remindersOn);
+    document.getElementById('settingsDaily').value = s.dailyAmount;
+    document.getElementById('settingsTarget').value = s.target;
+    document.getElementById('settingsDate').value = s.endDate;
+    document.getElementById('remindersOnBtn').classList.toggle('active', s.remindersOn);
+    document.getElementById('remindersOffBtn').classList.toggle('active', !s.remindersOn);
   }
 
-  document.getElementById('settingsTarget')?.addEventListener('input', () => {
-    const target = parseFloat(document.getElementById('settingsTarget').value) || 0;
-    const date = document.getElementById('settingsDate').value;
-    const entries = getEntries();
-    const total = entries.reduce((sum, e) => sum + e.amount, 0);
-    const daily = NairaStreakCalc.calculateDailyContribution(target, date, total);
-    const dailyInput = document.getElementById('settingsDaily');
-    if (dailyInput) dailyInput.value = Math.round(daily);
-  });
-
-  document.getElementById('settingsDate')?.addEventListener('change', () => {
-    const target = parseFloat(document.getElementById('settingsTarget').value) || 0;
-    const date = document.getElementById('settingsDate').value;
-    const entries = getEntries();
-    const total = entries.reduce((sum, e) => sum + e.amount, 0);
-    const daily = NairaStreakCalc.calculateDailyContribution(target, date, total);
-    const dailyInput = document.getElementById('settingsDaily');
-    if (dailyInput) dailyInput.value = Math.round(daily);
-  });
-
-  document.getElementById('saveSettingsBtn')?.addEventListener('click', async () => {
-    const targetVal = parseFloat(document.getElementById('settingsTarget').value);
-    const dateVal = document.getElementById('settingsDate').value;
-
-    if (!targetVal || targetVal <= 0) {
-      showToast('Enter a valid target amount');
-      return;
-    }
-    if (!dateVal) {
-      showToast('Select a target deadline');
-      return;
-    }
-
+  document.getElementById('saveSettingsBtn').addEventListener('click', () => {
     const s = getSettings();
-    s.target = targetVal;
-    s.endDate = dateVal;
-    const entries = getEntries();
-    const total = entries.reduce((sum, e) => sum + e.amount, 0);
-    s.dailyAmount = Math.round(NairaStreakCalc.calculateDailyContribution(targetVal, dateVal, total));
+    s.dailyAmount = parseFloat(document.getElementById('settingsDaily').value) || s.dailyAmount;
+    s.target = parseFloat(document.getElementById('settingsTarget').value) || s.target;
+    s.endDate = document.getElementById('settingsDate').value || s.endDate;
     saveSettings(s);
-
-    if (activeGoal) {
-      activeGoal.target_amount = targetVal;
-      activeGoal.target_date = dateVal;
-      if (supabaseClient && currentUser) {
-        try {
-          await supabaseClient
-            .from('goals')
-            .update({ target_amount: targetVal, target_date: dateVal })
-            .eq('id', activeGoal.id);
-        } catch (e) {
-          console.warn('Could not sync goal to cloud:', e);
-        }
-      }
-    }
-
-    showToast('Goal parameters updated ✅');
-    loadSettingsForm();
+    showToast('Settings saved');
     render();
   });
 
-  document.getElementById('remindersOnBtn')?.addEventListener('click', async () => {
+  document.getElementById('remindersOnBtn').addEventListener('click', async () => {
     if ('Notification' in window && Notification.permission !== 'granted') {
       const res = await Notification.requestPermission();
       if (res !== 'granted') {
@@ -6509,7 +4492,7 @@
     showToast('Reminders enabled');
   });
 
-  document.getElementById('remindersOffBtn')?.addEventListener('click', () => {
+  document.getElementById('remindersOffBtn').addEventListener('click', () => {
     const s = getSettings();
     s.remindersOn = false;
     saveSettings(s);
@@ -6517,8 +4500,8 @@
     showToast('Reminders disabled');
   });
 
-  document.getElementById('addReminderBtn')?.addEventListener('click', () => {
-    const time = document.getElementById('newReminderTime')?.value;
+  document.getElementById('addReminderBtn').addEventListener('click', () => {
+    const time = document.getElementById('newReminderTime').value;
     if (!time) return;
     const s = getSettings();
     if (!s.reminderTimes.includes(time)) {
@@ -6530,7 +4513,7 @@
   });
 
   // Backup Export/Import
-  document.getElementById('exportBtn')?.addEventListener('click', () => {
+  document.getElementById('exportBtn').addEventListener('click', () => {
     const data = {
       entries: getEntries(),
       settings: getSettings(),
@@ -6549,10 +4532,10 @@
     showToast('Backup downloaded');
   });
 
-  document.getElementById('importBtn')?.addEventListener('click', () => {
-    document.getElementById('importFile')?.click();
+  document.getElementById('importBtn').addEventListener('click', () => {
+    document.getElementById('importFile').click();
   });
-  document.getElementById('importFile')?.addEventListener('change', (e) => {
+  document.getElementById('importFile').addEventListener('change', (e) => {
     const file = e.target.files[0];
     if (!file) return;
     const reader = new FileReader();
@@ -6579,20 +4562,17 @@
   window.addEventListener('beforeinstallprompt', (e) => {
     e.preventDefault();
     deferredPrompt = e;
-    const card = document.getElementById('installCard');
-    if (card) card.style.display = 'block';
+    document.getElementById('installCard').style.display = 'block';
   });
-  document.getElementById('installBtn')?.addEventListener('click', async () => {
+  document.getElementById('installBtn').addEventListener('click', async () => {
     if (!deferredPrompt) return;
     deferredPrompt.prompt();
     await deferredPrompt.userChoice;
     deferredPrompt = null;
-    const card = document.getElementById('installCard');
-    if (card) card.style.display = 'none';
+    document.getElementById('installCard').style.display = 'none';
   });
   window.addEventListener('appinstalled', () => {
-    const card = document.getElementById('installCard');
-    if (card) card.style.display = 'none';
+    document.getElementById('installCard').style.display = 'none';
   });
 
   if ('serviceWorker' in navigator) {
@@ -6633,35 +4613,6 @@
     updateAuthUI();
     await checkRoute();
   }
-
-  // Wire up navigation clicks for both sidebar and mobile bottom nav
-  document.querySelectorAll('[data-tab]').forEach(btn => {
-    btn.addEventListener('click', (e) => {
-      e.preventDefault();
-      const tab = btn.dataset.tab;
-      if (tab) switchAppTab(tab);
-    });
-  });
-
-  // Jump from Home companion card to History
-  document.getElementById('jumpToHistoryBtn')?.addEventListener('click', () => {
-    switchAppTab('history');
-  });
-
-  // Ledger Empty State button jump to Home
-  document.getElementById('ledgerStartBtn')?.addEventListener('click', () => {
-    switchAppTab('home');
-  });
-
-  // Settings New Goal Button
-  document.getElementById('settingsNewGoalBtn')?.addEventListener('click', () => {
-    window.location.hash = '#onboarding';
-  });
-
-  // Dark Mode toggles in app
-  document.getElementById('appDarkToggle')?.addEventListener('click', toggleDarkMode);
-  document.getElementById('mobileDarkToggle')?.addEventListener('click', toggleDarkMode);
-  document.getElementById('sidebarLogoutBtn')?.addEventListener('click', handleSignOut);
 
   // App Initialization
   applyTheme();

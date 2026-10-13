@@ -51,6 +51,21 @@ This test sequence must pass unconditionally before any code is tagged for relea
 
 ---
 
+## 2.1 Authentication UI & Modal Presentation Matrix
+
+| Test ID | Test Scenario | Execution Step | Expected Result |
+| :--- | :--- | :--- | :--- |
+| **TC-AUTH-01** | Initial Page Load | Visitor opens root URL (`/`). | Auth modal is completely hidden (`display: none`); landing page visible; zero auth backdrop. |
+| **TC-AUTH-02** | View Exclusivity — Sign Up | Click "Start Your First Streak". | Modal opens; ONLY Signup view is visible (`visibleCount: 1`); `aria-labelledby="authHeadingSignup"`; `#signupName` focused; empty error box hidden. |
+| **TC-AUTH-03** | View Exclusivity — Sign In | Click "Sign In" link in modal or nav. | ONLY Signin view is visible; `aria-labelledby="authHeadingSignin"`; `#signinEmail` focused; previous errors cleared. |
+| **TC-AUTH-04** | View Exclusivity — Forgot Password | Click "Forgot password?" from Signin. | ONLY Forgot view is visible; `aria-labelledby="authHeadingForgot"`; `#forgotEmail` focused; errors cleared. |
+| **TC-AUTH-05** | View Exclusivity — Recovery | Trigger via verified recovery event. | ONLY Recovery view is visible; `aria-labelledby="authHeadingRecovery"`; `#recoveryPassword` focused. |
+| **TC-AUTH-06** | Accidental #recovery Guard | Visitor enters `/#recovery` directly. | Modal does not open recovery view; redirects to landing; toast notifies user. |
+| **TC-AUTH-07** | Error Box Visibility | Submit form with missing/invalid inputs. | Only relevant error alert displays; empty error boxes never visible; cleared on view switch or modal close. |
+| **TC-AUTH-08** | Escape & Opener Focus | Press `Escape` key inside modal. | Modal closes cleanly; focus restored to the button that opened the modal. |
+
+---
+
 ## 3. Negative & Edge Case Validation Matrix
 
 | Test ID | Category | Input / Trigger | Expected Behavior |

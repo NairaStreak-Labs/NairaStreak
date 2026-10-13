@@ -7,6 +7,24 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [0.3.1] — 2026-10-13 (Auth Modal Presentation Regression Fix)
+
+### Fixed
+- **Authentication Modal Initial Display**:
+  - Defined universal `.hidden { display: none !important; }` utility in CSS, fixing regression where `#authModal` was improperly rendered on initial landing page load.
+  - Ensured auth views (`#authSignupView`, `#authSigninView`, `#authForgotView`, `#authRecoveryView`) are strictly mutually exclusive (exactly 1 view visible at a time).
+  - Fixed empty red alert boxes by ensuring `.auth-error-msg.hidden` is hidden, with added defensive `.auth-error-msg:empty { display: none !important; }`.
+- **Accessible Modal Naming & Focus Management**:
+  - Dynamically updated `aria-labelledby` on `#authModal` to point to the active view's heading (`authHeadingSignup`, `authHeadingSignin`, `authHeadingForgot`, `authHeadingRecovery`).
+  - Added autofocus on the first actionable input upon view switch (`#signupName`, `#signinEmail`, `#forgotEmail`, `#recoveryPassword`).
+  - Implemented keyboard focus trapping (Tab / Shift+Tab) within the active modal and focus restoration to opener element upon modal close.
+- **Password Recovery Route Guard**:
+  - Guarded `#recovery` routing so the Set New Password view is only accessible during a genuine recovery flow (`PASSWORD_RECOVERY` event or `type=recovery` URL tokens).
+- **Service Worker Cache**:
+  - Bumped cache to `nairastreak-auth-v4` in `sw.js`.
+
+---
+
 ## [0.3.0] — 2026-10-13 (First-Time Onboarding & Goal Creation)
 
 ### Added

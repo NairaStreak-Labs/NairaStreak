@@ -1,4 +1,4 @@
-const CACHE_NAME = 'nairastreak-auth-v3';
+const CACHE_NAME = 'nairastreak-auth-v4';
 const ASSETS = [
   './',
   './index.html',

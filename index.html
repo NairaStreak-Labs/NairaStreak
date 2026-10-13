@@ -60,7 +60,8 @@
     overflow-x: hidden;
   }
 
-  /* View container management */
+  /* Visibility & View container management */
+  .hidden { display: none !important; }
   .view-container { width: 100%; }
   .view-container.hidden { display: none !important; }
 
@@ -941,6 +942,9 @@
     background: #451a1a;
     color: #fca5a5;
     border-color: #7f1d1d;
+  }
+  .auth-error-msg:empty {
+    display: none !important;
   }
   .auth-footer-switch {
     text-align: center;
@@ -1861,7 +1865,7 @@
 <!-- ==========================================================================
      AUTHENTICATION MODAL
      ========================================================================== -->
-<div id="authModal" class="auth-modal-overlay hidden" role="dialog" aria-modal="true" aria-labelledby="authModalHeading">
+<div id="authModal" class="auth-modal-overlay hidden" role="dialog" aria-modal="true" aria-labelledby="authHeadingSignup">
   <div class="auth-modal-card">
     <button class="auth-modal-close" id="authModalClose" aria-label="Close authentication modal">×</button>
 
@@ -1869,7 +1873,7 @@
     <div id="authSignupView">
       <div class="auth-header">
         <div class="landing-logo-mark" style="margin: 0 auto 12px;">🌱</div>
-        <h3 id="authModalHeading" class="auth-title">Create your account</h3>
+        <h3 id="authHeadingSignup" class="auth-title">Create your account</h3>
         <p class="auth-subtitle">Start building your unbroken savings streak today.</p>
       </div>
       <form id="signupForm" novalidate>
@@ -1898,7 +1902,7 @@
     <div id="authSigninView" class="hidden">
       <div class="auth-header">
         <div class="landing-logo-mark" style="margin: 0 auto 12px;">🌱</div>
-        <h3 class="auth-title">Welcome back</h3>
+        <h3 id="authHeadingSignin" class="auth-title">Welcome back</h3>
         <p class="auth-subtitle">Log in to keep your savings streak going.</p>
       </div>
       <form id="signinForm" novalidate>
@@ -1925,7 +1929,7 @@
     <div id="authForgotView" class="hidden">
       <div class="auth-header">
         <div class="landing-logo-mark" style="margin: 0 auto 12px;">🌱</div>
-        <h3 class="auth-title">Reset your password</h3>
+        <h3 id="authHeadingForgot" class="auth-title">Reset your password</h3>
         <p class="auth-subtitle">We'll send you a secure link to reset your password.</p>
       </div>
       <form id="forgotForm" novalidate>
@@ -1945,7 +1949,7 @@
     <div id="authRecoveryView" class="hidden">
       <div class="auth-header">
         <div class="landing-logo-mark" style="margin: 0 auto 12px;">🌱</div>
-        <h3 class="auth-title">Set new password</h3>
+        <h3 id="authHeadingRecovery" class="auth-title">Set new password</h3>
         <p class="auth-subtitle">Enter your new secure password below.</p>
       </div>
       <form id="recoveryForm" novalidate>
@@ -2456,15 +2460,30 @@
   const authSigninView = document.getElementById('authSigninView');
   const authForgotView = document.getElementById('authForgotView');
   const authRecoveryView = document.getElementById('authRecoveryView');
+  let authModalOpener = null;
+  let isPasswordRecoverySession = false;
+
+  const authHeadingMap = {
+    signup: 'authHeadingSignup',
+    signin: 'authHeadingSignin',
+    forgot: 'authHeadingForgot',
+    recovery: 'authHeadingRecovery'
+  };
 
   function openAuthModal(mode = 'signup') {
+    authModalOpener = document.activeElement;
     authModal.classList.remove('hidden');
     switchAuthView(mode);
   }
 
   function closeAuthModal() {
+    isPasswordRecoverySession = false;
     authModal.classList.add('hidden');
     clearAuthErrors();
+    if (authModalOpener && typeof authModalOpener.focus === 'function') {
+      try { authModalOpener.focus(); } catch (e) {}
+    }
+    authModalOpener = null;
   }
 
   function switchAuthView(mode) {
@@ -2483,6 +2502,26 @@
     } else if (mode === 'recovery') {
       authRecoveryView.classList.remove('hidden');
     }
+
+    const headingId = authHeadingMap[mode] || 'authHeadingSignup';
+    authModal.setAttribute('aria-labelledby', headingId);
+
+    // Accessible focus management: focus first actionable input
+    setTimeout(() => {
+      if (mode === 'signup') {
+        const el = document.getElementById('signupName');
+        if (el) el.focus();
+      } else if (mode === 'signin') {
+        const el = document.getElementById('signinEmail');
+        if (el) el.focus();
+      } else if (mode === 'forgot') {
+        const el = document.getElementById('forgotEmail');
+        if (el) el.focus();
+      } else if (mode === 'recovery') {
+        const el = document.getElementById('recoveryPassword');
+        if (el) el.focus();
+      }
+    }, 50);
   }
 
   function showAuthError(elementId, msg) {
@@ -2496,7 +2535,10 @@
   function clearAuthErrors() {
     ['signupError', 'signinError', 'forgotError', 'recoveryError'].forEach(id => {
       const el = document.getElementById(id);
-      if (el) el.classList.add('hidden');
+      if (el) {
+        el.textContent = '';
+        el.classList.add('hidden');
+      }
     });
   }
 
@@ -2505,7 +2547,31 @@
     if (e.target === authModal) closeAuthModal();
   });
   window.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape' && !authModal.classList.contains('hidden')) closeAuthModal();
+    if (e.key === 'Escape' && !authModal.classList.contains('hidden')) {
+      closeAuthModal();
+    }
+  });
+
+  // Modal Focus Trap for Keyboard Accessibility
+  authModal.addEventListener('keydown', (e) => {
+    if (e.key !== 'Tab' || authModal.classList.contains('hidden')) return;
+    const focusables = Array.from(authModal.querySelectorAll('button:not([disabled]), input:not([disabled]), a[href]'))
+      .filter(el => !el.closest('.hidden'));
+    if (focusables.length === 0) return;
+    const first = focusables[0];
+    const last = focusables[focusables.length - 1];
+
+    if (e.shiftKey) {
+      if (document.activeElement === first) {
+        e.preventDefault();
+        last.focus();
+      }
+    } else {
+      if (document.activeElement === last) {
+        e.preventDefault();
+        first.focus();
+      }
+    }
   });
 
   document.getElementById('switchToSigninBtn').addEventListener('click', () => switchAuthView('signin'));
@@ -2667,6 +2733,7 @@
       if (error) throw error;
 
       currentUser = data.user;
+      isPasswordRecoverySession = false;
       closeAuthModal();
       showToast('Password updated successfully! Welcome back.');
       updateAuthUI();
@@ -2787,9 +2854,18 @@
   async function checkRoute() {
     const hash = window.location.hash;
 
-    if (hash === '#recovery') {
+    if (hash === '#recovery' || hash.startsWith('#recovery')) {
       showView('landing');
-      openAuthModal('recovery');
+      const hasRecoveryParams = window.location.hash.includes('type=recovery') ||
+                                window.location.search.includes('type=recovery') ||
+                                window.location.href.includes('type=recovery');
+      if (isPasswordRecoverySession || hasRecoveryParams) {
+        openAuthModal('recovery');
+      } else {
+        window.location.hash = '';
+        closeAuthModal();
+        showToast('No active password reset request found. Request a link if needed.');
+      }
       return;
     }
 
@@ -4027,6 +4103,7 @@
             updateAuthUI();
             await checkRoute();
           } else if (event === 'PASSWORD_RECOVERY') {
+            isPasswordRecoverySession = true;
             openAuthModal('recovery');
           }
         });

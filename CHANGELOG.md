@@ -7,6 +7,30 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [0.4.0] — 2026-10-13 (Premium Split-Screen Auth Experience)
+
+### Changed
+- **Authentication UI Redesign**:
+  - Replaced centered modal auth with a premium split-screen authentication experience.
+  - Desktop: Deep forest outer frame (`border-radius: 32px`, `max-width: 1100px`, `min-height: 640px`) with 54/46 story/form panel ratio.
+  - Left story panel features NairaStreak Labs badge, goal showcase card (₦327,500/₦500,000 progress), streak tracker dots, metrics grid, and motivational footer quote.
+  - Right form panel with white background, branded lockup, left-aligned typography, 48px rounded inputs, and strong whitespace.
+  - Mobile (≤900px): Story panel hidden, single-column form-only layout.
+  - Dark mode variants for all new auth components.
+  - Circular close button with backdrop blur effect.
+  - Removed inline styles from submit buttons (CSS-managed).
+- **Legal Note**: Added privacy/terms notice on signup form (`auth-legal-note`).
+- **Service Worker**: Bumped cache to `nairastreak-auth-v5`.
+
+### Verified
+- Playwright automated testing across 375px, 390px, 768px, 1024px, and 1440px viewports.
+- Auth state mutual exclusivity (exactly 1 view visible at a time).
+- Correct `aria-labelledby` and focus management across all auth state switches.
+- Escape key closes modal and restores focus to opener.
+- Zero console errors or warnings.
+
+---
+
 ## [0.3.1] — 2026-10-13 (Auth Modal Presentation Regression Fix)
 
 ### Fixed

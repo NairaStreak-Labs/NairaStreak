@@ -859,64 +859,385 @@
   .auth-modal-overlay {
     position: fixed;
     inset: 0;
-    background: rgba(0, 0, 0, 0.55);
-    backdrop-filter: blur(6px);
-    -webkit-backdrop-filter: blur(6px);
+    background: rgba(4, 20, 13, 0.72);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
     display: flex;
     align-items: center;
     justify-content: center;
     z-index: 300;
-    padding: 16px;
-    transition: opacity 0.2s;
+    padding: 24px 16px;
+    overflow-y: auto;
+    transition: opacity 0.25s ease;
   }
+
+  /* Outer Application Frame */
   .auth-modal-card {
-    background: var(--card);
-    border-radius: var(--radius-lg);
-    padding: 32px 28px;
+    background: #091a12;
+    border-radius: 32px;
     width: 100%;
-    max-width: 420px;
-    box-shadow: var(--shadow-lg);
-    border: 1px solid var(--border);
+    max-width: 1100px;
+    box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(255, 255, 255, 0.1);
     position: relative;
-    animation: modalPop 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    overflow: hidden;
+    display: flex;
+    flex-direction: row;
+    min-height: 640px;
+    animation: modalPop 0.25s cubic-bezier(0.16, 1, 0.3, 1);
   }
+
   @keyframes modalPop {
     0% { transform: scale(0.96); opacity: 0; }
     100% { transform: scale(1); opacity: 1; }
   }
+
+  /* Close Button */
   .auth-modal-close {
     position: absolute;
-    top: 18px;
-    right: 18px;
-    background: none;
-    border: none;
-    font-size: 24px;
-    color: var(--muted);
+    top: 20px;
+    right: 20px;
+    background: rgba(255, 255, 255, 0.9);
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    font-size: 22px;
+    color: var(--text);
     cursor: pointer;
     line-height: 1;
-    padding: 4px;
-    border-radius: 6px;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 20;
+    transition: background 0.15s, transform 0.15s, color 0.15s;
+    backdrop-filter: blur(4px);
   }
-  .auth-modal-close:hover { color: var(--text); }
-  .auth-header {
+  .auth-modal-close:hover {
+    background: #ffffff;
+    transform: scale(1.05);
+    color: #111827;
+  }
+  body.dark .auth-modal-close {
+    background: rgba(30, 48, 38, 0.85);
+    border-color: rgba(255, 255, 255, 0.1);
+    color: #e5e7eb;
+  }
+  body.dark .auth-modal-close:hover {
+    background: #284436;
+    color: #ffffff;
+  }
+
+  /* --------------------------------------------------------------------------
+     LEFT VISUAL / STORY PANEL
+     -------------------------------------------------------------------------- */
+  .auth-story-panel {
+    flex: 1 1 54%;
+    background: radial-gradient(120% 120% at 20% 15%, #ecfdf5 0%, #d1fae5 45%, #a7f3d0 100%);
+    padding: 44px 40px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    position: relative;
+    overflow: hidden;
+  }
+  body.dark .auth-story-panel {
+    background: radial-gradient(120% 120% at 20% 15%, #062314 0%, #0c331e 50%, #13452a 100%);
+  }
+
+  .auth-story-panel::before {
+    content: '';
+    position: absolute;
+    width: 320px;
+    height: 320px;
+    background: radial-gradient(circle, rgba(34, 197, 94, 0.25) 0%, transparent 70%);
+    top: -60px;
+    right: -60px;
+    pointer-events: none;
+    border-radius: 50%;
+  }
+
+  .auth-story-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    z-index: 2;
+  }
+  .auth-story-brand-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(255, 255, 255, 0.85);
+    padding: 6px 14px;
+    border-radius: 999px;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--green-dark);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
+    backdrop-filter: blur(6px);
+  }
+  body.dark .auth-story-brand-badge {
+    background: rgba(20, 42, 30, 0.85);
+    color: #4ade80;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+  }
+  .auth-story-pill {
+    font-size: 12px;
+    font-weight: 600;
+    color: #065f46;
+    background: rgba(255, 255, 255, 0.6);
+    padding: 5px 12px;
+    border-radius: 999px;
+  }
+  body.dark .auth-story-pill {
+    color: #86efac;
+    background: rgba(255, 255, 255, 0.08);
+  }
+
+  /* Story Showcase Goal Card */
+  .auth-story-card {
+    background: rgba(255, 255, 255, 0.92);
+    backdrop-filter: blur(16px);
+    border-radius: 24px;
+    padding: 26px 24px;
+    box-shadow: 0 20px 40px -15px rgba(5, 50, 25, 0.15), 0 0 0 1px rgba(255, 255, 255, 0.9);
+    z-index: 2;
+    margin: 20px 0;
+  }
+  body.dark .auth-story-card {
+    background: rgba(18, 38, 27, 0.92);
+    box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(255, 255, 255, 0.08);
+  }
+  .auth-card-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 14px;
+  }
+  .auth-card-category {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--text);
+  }
+  .auth-card-badge {
+    background: #dcfce7;
+    color: #15803d;
+    font-size: 11px;
+    font-weight: 700;
+    padding: 4px 10px;
+    border-radius: 999px;
+    letter-spacing: 0.02em;
+  }
+  body.dark .auth-card-badge {
+    background: rgba(22, 163, 74, 0.2);
+    color: #86efac;
+  }
+
+  .auth-card-amount-row {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    margin-bottom: 8px;
+  }
+  .auth-card-saved {
+    font-size: 32px;
+    font-weight: 800;
+    color: var(--green-dark);
+    letter-spacing: -0.02em;
+    font-variant-numeric: tabular-nums;
+  }
+  body.dark .auth-card-saved {
+    color: #4ade80;
+  }
+  .auth-card-target {
+    font-size: 13px;
+    color: var(--muted);
+    font-weight: 600;
+  }
+
+  .auth-card-progress-bar {
+    width: 100%;
+    height: 10px;
+    background: rgba(22, 163, 74, 0.15);
+    border-radius: 999px;
+    overflow: hidden;
+    margin-bottom: 16px;
+    position: relative;
+  }
+  .auth-card-progress-fill {
+    width: 65%;
+    height: 100%;
+    background: linear-gradient(90deg, #16a34a, #22c55e);
+    border-radius: 999px;
+    box-shadow: 0 0 10px rgba(34, 197, 94, 0.4);
+  }
+
+  .auth-card-metrics-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+    margin-bottom: 16px;
+  }
+  .auth-card-metric-pill {
+    background: #f8faf9;
+    border: 1px solid rgba(0, 0, 0, 0.04);
+    border-radius: 12px;
+    padding: 8px 10px;
     text-align: center;
-    margin-bottom: 24px;
+  }
+  body.dark .auth-card-metric-pill {
+    background: rgba(255, 255, 255, 0.04);
+    border-color: rgba(255, 255, 255, 0.06);
+  }
+  .auth-card-metric-label {
+    font-size: 10px;
+    font-weight: 600;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    margin-bottom: 2px;
+  }
+  .auth-card-metric-val {
+    font-size: 13px;
+    font-weight: 800;
+    color: var(--text);
+  }
+
+  /* Micro Consistency Habit Tracker */
+  .auth-habit-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-top: 14px;
+    border-top: 1px solid rgba(0, 0, 0, 0.06);
+  }
+  body.dark .auth-habit-row {
+    border-top-color: rgba(255, 255, 255, 0.06);
+  }
+  .auth-habit-label {
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+  .auth-habit-dots {
+    display: flex;
+    gap: 6px;
+  }
+  .auth-habit-dot {
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 10px;
+    font-weight: 800;
+    background: #e2e8f0;
+    color: #64748b;
+  }
+  .auth-habit-dot.active {
+    background: #16a34a;
+    color: #ffffff;
+    box-shadow: 0 2px 6px rgba(22, 163, 74, 0.35);
+  }
+  body.dark .auth-habit-dot {
+    background: #1e3326;
+    color: #94a3b8;
+  }
+  body.dark .auth-habit-dot.active {
+    background: #22c55e;
+    color: #052e16;
+  }
+
+  /* Story Footer Copy */
+  .auth-story-footer {
+    z-index: 2;
+  }
+  .auth-story-quote {
+    font-size: 15px;
+    font-weight: 700;
+    color: #064e3b;
+    line-height: 1.4;
+    margin-bottom: 4px;
+  }
+  body.dark .auth-story-quote {
+    color: #a7f3d0;
+  }
+  .auth-story-sub {
+    font-size: 12px;
+    color: #047857;
+    line-height: 1.45;
+  }
+  body.dark .auth-story-sub {
+    color: #6ee7b7;
+  }
+
+  /* --------------------------------------------------------------------------
+     RIGHT AUTH FORM PANEL
+     -------------------------------------------------------------------------- */
+  .auth-form-panel {
+    flex: 1 1 46%;
+    background: #ffffff;
+    padding: 44px 40px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    position: relative;
+    overflow-y: auto;
+  }
+  body.dark .auth-form-panel {
+    background: #121e17;
+  }
+
+  .auth-brand-lockup {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 22px;
+  }
+  .auth-logo-leaf {
+    font-size: 20px;
+    line-height: 1;
+  }
+  .auth-brand-name {
+    font-size: 17px;
+    font-weight: 800;
+    color: var(--green-dark);
+    letter-spacing: -0.01em;
+  }
+  body.dark .auth-brand-name {
+    color: #4ade80;
+  }
+
+  .auth-header {
+    text-align: left;
+    margin-bottom: 20px;
   }
   .auth-title {
-    font-size: 22px;
+    font-size: 26px;
     font-weight: 800;
     color: var(--text);
     margin-bottom: 6px;
-    letter-spacing: -0.01em;
+    letter-spacing: -0.02em;
+    line-height: 1.2;
   }
   .auth-subtitle {
-    font-size: 13px;
+    font-size: 13.5px;
     color: var(--muted);
+    line-height: 1.45;
   }
-  .auth-field { margin-bottom: 16px; text-align: left; }
+
+  .auth-field {
+    margin-bottom: 15px;
+    text-align: left;
+  }
   .auth-field label {
     display: block;
-    font-size: 12px;
+    font-size: 12.5px;
     font-weight: 700;
     color: var(--text);
     margin-bottom: 6px;
@@ -927,6 +1248,50 @@
     color: var(--muted);
     margin-top: 4px;
   }
+
+  .auth-form-panel .sim-input {
+    width: 100%;
+    height: 48px;
+    padding: 0 16px;
+    border-radius: 12px;
+    border: 1.5px solid #e5e7eb;
+    background: #f9fafb;
+    color: var(--text);
+    font-size: 14.5px;
+    transition: border-color 0.15s, box-shadow 0.15s, background 0.15s;
+    font-family: inherit;
+  }
+  .auth-form-panel .sim-input:focus {
+    outline: none;
+    background: #ffffff;
+    border-color: var(--green);
+    box-shadow: 0 0 0 3px rgba(22, 163, 74, 0.15);
+  }
+  body.dark .auth-form-panel .sim-input {
+    background: #18281f;
+    border-color: #274233;
+    color: #f3f4f6;
+  }
+  body.dark .auth-form-panel .sim-input:focus {
+    background: #1a2d23;
+    border-color: #4ade80;
+    box-shadow: 0 0 0 3px rgba(74, 222, 128, 0.18);
+  }
+
+  .auth-form-panel .btn-primary {
+    height: 48px;
+    width: 100%;
+    border-radius: 12px;
+    font-size: 15px;
+    font-weight: 700;
+    margin-top: 8px;
+    box-shadow: 0 4px 12px rgba(22, 163, 74, 0.25);
+  }
+  .auth-form-panel .btn-primary:hover {
+    background: var(--green-dark);
+    box-shadow: 0 6px 16px rgba(22, 163, 74, 0.35);
+  }
+
   .auth-error-msg {
     color: #dc2626;
     background: #fee2e2;
@@ -946,9 +1311,26 @@
   .auth-error-msg:empty {
     display: none !important;
   }
+
+  .auth-legal-note {
+    font-size: 11.5px;
+    color: var(--muted);
+    text-align: center;
+    margin-top: 14px;
+    line-height: 1.45;
+  }
+  .auth-legal-note a {
+    color: var(--green-dark);
+    text-decoration: underline;
+    font-weight: 600;
+  }
+  body.dark .auth-legal-note a {
+    color: #4ade80;
+  }
+
   .auth-footer-switch {
     text-align: center;
-    margin-top: 20px;
+    margin-top: 16px;
     font-size: 13px;
     color: var(--muted);
   }
@@ -962,6 +1344,10 @@
     font-size: 13px;
     padding: 2px 4px;
   }
+  body.dark .auth-switch-link {
+    color: #4ade80;
+  }
+
   .auth-forgot-link {
     background: none;
     border: none;
@@ -970,6 +1356,48 @@
     font-weight: 600;
     cursor: pointer;
     text-decoration: underline;
+  }
+  body.dark .auth-forgot-link {
+    color: #4ade80;
+  }
+
+  /* --------------------------------------------------------------------------
+     RESPONSIVE BREAKPOINTS FOR AUTH EXPERIENCE
+     -------------------------------------------------------------------------- */
+  @media (max-width: 900px) {
+    .auth-modal-card {
+      max-width: 480px;
+      flex-direction: column;
+      border-radius: 24px;
+      min-height: auto;
+    }
+    .auth-story-panel {
+      display: none;
+    }
+    .auth-form-panel {
+      padding: 36px 24px 28px;
+      width: 100%;
+    }
+    .auth-modal-close {
+      top: 16px;
+      right: 16px;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .auth-modal-overlay {
+      padding: 12px;
+    }
+    .auth-modal-card {
+      border-radius: 20px;
+      max-width: 100%;
+    }
+    .auth-form-panel {
+      padding: 28px 18px 24px;
+    }
+    .auth-title {
+      font-size: 22px;
+    }
   }
 
   /* ==========================================================================
@@ -1869,97 +2297,165 @@
   <div class="auth-modal-card">
     <button class="auth-modal-close" id="authModalClose" aria-label="Close authentication modal">×</button>
 
-    <!-- SIGN UP FORM -->
-    <div id="authSignupView">
-      <div class="auth-header">
-        <div class="landing-logo-mark" style="margin: 0 auto 12px;">🌱</div>
-        <h3 id="authHeadingSignup" class="auth-title">Create your account</h3>
-        <p class="auth-subtitle">Start building your unbroken savings streak today.</p>
+    <!-- LEFT VISUAL / STORY PANEL (DESKTOP) -->
+    <div class="auth-story-panel" aria-hidden="true">
+      <div class="auth-story-top">
+        <div class="auth-story-brand-badge">
+          <span>🌱</span>
+          <span>NairaStreak Labs</span>
+        </div>
+        <div class="auth-story-pill">
+          Consistency Engine
+        </div>
       </div>
-      <form id="signupForm" novalidate>
-        <div class="auth-field">
-          <label for="signupName">Display name (optional)</label>
-          <input type="text" id="signupName" class="sim-input" placeholder="e.g. Amina" autocomplete="name">
-        </div>
-        <div class="auth-field">
-          <label for="signupEmail">Email address</label>
-          <input type="email" id="signupEmail" class="sim-input" placeholder="you@example.com" autocomplete="email" required>
-        </div>
-        <div class="auth-field">
-          <label for="signupPassword">Password</label>
-          <input type="password" id="signupPassword" class="sim-input" placeholder="At least 8 characters" autocomplete="new-password" minlength="8" required>
-          <span class="auth-field-hint">Must be at least 8 characters long</span>
-        </div>
-        <div class="auth-error-msg hidden" id="signupError" role="alert"></div>
-        <button type="submit" class="btn-primary" id="signupSubmitBtn" style="width: 100%; margin-top: 8px;">Create Account</button>
-      </form>
-      <div class="auth-footer-switch">
-        Already have an account? <button type="button" class="auth-switch-link" id="switchToSigninBtn">Sign in</button>
-      </div>
-    </div>
 
-    <!-- SIGN IN FORM -->
-    <div id="authSigninView" class="hidden">
-      <div class="auth-header">
-        <div class="landing-logo-mark" style="margin: 0 auto 12px;">🌱</div>
-        <h3 id="authHeadingSignin" class="auth-title">Welcome back</h3>
-        <p class="auth-subtitle">Log in to keep your savings streak going.</p>
-      </div>
-      <form id="signinForm" novalidate>
-        <div class="auth-field">
-          <label for="signinEmail">Email address</label>
-          <input type="email" id="signinEmail" class="sim-input" placeholder="you@example.com" autocomplete="email" required>
-        </div>
-        <div class="auth-field">
-          <div style="display: flex; justify-content: space-between; align-items: baseline;">
-            <label for="signinPassword">Password</label>
-            <button type="button" class="auth-forgot-link" id="forgotPasswordBtn">Forgot password?</button>
+      <!-- Hero Goal Momentum Showcase Card -->
+      <div class="auth-story-card">
+        <div class="auth-card-header">
+          <div class="auth-card-category">
+            <span>💻</span>
+            <span>Tech Career Laptop Goal</span>
           </div>
-          <input type="password" id="signinPassword" class="sim-input" placeholder="Your password" autocomplete="current-password" required>
+          <span class="auth-card-badge">Active Streak</span>
         </div>
-        <div class="auth-error-msg hidden" id="signinError" role="alert"></div>
-        <button type="submit" class="btn-primary" id="signinSubmitBtn" style="width: 100%; margin-top: 8px;">Sign In</button>
-      </form>
-      <div class="auth-footer-switch">
-        Don't have an account? <button type="button" class="auth-switch-link" id="switchToSignupBtn">Create account</button>
+        <div class="auth-card-amount-row">
+          <div class="auth-card-saved">₦327,500</div>
+          <div class="auth-card-target">of ₦500,000 (65%)</div>
+        </div>
+        <div class="auth-card-progress-bar">
+          <div class="auth-card-progress-fill"></div>
+        </div>
+        <div class="auth-card-metrics-grid">
+          <div class="auth-card-metric-pill">
+            <div class="auth-card-metric-label">Streak</div>
+            <div class="auth-card-metric-val">🔥 12 Days</div>
+          </div>
+          <div class="auth-card-metric-pill">
+            <div class="auth-card-metric-label">Today's Step</div>
+            <div class="auth-card-metric-val">⚡ ₦1,370</div>
+          </div>
+          <div class="auth-card-metric-pill">
+            <div class="auth-card-metric-label">Days Left</div>
+            <div class="auth-card-metric-val">📅 126 Days</div>
+          </div>
+        </div>
+        <div class="auth-habit-row">
+          <span class="auth-habit-label">Consistency Track</span>
+          <div class="auth-habit-dots">
+            <div class="auth-habit-dot active" title="Monday">M</div>
+            <div class="auth-habit-dot active" title="Tuesday">T</div>
+            <div class="auth-habit-dot active" title="Wednesday">W</div>
+            <div class="auth-habit-dot active" title="Thursday">T</div>
+            <div class="auth-habit-dot active" title="Friday">F</div>
+            <div class="auth-habit-dot active" title="Saturday">S</div>
+            <div class="auth-habit-dot active" title="Sunday">S</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Story Footer Copy -->
+      <div class="auth-story-footer">
+        <p class="auth-story-quote">“Big goals become manageable one streak at a time.”</p>
+        <p class="auth-story-sub">100% Non-custodial. Your money stays in your bank; your consistency lives here.</p>
       </div>
     </div>
 
-    <!-- FORGOT PASSWORD FORM -->
-    <div id="authForgotView" class="hidden">
-      <div class="auth-header">
-        <div class="landing-logo-mark" style="margin: 0 auto 12px;">🌱</div>
-        <h3 id="authHeadingForgot" class="auth-title">Reset your password</h3>
-        <p class="auth-subtitle">We'll send you a secure link to reset your password.</p>
+    <!-- RIGHT AUTH FORM PANEL -->
+    <div class="auth-form-panel">
+      <div class="auth-brand-lockup">
+        <span class="auth-logo-leaf">🌱</span>
+        <span class="auth-brand-name">NairaStreak</span>
       </div>
-      <form id="forgotForm" novalidate>
-        <div class="auth-field">
-          <label for="forgotEmail">Email address</label>
-          <input type="email" id="forgotEmail" class="sim-input" placeholder="you@example.com" autocomplete="email" required>
-        </div>
-        <div class="auth-error-msg hidden" id="forgotError" role="alert"></div>
-        <button type="submit" class="btn-primary" id="forgotSubmitBtn" style="width: 100%; margin-top: 8px;">Send Reset Link</button>
-      </form>
-      <div class="auth-footer-switch">
-        Remembered your password? <button type="button" class="auth-switch-link" id="backToSigninBtn">Sign in</button>
-      </div>
-    </div>
 
-    <!-- UPDATE PASSWORD FORM (RECOVERY) -->
-    <div id="authRecoveryView" class="hidden">
-      <div class="auth-header">
-        <div class="landing-logo-mark" style="margin: 0 auto 12px;">🌱</div>
-        <h3 id="authHeadingRecovery" class="auth-title">Set new password</h3>
-        <p class="auth-subtitle">Enter your new secure password below.</p>
-      </div>
-      <form id="recoveryForm" novalidate>
-        <div class="auth-field">
-          <label for="recoveryPassword">New Password</label>
-          <input type="password" id="recoveryPassword" class="sim-input" placeholder="At least 8 characters" autocomplete="new-password" minlength="8" required>
+      <!-- SIGN UP FORM -->
+      <div id="authSignupView">
+        <div class="auth-header">
+          <h3 id="authHeadingSignup" class="auth-title">Create your account</h3>
+          <p class="auth-subtitle">Start building your unbroken savings streak today.</p>
         </div>
-        <div class="auth-error-msg hidden" id="recoveryError" role="alert"></div>
-        <button type="submit" class="btn-primary" id="recoverySubmitBtn" style="width: 100%; margin-top: 8px;">Update Password</button>
-      </form>
+        <form id="signupForm" novalidate>
+          <div class="auth-field">
+            <label for="signupName">Display name (optional)</label>
+            <input type="text" id="signupName" class="sim-input" placeholder="e.g. Amina" autocomplete="name">
+          </div>
+          <div class="auth-field">
+            <label for="signupEmail">Email address</label>
+            <input type="email" id="signupEmail" class="sim-input" placeholder="you@example.com" autocomplete="email" required>
+          </div>
+          <div class="auth-field">
+            <label for="signupPassword">Password</label>
+            <input type="password" id="signupPassword" class="sim-input" placeholder="At least 8 characters" autocomplete="new-password" minlength="8" required>
+            <span class="auth-field-hint">Must be at least 8 characters long</span>
+          </div>
+          <div class="auth-error-msg hidden" id="signupError" role="alert"></div>
+          <button type="submit" class="btn-primary" id="signupSubmitBtn">Create Account</button>
+        </form>
+        <p class="auth-legal-note">By creating an account, you agree to NairaStreak's Terms of Service and Privacy Policy.</p>
+        <div class="auth-footer-switch">
+          Already have an account? <button type="button" class="auth-switch-link" id="switchToSigninBtn">Sign in</button>
+        </div>
+      </div>
+
+      <!-- SIGN IN FORM -->
+      <div id="authSigninView" class="hidden">
+        <div class="auth-header">
+          <h3 id="authHeadingSignin" class="auth-title">Welcome back</h3>
+          <p class="auth-subtitle">Log in to keep your savings streak going.</p>
+        </div>
+        <form id="signinForm" novalidate>
+          <div class="auth-field">
+            <label for="signinEmail">Email address</label>
+            <input type="email" id="signinEmail" class="sim-input" placeholder="you@example.com" autocomplete="email" required>
+          </div>
+          <div class="auth-field">
+            <div style="display: flex; justify-content: space-between; align-items: baseline;">
+              <label for="signinPassword">Password</label>
+              <button type="button" class="auth-forgot-link" id="forgotPasswordBtn">Forgot password?</button>
+            </div>
+            <input type="password" id="signinPassword" class="sim-input" placeholder="Your password" autocomplete="current-password" required>
+          </div>
+          <div class="auth-error-msg hidden" id="signinError" role="alert"></div>
+          <button type="submit" class="btn-primary" id="signinSubmitBtn">Sign In</button>
+        </form>
+        <div class="auth-footer-switch">
+          Don't have an account? <button type="button" class="auth-switch-link" id="switchToSignupBtn">Create account</button>
+        </div>
+      </div>
+
+      <!-- FORGOT PASSWORD FORM -->
+      <div id="authForgotView" class="hidden">
+        <div class="auth-header">
+          <h3 id="authHeadingForgot" class="auth-title">Reset your password</h3>
+          <p class="auth-subtitle">We'll send you a secure link to reset your password.</p>
+        </div>
+        <form id="forgotForm" novalidate>
+          <div class="auth-field">
+            <label for="forgotEmail">Email address</label>
+            <input type="email" id="forgotEmail" class="sim-input" placeholder="you@example.com" autocomplete="email" required>
+          </div>
+          <div class="auth-error-msg hidden" id="forgotError" role="alert"></div>
+          <button type="submit" class="btn-primary" id="forgotSubmitBtn">Send Reset Link</button>
+        </form>
+        <div class="auth-footer-switch">
+          Remembered your password? <button type="button" class="auth-switch-link" id="backToSigninBtn">Sign in</button>
+        </div>
+      </div>
+
+      <!-- UPDATE PASSWORD FORM (RECOVERY) -->
+      <div id="authRecoveryView" class="hidden">
+        <div class="auth-header">
+          <h3 id="authHeadingRecovery" class="auth-title">Set new password</h3>
+          <p class="auth-subtitle">Enter your new secure password below.</p>
+        </div>
+        <form id="recoveryForm" novalidate>
+          <div class="auth-field">
+            <label for="recoveryPassword">New Password</label>
+            <input type="password" id="recoveryPassword" class="sim-input" placeholder="At least 8 characters" autocomplete="new-password" minlength="8" required>
+          </div>
+          <div class="auth-error-msg hidden" id="recoveryError" role="alert"></div>
+          <button type="submit" class="btn-primary" id="recoverySubmitBtn">Update Password</button>
+        </form>
+      </div>
     </div>
   </div>
 </div>

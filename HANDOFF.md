@@ -54,7 +54,8 @@ NairaStreak-Labs/NairaStreak/
 - **Phase 0 — Discovery & Documentation**: Completed ✅
 - **Phase 1 — Brand Identity & Scrollytelling Landing Page**: Completed ✅
 - **Phase 2 — Authentication & Cloud Data Foundation**: Completed ✅ (Supabase GoTrue Auth, accessible modal UI, session restoration, route protection, remote PostgreSQL tables with optimized Row Level Security).
-- **Phase 3 — First-Time Onboarding & Goal Creation**: Next recommended phase.
+- **Phase 3 — First-Time Onboarding & Goal Creation**: Completed ✅ (Resend custom SMTP verification, 5-step onboarding wizard, goal templates, calculation engine, simulator handoff, RLS goal persistence, dynamic real dashboard).
+- **Phase 4 — Savings Logging, History & Live Progress**: Next recommended phase.
 
 ---
 
@@ -126,5 +127,5 @@ The repository features comprehensive documentation in the `docs/` directory:
 
 ## 5. Next Steps
 
-1. Review and test the live Supabase Auth and RLS foundation.
-2. Advance to **Phase 3: First-Time Onboarding & Goal Creation** (custom savings target, target date, cadence, persisting the user's first goal to Supabase).
+1. Maintain SMTP and verified email configuration.
+2. Advance to **Phase 4: Savings Logging, History & Live Progress** (Add Savings workflow, granular contribution entries in `public.savings_entries`, ledger editing/deletion, streak calculations, and live goal progress).

@@ -85,10 +85,12 @@ src/ (or root modular structure)
 3. Session restoration via `supabaseClient.auth.getSession()` and live state updates with `onAuthStateChange`.
 4. Route protection guard for `#dashboard` and `#app` views.
 
-### Milestone 3: Database Foundation & First-Time Onboarding
+### Milestone 3: Database Foundation & First-Time Onboarding (Completed ✅)
 1. **Schema & RLS (Completed ✅)**: Deployed `profiles`, `goals`, `savings_entries` with strict RLS and zero advisor warnings.
-2. Build the Onboarding Wizard to capture the user's first goal parameters.
-3. Automatically link the initial goal to the authenticated `user_id`.
+2. **First-Time Onboarding (Completed ✅)**: 5-step progressive disclosure wizard (`#onboardingView`) capturing goal template, custom name, target amount, deadline, and cadence.
+3. **Goal Persistence (Completed ✅)**: Linked initial goal to authenticated `user_id` in Supabase `public.goals` with full RLS tenant isolation.
+4. **Simulator Handoff (Completed ✅)**: Preserved landing simulator intent into onboarding.
+5. **Real Dashboard (Completed ✅)**: Dynamic rendering of active goal name, target, remaining, days left, and recommended pace.
 
 ### Milestone 4: Core Dashboard & Savings Logging
 1. Bind real-time goal metrics to the dashboard UI (Total Saved, Remaining, Target Date).

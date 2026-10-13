@@ -1,8 +1,9 @@
-const CACHE_NAME = 'nairastreak-auth-v2';
+const CACHE_NAME = 'nairastreak-auth-v3';
 const ASSETS = [
   './',
   './index.html',
   './config.js',
+  './calculations.js',
   './manifest.json',
   './icon-192.png',
   './icon-512.png'

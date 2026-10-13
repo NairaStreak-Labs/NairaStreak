@@ -13,6 +13,7 @@
 <!-- Supabase SDK & Configuration -->
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="config.js"></script>
+<script src="calculations.js"></script>
 
 <style>
   :root {
@@ -1179,6 +1180,321 @@
     pointer-events: none; border-radius: 2px;
   }
 
+  /* ==========================================================================
+     ONBOARDING STYLES (PHASE 3)
+     ========================================================================== */
+  #onboardingView {
+    min-height: 100dvh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 24px 16px 48px;
+    background: var(--bg);
+  }
+  .onboarding-container {
+    width: 100%;
+    max-width: 520px;
+  }
+  .onboarding-top-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+  }
+  .onboarding-brand {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: 700;
+    font-size: 15px;
+    color: var(--text);
+  }
+  .onboarding-step-counter {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--muted);
+    font-variant-numeric: tabular-nums;
+  }
+  .onboarding-progress-track {
+    width: 100%;
+    height: 6px;
+    background: var(--border-strong);
+    border-radius: 999px;
+    overflow: hidden;
+    margin-bottom: 24px;
+  }
+  .onboarding-progress-fill {
+    height: 100%;
+    background: var(--green);
+    border-radius: 999px;
+    transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  .onboarding-card {
+    background: var(--card);
+    border: 1px solid var(--border-strong);
+    border-radius: var(--radius-lg);
+    padding: 32px 24px;
+    box-shadow: var(--shadow-md);
+  }
+  .onboarding-step-pane {
+    display: none;
+  }
+  .onboarding-step-pane.active {
+    display: block;
+    animation: fadeInStep 0.25s ease-out;
+  }
+  @keyframes fadeInStep {
+    from { opacity: 0; transform: translateY(6px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .onboarding-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: var(--green-light);
+    color: var(--green-dark);
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 700;
+    margin-bottom: 14px;
+  }
+  .onboarding-title {
+    font-size: 24px;
+    font-weight: 800;
+    color: var(--text);
+    line-height: 1.25;
+    margin-bottom: 8px;
+  }
+  .onboarding-desc {
+    font-size: 14px;
+    color: var(--muted);
+    line-height: 1.5;
+    margin-bottom: 20px;
+  }
+  .template-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    margin-bottom: 20px;
+  }
+  @media (max-width: 480px) {
+    .template-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+  .template-btn {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 12px 10px;
+    border: 1.5px solid var(--border-strong);
+    border-radius: var(--radius-md);
+    background: var(--card);
+    color: var(--text);
+    cursor: pointer;
+    transition: border-color 0.15s, background 0.15s, transform 0.15s;
+    text-align: left;
+    width: 100%;
+    min-height: 78px;
+  }
+  .template-btn:hover {
+    border-color: var(--green);
+    transform: translateY(-1px);
+  }
+  .template-btn:focus-visible {
+    outline: 2px solid var(--green);
+    outline-offset: 2px;
+  }
+  .template-btn.active {
+    border-color: var(--green);
+    background: var(--green-light);
+    box-shadow: 0 0 0 1px var(--green);
+  }
+  body.dark .template-btn.active {
+    background: #163524;
+  }
+  .template-btn-icon {
+    font-size: 20px;
+    margin-bottom: 6px;
+  }
+  .template-btn-name {
+    font-size: 13px;
+    font-weight: 700;
+    line-height: 1.2;
+    color: var(--text);
+  }
+  .template-btn-amt {
+    font-size: 11px;
+    color: var(--muted);
+    margin-top: 2px;
+  }
+  .currency-input-box {
+    display: flex;
+    align-items: center;
+    border: 2px solid var(--border-strong);
+    border-radius: var(--radius-md);
+    background: var(--bg);
+    padding: 8px 14px;
+    margin-bottom: 14px;
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+  .currency-input-box:focus-within {
+    border-color: var(--green);
+    box-shadow: 0 0 0 3px rgba(22, 163, 74, 0.15);
+  }
+  .currency-prefix {
+    font-size: 26px;
+    font-weight: 800;
+    color: var(--green-dark);
+    margin-right: 8px;
+    user-select: none;
+  }
+  .currency-input-field {
+    font-size: 26px;
+    font-weight: 800;
+    border: none;
+    background: transparent;
+    color: var(--text);
+    width: 100%;
+    outline: none;
+    font-variant-numeric: tabular-nums;
+  }
+  .preset-chips-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 20px;
+  }
+  .preset-chip-btn {
+    padding: 6px 12px;
+    border: 1px solid var(--border-strong);
+    border-radius: 20px;
+    background: var(--card);
+    color: var(--text);
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.15s;
+    font-variant-numeric: tabular-nums;
+  }
+  .preset-chip-btn:hover {
+    border-color: var(--green);
+    background: var(--green-light);
+  }
+  body.dark .preset-chip-btn:hover {
+    background: #163524;
+  }
+  .preset-chip-btn:focus-visible {
+    outline: 2px solid var(--green);
+  }
+  .cadence-choice-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-bottom: 20px;
+  }
+  .cadence-card {
+    padding: 16px 14px;
+    border: 1.5px solid var(--border-strong);
+    border-radius: var(--radius-md);
+    background: var(--card);
+    color: var(--text);
+    cursor: pointer;
+    text-align: left;
+    transition: all 0.15s;
+  }
+  .cadence-card:hover {
+    border-color: var(--green);
+  }
+  .cadence-card:focus-visible {
+    outline: 2px solid var(--green);
+  }
+  .cadence-card.active {
+    border-color: var(--green);
+    background: var(--green-light);
+    box-shadow: 0 0 0 1px var(--green);
+  }
+  body.dark .cadence-card.active {
+    background: #163524;
+  }
+  .cadence-title {
+    font-size: 15px;
+    font-weight: 700;
+    margin-bottom: 4px;
+  }
+  .cadence-desc {
+    font-size: 12px;
+    color: var(--muted);
+    line-height: 1.4;
+  }
+  .plan-calc-pill {
+    background: var(--green-light);
+    border: 1px solid rgba(22, 163, 74, 0.2);
+    border-radius: var(--radius-md);
+    padding: 14px;
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  body.dark .plan-calc-pill {
+    background: #163524;
+    border-color: #225137;
+  }
+  .plan-calc-label {
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--green-dark);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  .plan-calc-val {
+    font-size: 18px;
+    font-weight: 800;
+    color: var(--green-dark);
+    font-variant-numeric: tabular-nums;
+  }
+  .review-table {
+    border: 1px solid var(--border-strong);
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    margin-bottom: 24px;
+  }
+  .review-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--border);
+    background: var(--card);
+  }
+  .review-row:last-child {
+    border-bottom: none;
+  }
+  .review-row.highlight {
+    background: var(--green-light);
+  }
+  body.dark .review-row.highlight {
+    background: #163524;
+  }
+  .review-label {
+    font-size: 13px;
+    color: var(--muted);
+    font-weight: 500;
+  }
+  .review-val {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--text);
+    font-variant-numeric: tabular-nums;
+  }
+  .onboarding-btn-row {
+    display: flex;
+    gap: 10px;
+    margin-top: 24px;
+  }
+  .onboarding-btn-row .btn-primary { flex: 2; }
+  .onboarding-btn-row .btn-secondary { flex: 1; }
+
   /* Accessibility / Reduced Motion */
   @media (prefers-reduced-motion: reduce) {
     * {
@@ -1645,6 +1961,228 @@
 </div>
 
 <!-- ==========================================================================
+     VIEW: FIRST-TIME ONBOARDING & GOAL CREATION (PHASE 3)
+     ========================================================================== -->
+<div id="onboardingView" class="view-container hidden">
+  <div class="onboarding-container">
+    <div class="onboarding-top-bar">
+      <div class="onboarding-brand">
+        <span class="landing-logo-mark" style="width:28px;height:28px;font-size:14px;border-radius:8px;">🌱</span>
+        <span>NairaStreak</span>
+      </div>
+      <div class="onboarding-step-counter" id="onboardingStepCounter">Step 1 of 5</div>
+    </div>
+
+    <div class="onboarding-progress-track" role="progressbar" aria-valuemin="1" aria-valuemax="5" aria-valuenow="1" id="onboardingProgressBar">
+      <div class="onboarding-progress-fill" id="onboardingProgressFill" style="width: 20%;"></div>
+    </div>
+
+    <div class="onboarding-card">
+      <!-- STEP 1: WELCOME -->
+      <div class="onboarding-step-pane active" id="onboardingStep1">
+        <div class="onboarding-badge">🎯 Goal Planning</div>
+        <h2 class="onboarding-title">Let's turn your goal into a plan.</h2>
+        <p class="onboarding-desc">
+          Tell us what you're saving for and NairaStreak will break it down into manageable daily or weekly micro-contributions.
+        </p>
+        <div style="background: var(--bg); border: 1px solid var(--border-strong); border-radius: var(--radius-md); padding: 16px; margin-bottom: 24px;">
+          <div style="font-weight: 700; font-size: 14px; margin-bottom: 4px; color: var(--green-dark);">✨ Non-Custodial & Private</div>
+          <div style="font-size: 13px; color: var(--muted); line-height: 1.4;">
+            NairaStreak tracks your habits and pace. We never hold or move your money.
+          </div>
+        </div>
+        <button type="button" class="btn-primary" id="onboardingStartBtn" style="width: 100%;">
+          Create My First Goal →
+        </button>
+      </div>
+
+      <!-- STEP 2: GOAL TEMPLATE & NAME -->
+      <div class="onboarding-step-pane" id="onboardingStep2">
+        <div class="onboarding-badge">Step 2 · Objective</div>
+        <h2 class="onboarding-title">What are you saving for?</h2>
+        <p class="onboarding-desc">
+          Pick a popular starting goal template or customize your own.
+        </p>
+
+        <div class="template-grid" role="radiogroup" aria-label="Savings Goal Templates">
+          <button type="button" class="template-btn active" data-template="Emergency Fund" data-amt="100000" role="radio" aria-checked="true">
+            <span class="template-btn-icon">🛡️</span>
+            <span class="template-btn-name">Emergency Fund</span>
+            <span class="template-btn-amt">₦100,000 preset</span>
+          </button>
+          <button type="button" class="template-btn" data-template="Rent" data-amt="1200000" role="radio" aria-checked="false">
+            <span class="template-btn-icon">🏠</span>
+            <span class="template-btn-name">Rent</span>
+            <span class="template-btn-amt">₦1.2M preset</span>
+          </button>
+          <button type="button" class="template-btn" data-template="School Fees" data-amt="500000" role="radio" aria-checked="false">
+            <span class="template-btn-icon">🎓</span>
+            <span class="template-btn-name">School Fees</span>
+            <span class="template-btn-amt">₦500,000 preset</span>
+          </button>
+          <button type="button" class="template-btn" data-template="New Laptop" data-amt="650000" role="radio" aria-checked="false">
+            <span class="template-btn-icon">💻</span>
+            <span class="template-btn-name">New Laptop</span>
+            <span class="template-btn-amt">₦650,000 preset</span>
+          </button>
+          <button type="button" class="template-btn" data-template="Travel" data-amt="400000" role="radio" aria-checked="false">
+            <span class="template-btn-icon">✈️</span>
+            <span class="template-btn-name">Travel</span>
+            <span class="template-btn-amt">₦400,000 preset</span>
+          </button>
+          <button type="button" class="template-btn" data-template="Business" data-amt="1000000" role="radio" aria-checked="false">
+            <span class="template-btn-icon">🚀</span>
+            <span class="template-btn-name">Business</span>
+            <span class="template-btn-amt">₦1,000,000 preset</span>
+          </button>
+          <button type="button" class="template-btn" data-template="₦500K Challenge" data-amt="500000" role="radio" aria-checked="false">
+            <span class="template-btn-icon">⚡</span>
+            <span class="template-btn-name">₦500K Challenge</span>
+            <span class="template-btn-amt">₦500,000 preset</span>
+          </button>
+          <button type="button" class="template-btn" data-template="₦1M Challenge" data-amt="1000000" role="radio" aria-checked="false">
+            <span class="template-btn-icon">🏆</span>
+            <span class="template-btn-name">₦1M Challenge</span>
+            <span class="template-btn-amt">₦1,000,000 preset</span>
+          </button>
+          <button type="button" class="template-btn" data-template="Custom Goal" data-amt="300000" role="radio" aria-checked="false">
+            <span class="template-btn-icon">✨</span>
+            <span class="template-btn-name">Custom Goal</span>
+            <span class="template-btn-amt">Set your own</span>
+          </button>
+        </div>
+
+        <div class="auth-field" style="margin-top: 14px;">
+          <label for="onboardingGoalName">Goal Name</label>
+          <input type="text" id="onboardingGoalName" class="sim-input" placeholder="e.g. Emergency Fund" value="Emergency Fund" maxlength="60" required>
+          <div class="auth-error-msg hidden" id="onboardingNameError" role="alert"></div>
+        </div>
+
+        <div class="onboarding-btn-row">
+          <button type="button" class="btn-secondary" id="onboardingBackTo1Btn">Back</button>
+          <button type="button" class="btn-primary" id="onboardingNextTo3Btn">Continue →</button>
+        </div>
+      </div>
+
+      <!-- STEP 3: TARGET AMOUNT -->
+      <div class="onboarding-step-pane" id="onboardingStep3">
+        <div class="onboarding-badge">Step 3 · Target Amount</div>
+        <h2 class="onboarding-title">How much do you want to save?</h2>
+        <p class="onboarding-desc">
+          Set your total monetary goal. You can adjust this whenever needed.
+        </p>
+
+        <label for="onboardingTargetAmount" class="hint" style="display:block; margin-bottom: 6px; font-weight: 600;">Target Amount (NGN)</label>
+        <div class="currency-input-box">
+          <span class="currency-prefix">₦</span>
+          <input type="number" id="onboardingTargetAmount" class="currency-input-field" placeholder="100000" value="100000" min="1" step="1" required>
+        </div>
+        <div class="auth-error-msg hidden" id="onboardingAmountError" role="alert"></div>
+
+        <div class="preset-chips-row" aria-label="Quick amount presets">
+          <button type="button" class="preset-chip-btn" data-set-amt="100000">₦100,000</button>
+          <button type="button" class="preset-chip-btn" data-set-amt="300000">₦300,000</button>
+          <button type="button" class="preset-chip-btn" data-set-amt="500000">₦500,000</button>
+          <button type="button" class="preset-chip-btn" data-set-amt="1000000">₦1,000,000</button>
+          <button type="button" class="preset-chip-btn" data-set-amt="2000000">₦2,000,000</button>
+        </div>
+
+        <div class="onboarding-btn-row">
+          <button type="button" class="btn-secondary" id="onboardingBackTo2Btn">Back</button>
+          <button type="button" class="btn-primary" id="onboardingNextTo4Btn">Continue →</button>
+        </div>
+      </div>
+
+      <!-- STEP 4: TARGET DATE & CADENCE -->
+      <div class="onboarding-step-pane" id="onboardingStep4">
+        <div class="onboarding-badge">Step 4 · Timeline & Cadence</div>
+        <h2 class="onboarding-title">When do you want to reach it?</h2>
+        <p class="onboarding-desc">
+          Choose your target deadline and your preferred consistency rhythm.
+        </p>
+
+        <div class="auth-field">
+          <label for="onboardingTargetDate">Target Deadline</label>
+          <input type="date" id="onboardingTargetDate" class="sim-input" required>
+          <div class="auth-error-msg hidden" id="onboardingDateError" role="alert"></div>
+        </div>
+
+        <div style="margin-top: 18px; margin-bottom: 8px;">
+          <span class="hint" style="display:block; margin-bottom: 8px; font-weight: 600;">How often do you want to save?</span>
+          <div class="cadence-choice-grid" role="radiogroup" aria-label="Savings Frequency">
+            <button type="button" class="cadence-card active" id="cadenceDailyBtn" data-mode="daily" role="radio" aria-checked="true">
+              <div class="cadence-title">📅 Daily Plan</div>
+              <div class="cadence-desc">Smaller everyday steps that turn into an effortless habit.</div>
+            </button>
+            <button type="button" class="cadence-card" id="cadenceWeeklyBtn" data-mode="weekly" role="radio" aria-checked="false">
+              <div class="cadence-title">🗓️ Weekly Plan</div>
+              <div class="cadence-desc">One focused contribution target deposited every 7 days.</div>
+            </button>
+          </div>
+        </div>
+
+        <!-- Live Plan Calculation Preview -->
+        <div class="plan-calc-pill" id="onboardingPlanCalcPill">
+          <div>
+            <div class="plan-calc-label" id="onboardingPlanCalcLabel">Daily Target</div>
+            <div style="font-size: 11px; color: var(--muted);" id="onboardingPlanCalcDays">0 days remaining</div>
+          </div>
+          <div class="plan-calc-val" id="onboardingPlanCalcVal">₦0</div>
+        </div>
+
+        <div class="onboarding-btn-row">
+          <button type="button" class="btn-secondary" id="onboardingBackTo3Btn">Back</button>
+          <button type="button" class="btn-primary" id="onboardingNextTo5Btn">Review Plan →</button>
+        </div>
+      </div>
+
+      <!-- STEP 5: REVIEW & CREATE -->
+      <div class="onboarding-step-pane" id="onboardingStep5">
+        <div class="onboarding-badge">Step 5 · Confirmation</div>
+        <h2 class="onboarding-title">Review your savings plan.</h2>
+        <p class="onboarding-desc">
+          Everything is set up. Double-check your numbers before starting.
+        </p>
+
+        <div class="review-table">
+          <div class="review-row">
+            <span class="review-label">Goal Name</span>
+            <span class="review-val" id="reviewGoalName">Emergency Fund</span>
+          </div>
+          <div class="review-row">
+            <span class="review-label">Target Amount</span>
+            <span class="review-val" id="reviewTargetAmount">₦100,000</span>
+          </div>
+          <div class="review-row">
+            <span class="review-label">Target Date</span>
+            <span class="review-val" id="reviewTargetDate">—</span>
+          </div>
+          <div class="review-row">
+            <span class="review-label">Time Horizon</span>
+            <span class="review-val" id="reviewTimeHorizon">—</span>
+          </div>
+          <div class="review-row">
+            <span class="review-label">Cadence</span>
+            <span class="review-val" id="reviewCadence">Daily</span>
+          </div>
+          <div class="review-row highlight">
+            <span class="review-label" style="font-weight: 700; color: var(--green-dark);" id="reviewRecommendedLabel">Recommended Daily</span>
+            <span class="review-val" style="font-size: 16px; color: var(--green-dark);" id="reviewRecommendedVal">₦0</span>
+          </div>
+        </div>
+
+        <div class="auth-error-msg hidden" id="onboardingSubmitError" role="alert"></div>
+
+        <div class="onboarding-btn-row">
+          <button type="button" class="btn-secondary" id="onboardingBackTo4Btn">Back</button>
+          <button type="button" class="btn-primary" id="onboardingSubmitGoalBtn">Start This Goal 🚀</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ==========================================================================
      VIEW 2: FULL WORKING SAVINGS TRACKER & DASHBOARD (PROTECTED)
      ========================================================================== -->
 <div id="appView" class="view-container hidden">
@@ -1655,6 +2193,7 @@
         <p id="subtitle">Saving ₦500,000 by Dec 31, 2026</p>
       </div>
       <div class="header-actions">
+        <button class="btn-secondary" id="appNewGoalBtn" style="padding: 8px 12px; font-size: 12px;">+ New Goal</button>
         <button class="story-toggle-btn" id="openStoryBtn" title="View interactive guide & story">📖 Story</button>
         <button class="icon-btn" id="darkToggle" title="Toggle dark mode">🌙</button>
         <button class="btn-secondary" id="appSignOutBtn" style="padding: 8px 12px; font-size: 12px;">Log Out</button>
@@ -1675,6 +2214,11 @@
     </div>
 
     <div class="card">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+        <span class="onboarding-badge" id="dashboardPlanBadge" style="margin-bottom:0;">Daily Plan</span>
+        <span id="dashboardGoalStatus" style="font-size:12px; font-weight:700; color:var(--green-dark); background:var(--green-light); padding:3px 8px; border-radius:12px;">Active</span>
+      </div>
+
       <div class="mode-toggle">
         <button class="mode-btn active" id="dailyModeBtn">Daily</button>
         <button class="mode-btn" id="weeklyModeBtn">Weekly</button>
@@ -1682,8 +2226,9 @@
 
       <div class="total-label">Total Saved</div>
       <div class="total-amount tabular" id="totalAmount">₦0</div>
-      <div class="total-target" id="totalTarget">of ₦500,000 target</div>
-      <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+      <div class="total-target" id="totalTarget">of ₦0 target</div>
+      <div id="dashboardRemaining" style="font-size: 13px; color: var(--muted); margin-top: 4px; font-variant-numeric: tabular-nums;">Remaining: ₦0</div>
+      <div class="progress-track" style="margin-top: 12px;"><div class="progress-fill" id="progressFill" style="width: 0%;"></div></div>
       <div class="progress-pct tabular" id="progressPct">0%</div>
 
       <div class="stats-row">
@@ -1701,19 +2246,25 @@
         </div>
       </div>
 
+      <!-- Live Recommended Pace Breakdown -->
+      <div style="background:var(--bg); border:1px solid var(--border-strong); border-radius:var(--radius-md); padding:12px 14px; margin-top:16px;">
+        <div style="display:flex; justify-content:space-between; margin-bottom:4px; font-size:12px;">
+          <span style="color:var(--muted);">Recommended Pace:</span>
+          <strong id="dashboardRecPace" class="tabular" style="color:var(--green-dark);">₦0 / day</strong>
+        </div>
+        <div style="display:flex; justify-content:space-between; font-size:12px;">
+          <span style="color:var(--muted);">Target Deadline:</span>
+          <strong id="dashboardDeadlineVal" class="tabular">—</strong>
+        </div>
+      </div>
+
       <div class="projection" id="projection"></div>
     </div>
 
     <div class="card">
-      <button class="save-btn" id="saveBtn">I Saved ₦3,676 Today</button>
-      <div style="display:flex; justify-content:center; gap:16px; margin-top:10px;">
-        <button class="undo-link" id="editAmountToggle" style="margin:0;">Enter a different amount</button>
-        <button class="undo-link" id="undoBtn" style="display:none; margin:0;">Undo this entry</button>
-      </div>
-      <div class="field" id="editAmountForm" style="display:none; margin-top:12px;">
-        <label id="editAmountLabel">Actual amount saved (₦)</label>
-        <input type="number" id="editAmountInput" placeholder="e.g. 5000">
-        <button class="btn-secondary" id="editAmountSave" style="margin-top:8px;">Save Amount</button>
+      <button class="save-btn" id="saveBtn">Add Savings</button>
+      <div style="font-size:12px; color:var(--muted); text-align:center; margin-top:8px;">
+        💡 Granular savings entry ledger & history will be activated in Phase 4.
       </div>
     </div>
 
@@ -2179,21 +2730,53 @@
   }
 
   // ==========================================================================
-  // VIEW SWITCHER & ROUTE PROTECTION
+  // VIEW SWITCHER, GOAL STATE & ROUTE PROTECTION (PHASE 3)
   // ==========================================================================
+  let activeGoal = null;
+
+  async function fetchActiveGoal() {
+    if (!supabaseClient || !currentUser) return null;
+    try {
+      const { data, error } = await supabaseClient
+        .from('goals')
+        .select('*')
+        .eq('user_id', currentUser.id)
+        .eq('status', 'active')
+        .order('created_at', { ascending: false })
+        .limit(1);
+
+      if (error) {
+        console.warn('Error fetching active goal:', error);
+        return null;
+      }
+      return data && data.length > 0 ? data[0] : null;
+    } catch (e) {
+      console.warn('Exception fetching active goal:', e);
+      return null;
+    }
+  }
+
   function showView(viewName) {
     const landingView = document.getElementById('landingView');
+    const onboardingView = document.getElementById('onboardingView');
     const appView = document.getElementById('appView');
     const mobileStickyBar = document.getElementById('mobileStickyBar');
 
-    if (viewName === 'app') {
-      landingView.classList.add('hidden');
+    landingView.classList.add('hidden');
+    if (onboardingView) onboardingView.classList.add('hidden');
+    appView.classList.add('hidden');
+
+    if (viewName === 'app' || viewName === 'dashboard') {
       appView.classList.remove('hidden');
       if (mobileStickyBar) mobileStickyBar.style.display = 'none';
       window.scrollTo(0, 0);
-      render();
+      renderActiveGoalView();
+    } else if (viewName === 'onboarding') {
+      if (onboardingView) onboardingView.classList.remove('hidden');
+      if (mobileStickyBar) mobileStickyBar.style.display = 'none';
+      window.scrollTo(0, 0);
+      initOnboardingFlow();
     } else {
-      appView.classList.add('hidden');
       landingView.classList.remove('hidden');
       if (mobileStickyBar) mobileStickyBar.style.display = 'flex';
       window.scrollTo(0, 0);
@@ -2201,7 +2784,7 @@
   }
 
   // Routing Guard
-  function checkRoute() {
+  async function checkRoute() {
     const hash = window.location.hash;
 
     if (hash === '#recovery') {
@@ -2210,7 +2793,7 @@
       return;
     }
 
-    if (hash === '#app' || hash === '#dashboard') {
+    if (hash === '#app' || hash === '#dashboard' || hash === '#onboarding') {
       // Protected Route Guard: Check user authentication
       if (!currentUser) {
         showView('landing');
@@ -2218,17 +2801,497 @@
         showToast('Please sign in to access your dashboard.');
         return;
       }
-      showView('app');
+
+      // Fetch active goal for authenticated user
+      activeGoal = await fetchActiveGoal();
+
+      if (!activeGoal) {
+        // First-Time User with Zero Goals -> Route directly to Onboarding
+        if (hash !== '#onboarding') {
+          window.location.hash = '#onboarding';
+          return;
+        }
+        showView('onboarding');
+      } else {
+        // User already has an active goal
+        if (hash === '#onboarding') {
+          showView('onboarding');
+        } else {
+          showView('app');
+        }
+      }
     } else {
       showView('landing');
     }
   }
   window.addEventListener('hashchange', checkRoute);
 
+  function formatDateNice(dateVal) {
+    if (!dateVal) return '—';
+    const d = NairaStreakCalc.normalizeDate(dateVal);
+    return d.toLocaleDateString('en-NG', { day: 'numeric', month: 'short', year: 'numeric' });
+  }
+
+  // Renders the real goal dashboard with active goal data
+  function renderActiveGoalView() {
+    if (!activeGoal) {
+      render(); // Fallback to prototype view if no goal
+      return;
+    }
+
+    // Dynamic Title & Subtitle
+    const titleEl = document.getElementById('appHeaderTitle');
+    const subEl = document.getElementById('subtitle');
+    const badgeEl = document.getElementById('dashboardPlanBadge');
+    const statusEl = document.getElementById('dashboardGoalStatus');
+    const totalTargetEl = document.getElementById('totalTarget');
+    const totalAmountEl = document.getElementById('totalAmount');
+    const remainingEl = document.getElementById('dashboardRemaining');
+    const progressFillEl = document.getElementById('progressFill');
+    const progressPctEl = document.getElementById('progressPct');
+    const daysLeftEl = document.getElementById('daysLeft');
+    const daysSavedEl = document.getElementById('daysSaved');
+    const streakEl = document.getElementById('streak');
+    const recPaceEl = document.getElementById('dashboardRecPace');
+    const deadlineValEl = document.getElementById('dashboardDeadlineVal');
+    const saveBtnEl = document.getElementById('saveBtn');
+
+    if (titleEl) titleEl.textContent = '🎯 ' + activeGoal.name;
+    if (subEl) subEl.textContent = `Target: ${NairaStreakCalc.formatNaira(activeGoal.target_amount)} by ${formatDateNice(activeGoal.target_date)}`;
+    if (badgeEl) badgeEl.textContent = activeGoal.contribution_mode === 'weekly' ? 'Weekly Plan' : 'Daily Plan';
+    if (statusEl) statusEl.textContent = (activeGoal.status || 'Active').toUpperCase();
+    if (totalTargetEl) totalTargetEl.textContent = `of ${NairaStreakCalc.formatNaira(activeGoal.target_amount)} target`;
+    if (deadlineValEl) deadlineValEl.textContent = formatDateNice(activeGoal.target_date);
+
+    const daysRemaining = NairaStreakCalc.calculateDaysRemaining(activeGoal.target_date);
+    if (daysLeftEl) daysLeftEl.textContent = daysRemaining;
+    if (daysSavedEl) daysSavedEl.textContent = '0';
+    if (streakEl) streakEl.textContent = '0';
+
+    // Amount saved is initially ₦0 (before Phase 4 entries are added)
+    const currentSaved = 0;
+    const progress = NairaStreakCalc.calculateProgress(currentSaved, activeGoal.target_amount);
+
+    if (totalAmountEl) totalAmountEl.textContent = NairaStreakCalc.formatNaira(currentSaved);
+    if (remainingEl) remainingEl.textContent = `Remaining: ${NairaStreakCalc.formatNaira(progress.remaining)}`;
+    if (progressFillEl) progressFillEl.style.width = `${progress.percent}%`;
+    if (progressPctEl) progressPctEl.textContent = `${progress.percent}%`;
+
+    const dailyRec = NairaStreakCalc.calculateDailyContribution(activeGoal.target_amount, activeGoal.target_date, currentSaved);
+    const weeklyRec = NairaStreakCalc.calculateWeeklyContribution(activeGoal.target_amount, activeGoal.target_date, currentSaved);
+
+    if (recPaceEl) {
+      recPaceEl.textContent = activeGoal.contribution_mode === 'weekly'
+        ? `${NairaStreakCalc.formatNaira(weeklyRec)} / week`
+        : `${NairaStreakCalc.formatNaira(dailyRec)} / day`;
+    }
+
+    if (saveBtnEl) {
+      saveBtnEl.textContent = activeGoal.contribution_mode === 'weekly'
+        ? `I Saved ${NairaStreakCalc.formatNaira(weeklyRec)} This Week`
+        : `I Saved ${NairaStreakCalc.formatNaira(dailyRec)} Today`;
+    }
+
+    // Sync mode button UI
+    const dailyModeBtn = document.getElementById('dailyModeBtn');
+    const weeklyModeBtn = document.getElementById('weeklyModeBtn');
+    if (dailyModeBtn && weeklyModeBtn) {
+      if (activeGoal.contribution_mode === 'weekly') {
+        dailyModeBtn.classList.remove('active');
+        weeklyModeBtn.classList.add('active');
+      } else {
+        dailyModeBtn.classList.add('active');
+        weeklyModeBtn.classList.remove('active');
+      }
+    }
+  }
+
+  // Hook save buttons in dashboard to inform user about Phase 4
+  const appSaveBtn = document.getElementById('saveBtn');
+  if (appSaveBtn) {
+    appSaveBtn.addEventListener('click', () => {
+      showToast('Savings entry logging & history will be activated in Phase 4 (Next Phase)!');
+    });
+  }
+
+  const newGoalNavBtn = document.getElementById('appNewGoalBtn');
+  if (newGoalNavBtn) {
+    newGoalNavBtn.addEventListener('click', () => {
+      window.location.hash = '#onboarding';
+    });
+  }
+
+  // ==========================================================================
+  // ONBOARDING CONTROLLER (PHASE 3)
+  // ==========================================================================
+  let onboardingCurrentStep = 1;
+  const onboardingState = {
+    name: 'Emergency Fund',
+    targetAmount: 100000,
+    targetDate: '',
+    contributionMode: 'daily'
+  };
+
+  function initOnboardingFlow() {
+    onboardingCurrentStep = 1;
+
+    // Check for draft goal from landing simulator
+    const draftJson = sessionStorage.getItem('nairastreak_draft_goal');
+    if (draftJson) {
+      try {
+        const draft = JSON.parse(draftJson);
+        if (draft.targetAmount) {
+          onboardingState.targetAmount = NairaStreakCalc.parseNairaInput(draft.targetAmount);
+          const amtInput = document.getElementById('onboardingTargetAmount');
+          if (amtInput) amtInput.value = onboardingState.targetAmount;
+        }
+        if (draft.targetDate) {
+          onboardingState.targetDate = draft.targetDate;
+          const dateInput = document.getElementById('onboardingTargetDate');
+          if (dateInput) dateInput.value = draft.targetDate;
+        }
+      } catch (e) {
+        console.warn('Could not parse draft goal:', e);
+      }
+    }
+
+    // Ensure valid minimum target date (tomorrow)
+    const targetDateInput = document.getElementById('onboardingTargetDate');
+    if (targetDateInput) {
+      const tomorrow = new Date();
+      tomorrow.setDate(tomorrow.getDate() + 1);
+      targetDateInput.min = tomorrow.toISOString().split('T')[0];
+
+      if (!targetDateInput.value) {
+        const defaultDate = new Date();
+        defaultDate.setMonth(defaultDate.getMonth() + 3); // 3 months default
+        targetDateInput.value = defaultDate.toISOString().split('T')[0];
+        onboardingState.targetDate = targetDateInput.value;
+      }
+    }
+
+    goToOnboardingStep(1);
+    updateOnboardingPlanCalc();
+  }
+
+  function goToOnboardingStep(stepNum) {
+    // Hide all steps, show target step
+    for (let i = 1; i <= 5; i++) {
+      const pane = document.getElementById(`onboardingStep${i}`);
+      if (pane) pane.classList.toggle('active', i === stepNum);
+    }
+    onboardingCurrentStep = stepNum;
+
+    // Update progress bar & counter
+    const counterEl = document.getElementById('onboardingStepCounter');
+    const fillEl = document.getElementById('onboardingProgressFill');
+    const barEl = document.getElementById('onboardingProgressBar');
+
+    if (counterEl) counterEl.textContent = `Step ${stepNum} of 5`;
+    if (fillEl) fillEl.style.width = `${stepNum * 20}%`;
+    if (barEl) barEl.setAttribute('aria-valuenow', stepNum);
+
+    if (stepNum === 4 || stepNum === 5) {
+      updateOnboardingPlanCalc();
+    }
+
+    if (stepNum === 5) {
+      populateReviewStep();
+    }
+    window.scrollTo(0, 0);
+  }
+
+  function updateOnboardingPlanCalc() {
+    const amtInput = document.getElementById('onboardingTargetAmount');
+    const dateInput = document.getElementById('onboardingTargetDate');
+    const planValEl = document.getElementById('onboardingPlanCalcVal');
+    const planDaysEl = document.getElementById('onboardingPlanCalcDays');
+    const planLabelEl = document.getElementById('onboardingPlanCalcLabel');
+
+    if (!amtInput || !dateInput || !planValEl || !planDaysEl || !planLabelEl) return;
+
+    const amt = NairaStreakCalc.parseNairaInput(amtInput.value) || 100000;
+    const targetDate = dateInput.value;
+    const mode = onboardingState.contributionMode;
+
+    const days = NairaStreakCalc.calculateDaysRemaining(targetDate);
+    const weeks = NairaStreakCalc.calculateWeeksRemaining(targetDate);
+
+    if (mode === 'weekly') {
+      const weekly = NairaStreakCalc.calculateWeeklyContribution(amt, targetDate);
+      planLabelEl.textContent = 'Weekly Target';
+      planValEl.textContent = `${NairaStreakCalc.formatNaira(weekly)} / wk`;
+      planDaysEl.textContent = `${weeks} weeks (${days} days) left`;
+    } else {
+      const daily = NairaStreakCalc.calculateDailyContribution(amt, targetDate);
+      planLabelEl.textContent = 'Daily Target';
+      planValEl.textContent = `${NairaStreakCalc.formatNaira(daily)} / day`;
+      planDaysEl.textContent = `${days} days left`;
+    }
+  }
+
+  function populateReviewStep() {
+    const name = document.getElementById('onboardingGoalName')?.value.trim() || 'My Savings Goal';
+    const amt = NairaStreakCalc.parseNairaInput(document.getElementById('onboardingTargetAmount')?.value) || 100000;
+    const targetDate = document.getElementById('onboardingTargetDate')?.value;
+    const mode = onboardingState.contributionMode;
+
+    const days = NairaStreakCalc.calculateDaysRemaining(targetDate);
+    const weeks = NairaStreakCalc.calculateWeeksRemaining(targetDate);
+    const daily = NairaStreakCalc.calculateDailyContribution(amt, targetDate);
+    const weekly = NairaStreakCalc.calculateWeeklyContribution(amt, targetDate);
+
+    const rName = document.getElementById('reviewGoalName');
+    const rAmt = document.getElementById('reviewTargetAmount');
+    const rDate = document.getElementById('reviewTargetDate');
+    const rHorizon = document.getElementById('reviewTimeHorizon');
+    const rCadence = document.getElementById('reviewCadence');
+    const rLabel = document.getElementById('reviewRecommendedLabel');
+    const rVal = document.getElementById('reviewRecommendedVal');
+
+    if (rName) rName.textContent = name;
+    if (rAmt) rAmt.textContent = NairaStreakCalc.formatNaira(amt);
+    if (rDate) rDate.textContent = formatDateNice(targetDate);
+    if (rHorizon) rHorizon.textContent = `${days} days (${weeks} weeks)`;
+    if (rCadence) rCadence.textContent = mode === 'weekly' ? 'Weekly' : 'Daily';
+    if (rLabel) rLabel.textContent = mode === 'weekly' ? 'Recommended Weekly Contribution' : 'Recommended Daily Contribution';
+    if (rVal) rVal.textContent = mode === 'weekly' ? `${NairaStreakCalc.formatNaira(weekly)} / week` : `${NairaStreakCalc.formatNaira(daily)} / day`;
+  }
+
+  // Step 1: Start
+  document.getElementById('onboardingStartBtn')?.addEventListener('click', () => goToOnboardingStep(2));
+
+  // Step 2: Templates & Name
+  document.querySelectorAll('.template-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.template-btn').forEach(b => {
+        b.classList.remove('active');
+        b.setAttribute('aria-checked', 'false');
+      });
+      btn.classList.add('active');
+      btn.setAttribute('aria-checked', 'true');
+
+      const templateName = btn.dataset.template;
+      const templateAmt = btn.dataset.amt;
+      const nameInput = document.getElementById('onboardingGoalName');
+      const amtInput = document.getElementById('onboardingTargetAmount');
+
+      if (templateName === 'Custom Goal') {
+        if (nameInput) {
+          nameInput.value = '';
+          nameInput.placeholder = 'e.g. My Dream Project';
+          nameInput.focus();
+        }
+      } else {
+        if (nameInput) nameInput.value = templateName;
+        if (amtInput && templateAmt) amtInput.value = templateAmt;
+      }
+      onboardingState.name = nameInput?.value || templateName;
+      updateOnboardingPlanCalc();
+    });
+  });
+
+  document.getElementById('onboardingBackTo1Btn')?.addEventListener('click', () => goToOnboardingStep(1));
+  document.getElementById('onboardingNextTo3Btn')?.addEventListener('click', () => {
+    const nameInput = document.getElementById('onboardingGoalName');
+    const nameErr = document.getElementById('onboardingNameError');
+    const val = nameInput?.value.trim();
+
+    if (!val) {
+      if (nameErr) {
+        nameErr.textContent = 'Please enter a name for your goal.';
+        nameErr.classList.remove('hidden');
+      }
+      nameInput?.focus();
+      return;
+    }
+    if (nameErr) nameErr.classList.add('hidden');
+    onboardingState.name = val;
+    goToOnboardingStep(3);
+  });
+
+  // Step 3: Target Amount
+  document.querySelectorAll('.preset-chip-btn').forEach(chip => {
+    chip.addEventListener('click', () => {
+      const amtInput = document.getElementById('onboardingTargetAmount');
+      if (amtInput && chip.dataset.setAmt) {
+        amtInput.value = chip.dataset.setAmt;
+        updateOnboardingPlanCalc();
+      }
+    });
+  });
+
+  document.getElementById('onboardingTargetAmount')?.addEventListener('input', updateOnboardingPlanCalc);
+  document.getElementById('onboardingBackTo2Btn')?.addEventListener('click', () => goToOnboardingStep(2));
+  document.getElementById('onboardingNextTo4Btn')?.addEventListener('click', () => {
+    const amtInput = document.getElementById('onboardingTargetAmount');
+    const amtErr = document.getElementById('onboardingAmountError');
+    const parsed = NairaStreakCalc.parseNairaInput(amtInput?.value);
+
+    if (!parsed || parsed <= 0) {
+      if (amtErr) {
+        amtErr.textContent = 'Please enter a target amount greater than ₦0.';
+        amtErr.classList.remove('hidden');
+      }
+      amtInput?.focus();
+      return;
+    }
+    if (parsed > 1000000000) {
+      if (amtErr) {
+        amtErr.textContent = 'Target amount cannot exceed ₦1,000,000,000.';
+        amtErr.classList.remove('hidden');
+      }
+      amtInput?.focus();
+      return;
+    }
+    if (amtErr) amtErr.classList.add('hidden');
+    onboardingState.targetAmount = parsed;
+    goToOnboardingStep(4);
+  });
+
+  // Step 4: Deadline & Cadence
+  const dailyCard = document.getElementById('cadenceDailyBtn');
+  const weeklyCard = document.getElementById('cadenceWeeklyBtn');
+
+  dailyCard?.addEventListener('click', () => {
+    dailyCard.classList.add('active');
+    dailyCard.setAttribute('aria-checked', 'true');
+    weeklyCard?.classList.remove('active');
+    weeklyCard?.setAttribute('aria-checked', 'false');
+    onboardingState.contributionMode = 'daily';
+    updateOnboardingPlanCalc();
+  });
+
+  weeklyCard?.addEventListener('click', () => {
+    weeklyCard.classList.add('active');
+    weeklyCard.setAttribute('aria-checked', 'true');
+    dailyCard?.classList.remove('active');
+    dailyCard?.setAttribute('aria-checked', 'false');
+    onboardingState.contributionMode = 'weekly';
+    updateOnboardingPlanCalc();
+  });
+
+  document.getElementById('onboardingTargetDate')?.addEventListener('change', updateOnboardingPlanCalc);
+  document.getElementById('onboardingBackTo3Btn')?.addEventListener('click', () => goToOnboardingStep(3));
+  document.getElementById('onboardingNextTo5Btn')?.addEventListener('click', () => {
+    const dateInput = document.getElementById('onboardingTargetDate');
+    const dateErr = document.getElementById('onboardingDateError');
+    const dateVal = dateInput?.value;
+
+    if (!dateVal) {
+      if (dateErr) {
+        dateErr.textContent = 'Please choose a target deadline date.';
+        dateErr.classList.remove('hidden');
+      }
+      dateInput?.focus();
+      return;
+    }
+
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    const chosen = NairaStreakCalc.normalizeDate(dateVal);
+
+    if (isNaN(chosen.getTime()) || chosen <= today) {
+      if (dateErr) {
+        dateErr.textContent = 'Target date must be in the future.';
+        dateErr.classList.remove('hidden');
+      }
+      dateInput?.focus();
+      return;
+    }
+
+    if (dateErr) dateErr.classList.add('hidden');
+    onboardingState.targetDate = dateVal;
+    goToOnboardingStep(5);
+  });
+
+  // Step 5: Submission to Supabase
+  document.getElementById('onboardingBackTo4Btn')?.addEventListener('click', () => goToOnboardingStep(4));
+  document.getElementById('onboardingSubmitGoalBtn')?.addEventListener('click', async () => {
+    const submitBtn = document.getElementById('onboardingSubmitGoalBtn');
+    const errBox = document.getElementById('onboardingSubmitError');
+
+    const name = document.getElementById('onboardingGoalName')?.value.trim() || 'My Savings Goal';
+    const amount = NairaStreakCalc.parseNairaInput(document.getElementById('onboardingTargetAmount')?.value) || 100000;
+    const targetDate = document.getElementById('onboardingTargetDate')?.value;
+    const mode = onboardingState.contributionMode || 'daily';
+
+    // Validate complete goal object
+    const validation = NairaStreakCalc.validateGoalInput({
+      name,
+      targetAmount: amount,
+      targetDate,
+      contributionMode: mode
+    });
+
+    if (!validation.isValid) {
+      if (errBox) {
+        errBox.textContent = Object.values(validation.errors)[0];
+        errBox.classList.remove('hidden');
+      }
+      return;
+    }
+
+    if (!supabaseClient || !currentUser) {
+      if (errBox) {
+        errBox.textContent = 'You must be signed in to create a goal. Please sign in again.';
+        errBox.classList.remove('hidden');
+      }
+      return;
+    }
+
+    // Submit to Supabase
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Creating your goal...';
+    if (errBox) errBox.classList.add('hidden');
+
+    try {
+      const { data, error } = await supabaseClient
+        .from('goals')
+        .insert([{
+          user_id: currentUser.id,
+          name: name,
+          target_amount: amount,
+          currency: 'NGN',
+          target_date: targetDate,
+          contribution_mode: mode,
+          status: 'active'
+        }])
+        .select()
+        .single();
+
+      if (error) throw error;
+
+      // Successfully persisted goal!
+      activeGoal = data;
+      sessionStorage.removeItem('nairastreak_draft_goal');
+      showToast('Your goal is ready! 🎉');
+      window.location.hash = '#dashboard';
+      checkRoute();
+    } catch (err) {
+      console.error('Goal creation failed:', err);
+      submitBtn.disabled = false;
+      submitBtn.textContent = 'Start This Goal 🚀';
+      if (errBox) {
+        errBox.textContent = err.message || 'Failed to save your goal. Please check your connection and retry.';
+        errBox.classList.remove('hidden');
+      }
+    }
+  });
+
   // CTA Click handlers
   function handleStartStreakAction() {
+    // Preserve simulator values into draft goal
+    if (simGoalInput && simDateInput) {
+      sessionStorage.setItem('nairastreak_draft_goal', JSON.stringify({
+        targetAmount: simGoalInput.value,
+        targetDate: simDateInput.value
+      }));
+    }
+
     if (currentUser) {
-      window.location.hash = '#dashboard';
+      window.location.hash = activeGoal ? '#dashboard' : '#onboarding';
+      checkRoute();
     } else {
       openAuthModal('signup');
     }
@@ -2339,30 +3402,32 @@
   simDateInput.value = defaultSimDate.toISOString().split('T')[0];
 
   function runSimulation() {
-    const targetAmt = parseFloat(simGoalInput.value) || 500000;
-    const targetDate = new Date(simGoalInput.value ? simDateInput.value : '2026-12-31');
-    const now = new Date();
-    now.setHours(0,0,0,0);
+    const targetAmt = NairaStreakCalc.parseNairaInput(simGoalInput.value) || 500000;
+    const targetDate = simDateInput.value || '2026-12-31';
 
-    const diffMs = targetDate - now;
-    const days = Math.max(1, Math.ceil(diffMs / (1000 * 60 * 60 * 24)));
-    const weeks = Math.max(1, days / 7);
-    const months = Math.max(1, days / 30.416);
+    const days = NairaStreakCalc.calculateDaysRemaining(targetDate);
+    const daily = NairaStreakCalc.calculateDailyContribution(targetAmt, targetDate);
+    const weekly = NairaStreakCalc.calculateWeeklyContribution(targetAmt, targetDate);
+    const monthly = NairaStreakCalc.calculateMonthlyEquivalent(targetAmt, targetDate);
 
-    const daily = targetAmt / days;
-    const weekly = targetAmt / weeks;
-    const monthly = targetAmt / months;
-
-    document.getElementById('simDailyVal').textContent = formatNaira(daily);
-    document.getElementById('simWeeklyVal').textContent = formatNaira(weekly);
-    document.getElementById('simMonthlyVal').textContent = formatNaira(monthly);
+    document.getElementById('simDailyVal').textContent = NairaStreakCalc.formatNaira(daily);
+    document.getElementById('simWeeklyVal').textContent = NairaStreakCalc.formatNaira(weekly);
+    document.getElementById('simMonthlyVal').textContent = NairaStreakCalc.formatNaira(monthly);
     document.getElementById('simDaysVal').textContent = `${days} days`;
 
     // Dynamic Breakdown Ladder
-    document.getElementById('ladderStepTotal').querySelector('.ladder-amount').textContent = formatNaira(targetAmt);
-    document.getElementById('ladderStepMonth').querySelector('.ladder-amount').textContent = formatNaira(monthly);
-    document.getElementById('ladderStepWeek').querySelector('.ladder-amount').textContent = formatNaira(weekly);
-    document.getElementById('ladderStepDay').querySelector('.ladder-amount').textContent = formatNaira(daily);
+    document.getElementById('ladderStepTotal').querySelector('.ladder-amount').textContent = NairaStreakCalc.formatNaira(targetAmt);
+    document.getElementById('ladderStepMonth').querySelector('.ladder-amount').textContent = NairaStreakCalc.formatNaira(monthly);
+    document.getElementById('ladderStepWeek').querySelector('.ladder-amount').textContent = NairaStreakCalc.formatNaira(weekly);
+    document.getElementById('ladderStepDay').querySelector('.ladder-amount').textContent = NairaStreakCalc.formatNaira(daily);
+
+    // Save draft goal for onboarding handoff
+    try {
+      sessionStorage.setItem('nairastreak_draft_goal', JSON.stringify({
+        targetAmount: targetAmt,
+        targetDate: targetDate
+      }));
+    } catch (e) {}
   }
 
   simGoalInput.addEventListener('input', runSimulation);
@@ -2736,7 +3801,7 @@
     render();
   });
 
-  document.getElementById('undoBtn').addEventListener('click', () => {
+  document.getElementById('undoBtn')?.addEventListener('click', () => {
     const mode = getMode();
     const date = mode === 'daily' ? todayStr() : weekStartStr();
     let entries = getEntries();
@@ -2746,13 +3811,14 @@
     render();
   });
 
-  document.getElementById('editAmountToggle').addEventListener('click', () => {
+  document.getElementById('editAmountToggle')?.addEventListener('click', () => {
     const form = document.getElementById('editAmountForm');
-    form.style.display = form.style.display === 'none' ? 'block' : 'none';
+    if (form) form.style.display = form.style.display === 'none' ? 'block' : 'none';
   });
 
-  document.getElementById('editAmountSave').addEventListener('click', () => {
+  document.getElementById('editAmountSave')?.addEventListener('click', () => {
     const input = document.getElementById('editAmountInput');
+    if (!input) return;
     const val = parseFloat(input.value);
     if (!val || val <= 0) {
       showToast('Enter a valid amount');
@@ -2765,7 +3831,8 @@
     entries.push({ id: Date.now(), date, amount: val, type: mode });
     saveEntries(entries);
     input.value = '';
-    document.getElementById('editAmountForm').style.display = 'none';
+    const form = document.getElementById('editAmountForm');
+    if (form) form.style.display = 'none';
     showToast(`Saved ${formatNaira(val)}!`);
     render();
   });
@@ -2949,15 +4016,16 @@
         }
 
         // Listen for live auth events
-        supabaseClient.auth.onAuthStateChange((event, session) => {
+        supabaseClient.auth.onAuthStateChange(async (event, session) => {
           if (event === 'SIGNED_IN' && session?.user) {
             currentUser = session.user;
             updateAuthUI();
-            checkRoute();
+            await checkRoute();
           } else if (event === 'SIGNED_OUT') {
             currentUser = null;
+            activeGoal = null;
             updateAuthUI();
-            checkRoute();
+            await checkRoute();
           } else if (event === 'PASSWORD_RECOVERY') {
             openAuthModal('recovery');
           }
@@ -2967,7 +4035,7 @@
       }
     }
     updateAuthUI();
-    checkRoute();
+    await checkRoute();
   }
 
   // App Initialization

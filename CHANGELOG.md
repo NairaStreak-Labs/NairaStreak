@@ -7,6 +7,31 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [0.3.0] — 2026-10-13 (First-Time Onboarding & Goal Creation)
+
+### Added
+- **Resend Custom SMTP Integration**:
+  - Configured Resend as Supabase Auth's custom SMTP provider.
+  - End-to-end verification of signup email delivery, confirmation link resolution, password reset delivery, and recovery redirect.
+  - Rate-limit bottleneck eliminated without exposing secret keys to client code.
+- **First-Time Onboarding Flow (Phase 3)**:
+  - 5-step progressive disclosure wizard: Welcome, Goal Template / Custom Name, Target Amount, Target Deadline & Cadence (Daily/Weekly), and Review.
+  - Goal templates: Emergency Fund, Rent, School Fees, New Laptop, Travel, Business, ₦500K Challenge, ₦1M Challenge, and Custom Goal.
+  - Quick amount preset chips and live plan calculation preview.
+  - Direct persistence into Supabase `public.goals` with Row Level Security enforcement.
+- **Unified Calculation Engine (`calculations.js`)**:
+  - Single Source of Truth for savings formulas: `calculateDaysRemaining`, `calculateWeeksRemaining`, `calculateDailyContribution`, `calculateWeeklyContribution`, `calculateMonthlyEquivalent`, `calculateProgress`, `formatNaira`, and `validateGoalInput`.
+  - Comprehensive automated unit test suite (`tests/test_calculations.js`).
+- **Landing Simulator Handoff**:
+  - Automatically captures user intent from the public landing simulator into `sessionStorage` (`nairastreak_draft_goal`) and prefills onboarding upon registration.
+- **First Real Goal Dashboard**:
+  - Dynamically renders active goal name, target amount, amount remaining, progress percentage, days left, and recommended daily/weekly pace from Supabase.
+  - Added "+ New Goal" action and informative Phase 4 notice on "Add Savings" CTA.
+- **Automated Responsive Testing**:
+  - Full end-to-end browser verification via Playwright CLI across 375px, 390px, 768px, 1024px, and 1440px viewports with zero horizontal overflow.
+
+---
+
 ## [0.2.0] — 2026-10-12 (Authentication & Cloud Data Foundation)
  
 ### Added

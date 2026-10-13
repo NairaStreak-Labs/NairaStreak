@@ -65,3 +65,23 @@
 - **Context**: The `handle_new_user()` trigger function runs with elevated `SECURITY DEFINER` privileges to automatically populate `profiles` upon auth registration. Unconstrained search paths and public execute permissions create escalation risks.
 - **Decision**: Set explicit `search_path = public` on the function and revoke execute privileges from `public`, `anon`, and `authenticated` roles.
 - **Consequences**: Restricts execution strictly to database triggers, preventing RPC exploitation from client-side REST calls.
+
+---
+
+## ADR 009: Managed Resend SMTP for Supabase Authentication Emails
+- **Context**: Built-in Supabase email service enforces strict rate limits (~3-4 emails/hour), which blocked development and fails production auth journeys (signups, email verifications, password resets). Client applications cannot hold Resend API secrets directly.
+- **Decision**: Configure Resend as Supabase Auth's custom SMTP provider directly in Supabase Dashboard. Retain the Resend credential exclusively within Supabase backend settings and local git-ignored `.env` (never committing or exposing to browser code).
+- **Consequences**:
+  - Unblocks reliable, high-volume transactional auth emails.
+  - Zero private API key leakage to browser client or repository code.
+  - Keeps product-level emails deferred to server-side Edge Functions in future phases.
+
+---
+
+## ADR 010: Single Source of Truth Monetary & Savings Calculation Engine
+- **Context**: Target calculations (daily/weekly contributions, days left, progress percentages, currency formatting) previously risked duplication between the landing simulator, onboarding wizard, and dashboard views.
+- **Decision**: Extract all mathematical and monetary formulas into a unified `calculations.js` library (`NairaStreakCalc`), used identically across the public simulator, first-time onboarding wizard, and authenticated dashboard.
+- **Consequences**:
+  - Guaranteed mathematical consistency across all surfaces.
+  - Eliminates rounding drift and disparate date calculations.
+  - Fully testable in automated Node.js CI/unit suites.

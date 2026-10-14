@@ -57,20 +57,31 @@ The web product must be meticulously designed and tested across the following co
 
 ## 3. Elevation, Cards & Dark Mode System
 
+Machine-readable tokens are maintained in [`DESIGN.md`](../DESIGN.md).
+
 ```css
 :root {
   /* Core Palette */
-  --green: #16a34a;
-  --green-dark: #059669;
+  --green: #047857;
+  --green-vibrant: #10b981;
+  --green-dark: #083324;
   --green-light: #dcfce7;
+  --green-tint: #e8f5ec;
+  --amber: #f59e0b;
+  --amber-dark: #b45309;
+  --amber-light: #fef3c7;
   --bg: #f8faf9;
   --card: #ffffff;
   --text: #1f2937;
-  --muted: #6b7280;
+  --muted: #4b5563;
   --border: #f3f4f6;
-  --radius-card: 16px;
+  --border-strong: #e5e7eb;
+  --radius-card: 20px;
+  --radius-hero: 22px;
   --radius-btn: 12px;
-  --shadow-card: 0 1px 3px rgba(0, 0, 0, 0.05), 0 1px 2px rgba(0, 0, 0, 0.03);
+  --radius-input: 8px;
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.04);
+  --shadow-hero: 0 4px 18px rgba(8, 51, 36, 0.18);
 }
 
 body.dark {
@@ -79,8 +90,12 @@ body.dark {
   --text: #eef4f0;
   --muted: #9ca8a1;
   --border: #223028;
+  --border-strong: #2c3e34;
   --green-light: #163524;
-  --shadow-card: 0 1px 3px rgba(0, 0, 0, 0.3);
+  --green-tint: #173826;
+  --amber-light: #362912;
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.3);
+  --shadow-hero: 0 4px 18px rgba(0, 0, 0, 0.5);
 }
 ```
 

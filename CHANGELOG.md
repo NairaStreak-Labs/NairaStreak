@@ -7,6 +7,21 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [0.5.1] — 2026-10-14 (NairaStreak Brand Design System & DESIGN.md)
+
+### Added
+- **Machine-Readable Design System Specification ([`DESIGN.md`](DESIGN.md))**:
+  - Full design token specification compliant with `@google/design.md` v0.4.0 (22 color tokens, 12 typography scales, 7 rounding levels, 8 spacing levels, and 23 component token bindings).
+  - Validated with `npx @google/design.md lint DESIGN.md` achieving **0 errors and 0 warnings**.
+  - All text/background combinations strictly satisfy WCAG AA contrast ratios (≥ 4.5:1).
+  - Explicit token definitions for Deep Forest Green (`#083324`), Emerald (`#047857` / `#10b981`), Mint (`#dcfce7` / `#e8f5ec`), Amber celebration streak accents (`#b45309` / `#fbbf24`), and dual-surface palettes.
+- **Documentation Synchronization**:
+  - Updated [`docs/BRAND_IDENTITY.md`](docs/BRAND_IDENTITY.md) with tabular typography specs (`tnum`) and direct references to `DESIGN.md`.
+  - Updated [`docs/DESIGN_GUIDELINES.md`](docs/DESIGN_GUIDELINES.md) aligning CSS elevation, card radius, and theme tokens with the design system.
+  - Synchronized `:root` and `body.dark` CSS variables in [`index.html`](index.html).
+
+---
+
 ## [0.5.0] — 2026-10-14 (Emergency Fund Dashboard Redesign)
 
 ### Added

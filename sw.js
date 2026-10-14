@@ -1,10 +1,11 @@
-const CACHE_NAME = 'nairastreak-dash-v1';
+const CACHE_NAME = 'nairastreak-luxury-brand-v1';
 const ASSETS = [
   './',
   './index.html',
   './config.js',
   './calculations.js',
   './manifest.json',
+  './logo.svg',
   './icon-192.png',
   './icon-512.png'
 ];

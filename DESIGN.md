@@ -340,7 +340,7 @@ The typeface relies on the high-performance native system font stack (`-apple-sy
 - **Mobile Stat Strip**: 3-column bottom border divider with `Days saved`, `Days left`, and `Day streak 🔥`.
 
 ### 4.2 Desktop Sidebar Navigation (≥768px)
-- Fixed 250px left sidebar with high-contrast `[N]` emerald badge and `NairaStreak` brand wordmark.
+- Fixed 250px left sidebar featuring the luxury brushed champagne gold and imperial forest green architectural 'N' monogram (`logo.svg`) and `NairaStreak` brand wordmark.
 - Vertical nav list (`Home`, `History`, `Plan`, `Settings`) with rounded pills (`border-radius: 10px`).
 - User profile footer with circular avatar badge, user display name, and one-click sign out.
 

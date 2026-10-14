@@ -1,12 +1,12 @@
 {
-  "name": "500K Challenge | NairaStreak",
+  "name": "NairaStreak · Savings Consistency Engine",
   "short_name": "NairaStreak",
-  "description": "Save ₦500,000 by Dec 31, 2026 — one day at a time with NairaStreak.",
+  "description": "Turn intimidating financial goals into effortless daily streaks with NairaStreak Labs.",
   "start_url": "./index.html",
   "scope": "./",
   "display": "standalone",
-  "background_color": "#f8faf9",
-  "theme_color": "#16a34a",
+  "background_color": "#083324",
+  "theme_color": "#083324",
   "orientation": "portrait",
   "icons": [
     {

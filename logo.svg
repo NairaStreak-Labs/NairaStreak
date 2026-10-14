@@ -1,0 +1,61 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="100%" height="100%">
+  <defs>
+    <!-- Deep Forest Luxury Radial Background -->
+    <radialGradient id="bgGrad" cx="50%" cy="40%" r="60%">
+      <stop offset="0%" stop-color="#0c4331"/>
+      <stop offset="60%" stop-color="#083324"/>
+      <stop offset="100%" stop-color="#041a12"/>
+    </radialGradient>
+
+    <!-- Champagne Gold Gradient for Monogram -->
+    <linearGradient id="goldGrad" x1="20%" y1="0%" x2="80%" y2="100%">
+      <stop offset="0%" stop-color="#faecc5"/>
+      <stop offset="30%" stop-color="#e5c578"/>
+      <stop offset="60%" stop-color="#d4af37"/>
+      <stop offset="85%" stop-color="#aa842c"/>
+      <stop offset="100%" stop-color="#dfbe70"/>
+    </linearGradient>
+
+    <!-- Subtle Gold Highlight for Border -->
+    <linearGradient id="goldBorder" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#faecc5" stop-opacity="0.8"/>
+      <stop offset="50%" stop-color="#d4af37" stop-opacity="0.3"/>
+      <stop offset="100%" stop-color="#aa842c" stop-opacity="0.7"/>
+    </linearGradient>
+
+    <!-- Subtle Drop Shadow -->
+    <filter id="luxuryGlow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="6" stdDeviation="10" flood-color="#000000" flood-opacity="0.5"/>
+      <feDropShadow dx="0" dy="0" stdDeviation="6" flood-color="#d4af37" flood-opacity="0.25"/>
+    </filter>
+  </defs>
+
+  <!-- Luxury Squircle Outer Container -->
+  <rect x="16" y="16" width="480" height="480" rx="112" fill="url(#bgGrad)"/>
+  <rect x="16" y="16" width="480" height="480" rx="112" fill="none" stroke="url(#goldBorder)" stroke-width="4"/>
+
+  <!-- Inner Architectural Accent Ring -->
+  <rect x="36" y="36" width="440" height="440" rx="96" fill="none" stroke="#d4af37" stroke-opacity="0.12" stroke-width="1.5"/>
+
+  <!-- NairaStreak Luxury Monogram 'N' with Ascending Streak & Currency Bars -->
+  <g filter="url(#luxuryGlow)">
+    <!-- Left Vertical Pillar -->
+    <path d="M 148 132 L 194 132 L 194 380 L 148 380 Z" fill="url(#goldGrad)"/>
+
+    <!-- Right Vertical Pillar -->
+    <path d="M 318 132 L 364 132 L 364 380 L 318 380 Z" fill="url(#goldGrad)"/>
+
+    <!-- Diagonal Dynamic Streak (Connecting N with ascending sharpness) -->
+    <path d="M 194 132 L 236 132 L 334 380 L 292 380 Z" fill="url(#goldGrad)"/>
+
+    <!-- Refined Architectural Currency Crossbars (Naira Heritage ₦) -->
+    <!-- Upper Crossbar -->
+    <path d="M 116 230 L 396 230 L 396 244 L 116 244 Z" fill="url(#goldGrad)" opacity="0.95"/>
+    
+    <!-- Lower Crossbar -->
+    <path d="M 116 268 L 396 268 L 396 282 L 116 282 Z" fill="url(#goldGrad)" opacity="0.95"/>
+
+    <!-- Apex Precision Diamond / Star of Consistency -->
+    <polygon points="341,102 349,118 365,126 349,134 341,150 333,134 317,126 333,118" fill="url(#goldGrad)"/>
+  </g>
+</svg>

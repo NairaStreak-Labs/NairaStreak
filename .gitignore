@@ -23,3 +23,9 @@ supabase/.temp/
 # Vercel deployment metadata
 .vercel/
 .vercel
+vercel/
+
+# Workspace & local review files
+.agents/
+.claude/
+*.zip

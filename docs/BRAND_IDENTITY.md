@@ -30,9 +30,15 @@ NairaStreak Labs exists to foster financial discipline through the psychology of
 ## 2. Visual Identity System
 
 ### 2.1 Logo & Marks
-- **Logo Mark**: A stylized geometric seed/streak motif intersecting a subtle upward curve, symbolizing growth and unbroken streaks.
-- **Wordmark**: `NairaStreak` in clean sans-serif with medium tracking, followed by `Labs` in muted contrast.
-- **Product Badge**: Working badge: `500K Challenge` with flexible container so future consumer names seamlessly replace it.
+- **Luxury Monogram (`logo.svg` / `assets/brand/nairastreak-luxury-monogram.jpg`)**:
+  - An architectural geometric monogram centered on the capital letter **'N'**.
+  - Seamlessly integrates an ascending streak trajectory (apex of consistency) and refined horizontal currency crossbars evoking the Nigerian Naira symbol (**₦**).
+  - Executed in brushed champagne gold (`#d4af37`, `#e5c578`) on deep imperial forest green (`#083324`, `#041a12`) squircle container with metallic gold borders and an eight-point precision star of consistency.
+  - Conveys the timeless prestige, precision, and discipline of an elite private wealth institution (Rolex/Cartier-level refinement).
+- **Haute Medallion Seal (`assets/brand/nairastreak-luxury-seal.jpg`)**:
+  - Circular luxury medallion seal for NairaStreak Labs featuring concentric micro-grooves, chamfered metallic rims, engraved institutional lettering, and central interlocking 'N' streak geometry.
+- **Wordmark**: `NairaStreak` in high-contrast modern typography with subtle tracking, paired with `Labs` in muted contrast.
+- **PWA & Platform App Icons**: High-resolution rendered 192×192 and 512×512 icons (`icon-192.png`, `icon-512.png`) derived directly from the vector luxury monogram.
 
 ### 2.2 Color System
 

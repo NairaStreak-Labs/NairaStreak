@@ -5,10 +5,11 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 <title>NairaStreak · The Savings Consistency Engine</title>
 <meta name="description" content="Turn intimidating savings goals into effortless daily streaks with NairaStreak Labs. 100% non-custodial savings habit tracker.">
-<meta name="theme-color" content="#16a34a">
+<meta name="theme-color" content="#083324">
 <link rel="manifest" href="manifest.json">
+<link rel="icon" type="image/svg+xml" href="logo.svg">
+<link rel="icon" type="image/png" href="icon-192.png">
 <link rel="apple-touch-icon" href="icon-192.png">
-<link rel="icon" href="icon-192.png">
 
 <!-- Supabase SDK & Configuration -->
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -168,16 +169,22 @@
     letter-spacing: -0.02em;
   }
   .landing-logo-mark {
-    width: 30px;
-    height: 30px;
+    width: 32px;
+    height: 32px;
     border-radius: 8px;
-    background: linear-gradient(135deg, var(--green), var(--green-dark));
+    background: transparent;
     display: flex;
     align-items: center;
     justify-content: center;
-    color: #fff;
-    font-size: 16px;
-    box-shadow: 0 2px 6px rgba(22, 163, 74, 0.3);
+    box-shadow: 0 2px 8px rgba(8, 51, 36, 0.25);
+    overflow: hidden;
+    flex-shrink: 0;
+  }
+  .landing-logo-mark img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    display: block;
   }
   .landing-nav-center {
     display: none;
@@ -985,6 +992,13 @@
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
     backdrop-filter: blur(6px);
   }
+  .auth-story-brand-badge img {
+    width: 22px;
+    height: 22px;
+    border-radius: 5px;
+    display: block;
+    flex-shrink: 0;
+  }
   body.dark .auth-story-brand-badge {
     background: rgba(20, 42, 30, 0.85);
     color: #4ade80;
@@ -1210,8 +1224,19 @@
     margin-bottom: 22px;
   }
   .auth-logo-leaf {
-    font-size: 20px;
-    line-height: 1;
+    width: 28px;
+    height: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+  .auth-logo-leaf img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    display: block;
+    border-radius: 7px;
   }
   .auth-brand-name {
     font-size: 17px;
@@ -1980,17 +2005,19 @@
     .brand-badge {
       width: 32px;
       height: 32px;
-      background: #083324;
-      color: #ffffff;
       border-radius: 8px;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-weight: 800;
-      font-size: 17px;
+      background: transparent;
+      overflow: hidden;
+      flex-shrink: 0;
     }
-    body.dark .brand-badge {
-      background: #10b981;
+    .brand-badge img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      display: block;
     }
     .brand-name {
       font-size: 17px;
@@ -2730,7 +2757,9 @@
     <!-- Top Fixed Brand Navigation -->
     <nav class="landing-nav" aria-label="Main Navigation">
       <a href="#landing" class="landing-logo" aria-label="NairaStreak Home">
-        <div class="landing-logo-mark">🌱</div>
+        <div class="landing-logo-mark">
+          <img src="logo.svg" alt="NairaStreak Monogram" width="32" height="32">
+        </div>
         <span>NairaStreak</span>
       </a>
       <div class="landing-nav-center" aria-label="Trust Badge">
@@ -3080,7 +3109,7 @@
     <div class="auth-story-panel" aria-hidden="true">
       <div class="auth-story-top">
         <div class="auth-story-brand-badge">
-          <span>🌱</span>
+          <img src="logo.svg" alt="NairaStreak Labs Logo" width="22" height="22">
           <span>NairaStreak Labs</span>
         </div>
         <div class="auth-story-pill">
@@ -3142,7 +3171,7 @@
     <!-- RIGHT AUTH FORM PANEL -->
     <div class="auth-form-panel">
       <div class="auth-brand-lockup">
-        <span class="auth-logo-leaf">🌱</span>
+        <span class="auth-logo-leaf"><img src="logo.svg" alt="NairaStreak Logo" width="28" height="28"></span>
         <span class="auth-brand-name">NairaStreak</span>
       </div>
 
@@ -3246,7 +3275,9 @@
   <div class="onboarding-container">
     <div class="onboarding-top-bar">
       <div class="onboarding-brand">
-        <span class="landing-logo-mark" style="width:28px;height:28px;font-size:14px;border-radius:8px;">🌱</span>
+        <div class="landing-logo-mark" style="width:28px;height:28px;border-radius:7px;box-shadow:none;">
+          <img src="logo.svg" alt="NairaStreak Logo" width="28" height="28">
+        </div>
         <span>NairaStreak</span>
       </div>
       <div class="onboarding-step-counter" id="onboardingStepCounter">Step 1 of 5</div>
@@ -3471,7 +3502,9 @@
     <aside class="dash-sidebar" id="dashSidebar">
       <div class="sidebar-top">
         <div class="sidebar-brand">
-          <div class="brand-badge">N</div>
+          <div class="brand-badge">
+            <img src="logo.svg" alt="NairaStreak Logo" width="32" height="32">
+          </div>
           <span class="brand-name">NairaStreak</span>
         </div>
         
@@ -3802,7 +3835,7 @@
   </div>
 </div>
 
-<div class="toast" id="toast">Saved! Keep it up 🌱</div>
+<div class="toast" id="toast">Saved! Consistency builds wealth.</div>
 
 <script>
   // ==========================================================================
@@ -4133,7 +4166,7 @@
       if (data.session) {
         currentUser = data.user;
         closeAuthModal();
-        showToast('Welcome to NairaStreak! 🌱');
+        showToast('Welcome to NairaStreak!');
         updateAuthUI();
         window.location.hash = '#dashboard';
       } else {
@@ -4565,7 +4598,7 @@
 
     const alreadySaved = entries.some(e => e.type === mode && e.date === dateKey);
     if (alreadySaved) {
-      showToast('You already logged savings for today! Keep up the momentum 🌱');
+      showToast('You already logged savings for today! Keep up the momentum.');
       return;
     }
 
@@ -4596,7 +4629,7 @@
     saveEntries(entries);
 
     triggerConfetti();
-    showToast(`Saved ${formatNaira(amountToSave)}! Consistency builds wealth 🌱`);
+    showToast(`Saved ${formatNaira(amountToSave)}! Consistency builds wealth.`);
 
     if (activeGoal) {
       renderActiveGoalView();

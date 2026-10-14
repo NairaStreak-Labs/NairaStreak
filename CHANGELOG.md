@@ -7,6 +7,36 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [0.6.0] — 2026-10-14 (Luxury Brand Logo & Architectural Monogram Insignia)
+
+### Added
+- **Haute Luxury Brand Logo & Architectural Monogram ([`logo.svg`](logo.svg))**:
+  - Precision vector insignia featuring an architectural geometric **'N'** monogram integrating an ascending streak trajectory (apex of consistency) and refined horizontal currency crossbars evoking the Nigerian Naira (**₦**).
+  - Executed in brushed champagne gold (`#d4af37`, `#e5c578`) on deep imperial forest green (`#083324`, `#041a12`) squircle container with metallic gold borders and an eight-point precision star of consistency.
+  - Generative luxury master assets preserved in [`assets/brand/`](assets/brand/):
+    - `assets/brand/nairastreak-luxury-monogram.jpg`: High-resolution standalone architectural monogram on British racing green suede texture.
+    - `assets/brand/nairastreak-luxury-seal.jpg`: Haute horlogerie medallion seal for NairaStreak Labs.
+- **PWA & Platform App Icons**:
+  - Re-rendered high-resolution `icon-192.png` (192×192) and `icon-512.png` (512×512) carrying the official luxury emblem.
+  - Linked SVG vector favicon (`<link rel="icon" type="image/svg+xml" href="logo.svg">`) for high-DPI crispness.
+
+### Changed
+- **Application Brand Integration ([`index.html`](index.html))**:
+  - Replaced legacy `🌱` emoji and plain `[N]` text badge with the crisp luxury monogram across:
+    - Fixed top landing navigation (`.landing-logo-mark`).
+    - Authentication story panel brand badge (`.auth-story-brand-badge`).
+    - Authentication form branded lockup (`.auth-brand-lockup`).
+    - First-time onboarding header lockup (`.onboarding-brand`).
+    - Desktop dashboard sidebar brand badge (`.brand-badge`).
+  - Polished toast copy replacing casual text with disciplined wealth consistency messaging.
+- **PWA & Cache Management**:
+  - Updated [`manifest.json`](manifest.json) theme color and background color to `#083324`.
+  - Bumped service worker cache in [`sw.js`](sw.js) to `nairastreak-luxury-brand-v1` and added `logo.svg` to pre-cached shell assets.
+- **Documentation**:
+  - Updated [`docs/BRAND_IDENTITY.md`](docs/BRAND_IDENTITY.md) and [`DESIGN.md`](DESIGN.md) documenting luxury insignia specifications.
+
+---
+
 ## [0.5.1] — 2026-10-14 (NairaStreak Brand Design System & DESIGN.md)
 
 ### Added

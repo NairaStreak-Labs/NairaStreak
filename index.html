@@ -18,8 +18,9 @@
 
 <style>
   :root {
-    --green: #16a34a;
-    --green-dark: #059669;
+    --green: #047857;
+    --green-vibrant: #10b981;
+    --green-dark: #083324;
     --green-deep: #083324;
     --green-light: #dcfce7;
     --green-tint: #e8f5ec;
@@ -32,6 +33,10 @@
     --muted: #4b5563;
     --border: #f3f4f6;
     --border-strong: #e5e7eb;
+    --btn-primary-bg: #083324;
+    --btn-primary-text: #ffffff;
+    --btn-primary-hover: #0c4331;
+    --btn-primary-shadow: rgba(8, 51, 36, 0.25);
     --radius-sm: 8px;
     --radius-md: 14px;
     --radius-lg: 20px;
@@ -48,10 +53,18 @@
     --muted: #9ca8a1;
     --border: #223028;
     --border-strong: #2c3e34;
+    --green: #10b981;
+    --green-vibrant: #10b981;
+    --green-dark: #34d399;
+    --green-deep: #06281c;
     --green-light: #163524;
     --green-tint: #173826;
     --amber-light: #362912;
     --amber-text: #fbbf24;
+    --btn-primary-bg: #10b981;
+    --btn-primary-text: #083324;
+    --btn-primary-hover: #059669;
+    --btn-primary-shadow: rgba(16, 185, 129, 0.25);
     --shadow-sm: 0 1px 3px rgba(0,0,0,0.3);
     --shadow-md: 0 4px 12px rgba(0,0,0,0.4);
     --shadow-lg: 0 12px 28px rgba(0,0,0,0.5);
@@ -87,26 +100,26 @@
   /* Shared UI Utilities */
   .tabular { font-variant-numeric: tabular-nums; }
   .btn-primary {
-    background: var(--green);
-    color: #fff;
+    background: var(--btn-primary-bg);
+    color: var(--btn-primary-text);
     border: none;
     border-radius: var(--radius-md);
     padding: 14px 24px;
     font-size: 15px;
     font-weight: 700;
     cursor: pointer;
-    transition: transform 0.15s, background 0.15s, box-shadow 0.15s;
+    transition: transform 0.15s, background 0.15s, box-shadow 0.15s, color 0.15s;
     display: inline-flex;
     align-items: center;
     justify-content: center;
     gap: 8px;
     text-decoration: none;
-    box-shadow: 0 2px 8px rgba(22, 163, 74, 0.25);
+    box-shadow: 0 2px 8px var(--btn-primary-shadow);
   }
   .btn-primary:hover {
-    background: var(--green-dark);
+    background: var(--btn-primary-hover);
     transform: translateY(-1px);
-    box-shadow: 0 4px 14px rgba(22, 163, 74, 0.35);
+    box-shadow: 0 4px 14px var(--btn-primary-shadow);
   }
   .btn-primary:active { transform: translateY(0); }
   .btn-secondary {
@@ -228,7 +241,7 @@
     left: 0;
     width: 0%;
     height: 3px;
-    background: linear-gradient(90deg, var(--green), var(--amber));
+    background: linear-gradient(90deg, var(--green-dark), var(--green-vibrant), var(--amber));
     z-index: 101;
     transition: width 0.1s ease-out;
   }
@@ -344,7 +357,7 @@
     color: var(--green-dark);
     line-height: 1;
     margin: 6px 0 20px;
-    background: linear-gradient(135deg, var(--green-dark), var(--green));
+    background: linear-gradient(135deg, var(--green-dark), var(--green-vibrant));
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     transition: transform 0.3s;
@@ -571,6 +584,10 @@
     background: var(--green);
     color: #fff;
   }
+  body.dark .streak-day-node.active .streak-day-check {
+    background: var(--green-vibrant);
+    color: #083324;
+  }
 
   /* 5. PROGRESS JOURNEY SECTION */
   .progress-journey-box {
@@ -607,7 +624,7 @@
   .journey-fill-bar {
     height: 100%;
     width: 0%;
-    background: linear-gradient(90deg, var(--green), var(--green-dark));
+    background: linear-gradient(90deg, var(--green-dark), var(--green-vibrant));
     border-radius: 9px;
     transition: width 0.6s cubic-bezier(0.16, 1, 0.3, 1);
   }
@@ -734,7 +751,7 @@
 
   /* 8. TRUST SECTION */
   .trust-banner-card {
-    background: linear-gradient(135deg, rgba(22, 163, 74, 0.05), rgba(5, 150, 105, 0.08));
+    background: linear-gradient(135deg, rgba(8, 51, 36, 0.04), rgba(4, 120, 87, 0.08));
     border: 1px solid var(--green-light);
     border-radius: var(--radius-lg);
     padding: 32px 24px;
@@ -797,7 +814,7 @@
   /* 10. FINAL CLIMAX SCENE */
   .final-scene-box {
     background: var(--card);
-    border: 2px solid var(--green);
+    border: 2px solid var(--green-dark);
     border-radius: var(--radius-lg);
     padding: 48px 24px;
     text-align: center;
@@ -1001,19 +1018,19 @@
   }
   body.dark .auth-story-brand-badge {
     background: rgba(20, 42, 30, 0.85);
-    color: #4ade80;
+    color: var(--green-vibrant);
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
   }
   .auth-story-pill {
     font-size: 12px;
     font-weight: 600;
-    color: #065f46;
+    color: var(--green-dark);
     background: rgba(255, 255, 255, 0.6);
     padding: 5px 12px;
     border-radius: 999px;
   }
   body.dark .auth-story-pill {
-    color: #86efac;
+    color: var(--green-dark);
     background: rgba(255, 255, 255, 0.08);
   }
 
@@ -1047,7 +1064,7 @@
   }
   .auth-card-badge {
     background: #dcfce7;
-    color: #15803d;
+    color: var(--green-dark);
     font-size: 11px;
     font-weight: 700;
     padding: 4px 10px;
@@ -1055,8 +1072,8 @@
     letter-spacing: 0.02em;
   }
   body.dark .auth-card-badge {
-    background: rgba(22, 163, 74, 0.2);
-    color: #86efac;
+    background: rgba(16, 185, 129, 0.2);
+    color: var(--green-dark);
   }
 
   .auth-card-amount-row {
@@ -1073,7 +1090,7 @@
     font-variant-numeric: tabular-nums;
   }
   body.dark .auth-card-saved {
-    color: #4ade80;
+    color: var(--green-vibrant);
   }
   .auth-card-target {
     font-size: 13px;
@@ -1084,7 +1101,7 @@
   .auth-card-progress-bar {
     width: 100%;
     height: 10px;
-    background: rgba(22, 163, 74, 0.15);
+    background: var(--green-light);
     border-radius: 999px;
     overflow: hidden;
     margin-bottom: 16px;
@@ -1093,9 +1110,9 @@
   .auth-card-progress-fill {
     width: 65%;
     height: 100%;
-    background: linear-gradient(90deg, #16a34a, #22c55e);
+    background: linear-gradient(90deg, var(--green-dark), var(--green-vibrant));
     border-radius: 999px;
-    box-shadow: 0 0 10px rgba(34, 197, 94, 0.4);
+    box-shadow: 0 0 10px rgba(16, 185, 129, 0.35);
   }
 
   .auth-card-metrics-grid {
@@ -1164,17 +1181,17 @@
     color: #64748b;
   }
   .auth-habit-dot.active {
-    background: #16a34a;
-    color: #ffffff;
-    box-shadow: 0 2px 6px rgba(22, 163, 74, 0.35);
+    background: var(--btn-primary-bg);
+    color: var(--btn-primary-text);
+    box-shadow: 0 2px 6px var(--btn-primary-shadow);
   }
   body.dark .auth-habit-dot {
     background: #1e3326;
     color: #94a3b8;
   }
   body.dark .auth-habit-dot.active {
-    background: #22c55e;
-    color: #052e16;
+    background: var(--green-vibrant);
+    color: #083324;
   }
 
   /* Story Footer Copy */
@@ -1184,20 +1201,20 @@
   .auth-story-quote {
     font-size: 15px;
     font-weight: 700;
-    color: #064e3b;
+    color: var(--green-dark);
     line-height: 1.4;
     margin-bottom: 4px;
   }
   body.dark .auth-story-quote {
-    color: #a7f3d0;
+    color: var(--green-dark);
   }
   .auth-story-sub {
     font-size: 12px;
-    color: #047857;
+    color: var(--green);
     line-height: 1.45;
   }
   body.dark .auth-story-sub {
-    color: #6ee7b7;
+    color: var(--muted);
   }
 
   /* --------------------------------------------------------------------------
@@ -1245,7 +1262,7 @@
     letter-spacing: -0.01em;
   }
   body.dark .auth-brand-name {
-    color: #4ade80;
+    color: var(--green-vibrant);
   }
 
   .auth-header {
@@ -1289,7 +1306,7 @@
     height: 48px;
     padding: 0 16px;
     border-radius: 12px;
-    border: 1.5px solid #e5e7eb;
+    border: 1.5px solid var(--border-strong);
     background: #f9fafb;
     color: var(--text);
     font-size: 14.5px;
@@ -1300,7 +1317,7 @@
     outline: none;
     background: #ffffff;
     border-color: var(--green);
-    box-shadow: 0 0 0 3px rgba(22, 163, 74, 0.15);
+    box-shadow: 0 0 0 3px rgba(4, 120, 87, 0.15);
   }
   body.dark .auth-form-panel .sim-input {
     background: #18281f;
@@ -1309,8 +1326,8 @@
   }
   body.dark .auth-form-panel .sim-input:focus {
     background: #1a2d23;
-    border-color: #4ade80;
-    box-shadow: 0 0 0 3px rgba(74, 222, 128, 0.18);
+    border-color: var(--green-vibrant);
+    box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.18);
   }
 
   .auth-form-panel .btn-primary {
@@ -1320,11 +1337,11 @@
     font-size: 15px;
     font-weight: 700;
     margin-top: 8px;
-    box-shadow: 0 4px 12px rgba(22, 163, 74, 0.25);
+    box-shadow: 0 4px 12px var(--btn-primary-shadow);
   }
   .auth-form-panel .btn-primary:hover {
-    background: var(--green-dark);
-    box-shadow: 0 6px 16px rgba(22, 163, 74, 0.35);
+    background: var(--btn-primary-hover);
+    box-shadow: 0 6px 16px var(--btn-primary-shadow);
   }
 
   .auth-error-msg {
@@ -1360,7 +1377,7 @@
     font-weight: 600;
   }
   body.dark .auth-legal-note a {
-    color: #4ade80;
+    color: var(--green-vibrant);
   }
 
   .auth-footer-switch {
@@ -1380,7 +1397,7 @@
     padding: 2px 4px;
   }
   body.dark .auth-switch-link {
-    color: #4ade80;
+    color: var(--green-vibrant);
   }
 
   .auth-forgot-link {
@@ -1393,7 +1410,7 @@
     text-decoration: underline;
   }
   body.dark .auth-forgot-link {
-    color: #4ade80;
+    color: var(--green-vibrant);
   }
 
   /* --------------------------------------------------------------------------
@@ -1838,8 +1855,8 @@
   .btn-mobile-save {
     width: 100%;
     height: 52px;
-    background: #083324;
-    color: #ffffff;
+    background: var(--btn-primary-bg);
+    color: var(--btn-primary-text);
     border: none;
     border-radius: 14px;
     font-size: 15px;
@@ -1849,13 +1866,16 @@
     justify-content: center;
     gap: 8px;
     cursor: pointer;
-    box-shadow: 0 4px 14px rgba(8, 51, 36, 0.25);
+    box-shadow: 0 4px 14px var(--btn-primary-shadow);
     transition: transform 0.15s ease, background 0.2s ease;
   }
+  .btn-mobile-save:hover {
+    background: var(--btn-primary-hover);
+  }
   body.dark .btn-mobile-save {
-    background: #10b981;
-    color: #083324;
-    box-shadow: 0 4px 14px rgba(16, 185, 129, 0.25);
+    background: var(--btn-primary-bg);
+    color: var(--btn-primary-text);
+    box-shadow: 0 4px 14px var(--btn-primary-shadow);
   }
   .btn-mobile-save:active {
     transform: scale(0.98);
@@ -2145,25 +2165,18 @@
       align-items: center;
       gap: 8px;
       padding: 9px 18px;
-      background: #083324;
-      color: #ffffff;
+      background: var(--btn-primary-bg);
+      color: var(--btn-primary-text);
       border: none;
       border-radius: 8px;
       font-size: 13px;
       font-weight: 600;
       cursor: pointer;
-      box-shadow: 0 2px 8px rgba(8, 51, 36, 0.2);
-      transition: background 0.15s ease;
-    }
-    body.dark .btn-desktop-save {
-      background: #10b981;
-      color: #083324;
+      box-shadow: 0 2px 8px var(--btn-primary-shadow);
+      transition: background 0.15s ease, color 0.15s ease;
     }
     .btn-desktop-save:hover {
-      background: #0b4330;
-    }
-    body.dark .btn-desktop-save:hover {
-      background: #059669;
+      background: var(--btn-primary-hover);
     }
 
     .dash-row-top {
@@ -2362,6 +2375,7 @@
     font-size: 11px; color: var(--muted);
   }
   .cal-cell.day-saved { background: var(--green); color: #fff; font-weight: 600; }
+  body.dark .cal-cell.day-saved { background: var(--green-vibrant); color: #083324; }
   .cal-cell.day-today { outline: 2px solid var(--green-dark); font-weight: 700; }
 
   .field { margin-bottom: 12px; }
@@ -2463,7 +2477,7 @@
   }
   .onboarding-progress-fill {
     height: 100%;
-    background: var(--green);
+    background: var(--green-vibrant);
     border-radius: 999px;
     transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   }
@@ -2577,7 +2591,7 @@
   }
   .currency-input-box:focus-within {
     border-color: var(--green);
-    box-shadow: 0 0 0 3px rgba(22, 163, 74, 0.15);
+    box-shadow: 0 0 0 3px rgba(4, 120, 87, 0.15);
   }
   .currency-prefix {
     font-size: 26px;
@@ -2666,7 +2680,7 @@
   }
   .plan-calc-pill {
     background: var(--green-light);
-    border: 1px solid rgba(22, 163, 74, 0.2);
+    border: 1px solid rgba(4, 120, 87, 0.2);
     border-radius: var(--radius-md);
     padding: 14px;
     margin-bottom: 20px;
@@ -2986,34 +3000,57 @@
       <span class="section-eyebrow">Product Preview</span>
       <h2 class="section-title" id="revealTitle">This is what consistency actually feels like</h2>
       <p class="section-lead">A fast, private, distraction-free interface built to make logging your progress take less than 3 seconds.</p>
-      <div class="reveal-preview-wrapper">
-        <div class="reveal-layer">
-          <div style="display:flex; justify-content:space-between; align-items:center;">
-            <div>
-              <span style="font-size:11px; font-weight:700; color:var(--muted); text-transform:uppercase;">Active Goal</span>
-              <h3 style="font-size:18px; color:var(--green-dark);">500K Challenge</h3>
+      <div class="reveal-preview-wrapper" style="padding: 20px; max-width: 580px; margin: 0 auto;">
+        <!-- Forest Green Hero Card Preview -->
+        <div class="hero-card" style="margin-bottom: 16px;">
+          <div class="hero-top-row">
+            <span class="hero-label">Total saved</span>
+            <span class="hero-status-pill">Example</span>
+          </div>
+          <div class="hero-amount tabular">₦325,000</div>
+          <div class="hero-subtext">of ₦500,000 target · ₦175,000 remaining</div>
+          <div class="hero-progress-track">
+            <div class="hero-progress-fill" style="width: 65%;"></div>
+          </div>
+          <div class="hero-progress-labels">
+            <span>65.0% complete</span>
+            <span class="tabular">140 days left</span>
+          </div>
+          <div class="hero-stats-mobile" style="display: grid; margin-top: 16px; padding-top: 14px;">
+            <div class="h-stat">
+              <div class="h-stat-num tabular">25</div>
+              <div class="h-stat-label">Days saved</div>
             </div>
-            <div style="display:flex; gap:8px; align-items:center;">
-              <span style="font-size:11px; font-weight:700; background:rgba(0,0,0,0.06); color:var(--muted); padding:3px 8px; border-radius:6px; text-transform:uppercase; letter-spacing:0.5px; border:1px solid var(--border);">Example</span>
-              <span style="font-size:12px; font-weight:700; background:var(--green-light); color:var(--green-dark); padding:4px 10px; border-radius:12px;">Active Streak: 14 Days</span>
+            <div class="h-stat">
+              <div class="h-stat-num tabular">140</div>
+              <div class="h-stat-label">Days left</div>
+            </div>
+            <div class="h-stat">
+              <div class="h-stat-num tabular">14</div>
+              <div class="h-stat-label">Day streak</div>
             </div>
           </div>
         </div>
-        <div class="reveal-layer">
-          <div style="display:flex; justify-content:space-between; margin-bottom:8px;">
-            <span style="font-size:13px; color:var(--muted);">Total Saved: <strong class="tabular" style="color:var(--text);">₦325,000</strong> of ₦500,000 · ₦175,000 remaining</span>
-            <span style="font-size:13px; font-weight:700; color:var(--green-dark);">65.0%</span>
+
+        <!-- 7 Days & Quick Action Preview -->
+        <div style="background: var(--card); border: 1px solid var(--border); border-radius: 20px; padding: 18px 20px; box-shadow: var(--shadow-sm);">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px;">
+            <span style="font-size: 14px; font-weight: 700; color: var(--text);">Last 7 days</span>
+            <span style="font-size: 12px; font-weight: 600; color: var(--green-dark);">Pace ₦1,250 / day</span>
           </div>
-          <div style="height:10px; background:var(--green-light); border-radius:5px; overflow:hidden;">
-            <div style="height:100%; width:65%; background:var(--green);"></div>
+          <div class="week-circles-grid" style="pointer-events: none; margin-bottom: 14px;">
+            <div class="day-col"><div class="day-circle saved"><span class="check-mark">✓</span></div><span class="day-label-mobile">Mon</span></div>
+            <div class="day-col"><div class="day-circle saved"><span class="check-mark">✓</span></div><span class="day-label-mobile">Tue</span></div>
+            <div class="day-col"><div class="day-circle saved"><span class="check-mark">✓</span></div><span class="day-label-mobile">Wed</span></div>
+            <div class="day-col"><div class="day-circle saved"><span class="check-mark">✓</span></div><span class="day-label-mobile">Thu</span></div>
+            <div class="day-col"><div class="day-circle saved"><span class="check-mark">✓</span></div><span class="day-label-mobile">Fri</span></div>
+            <div class="day-col"><div class="day-circle saved"><span class="check-mark">✓</span></div><span class="day-label-mobile">Sat</span></div>
+            <div class="day-col is-today"><div class="day-circle today-pending"><span class="pending-dot"></span></div><span class="day-label-mobile">Today</span></div>
           </div>
-        </div>
-        <div class="reveal-layer" style="display:flex; justify-content:space-around; text-align:center;">
-          <div><div style="font-size:16px; font-weight:700;" class="tabular">₦1,250</div><div style="font-size:11px; color:var(--muted);">Daily Target</div></div>
-          <div><div style="font-size:16px; font-weight:700;" class="tabular">140</div><div style="font-size:11px; color:var(--muted);">Days Left</div></div>
-          <div><div style="font-size:16px; font-weight:700;" class="tabular">25</div><div style="font-size:11px; color:var(--muted);">Days Saved</div></div>
-          <div><div style="font-size:16px; font-weight:700; color:var(--amber);" class="tabular">14 Days</div><div style="font-size:11px; color:var(--muted);">Current Streak</div></div>
-          <div><div style="font-size:16px; font-weight:700; color:var(--green-dark);">On Pace</div><div style="font-size:11px; color:var(--muted);">Status</div></div>
+          <button type="button" class="btn-primary" style="width: 100%; height: 46px; font-size: 14px; pointer-events: none;">
+            <span>✓</span>
+            <span>I saved ₦1,250 today</span>
+          </button>
         </div>
       </div>
     </section>
@@ -5417,7 +5454,7 @@
   }
 
   function triggerConfetti() {
-    const colors = ['#16a34a', '#059669', '#34d399', '#f59e0b', '#fbbf24', '#60a5fa'];
+    const colors = ['#083324', '#047857', '#10b981', '#34d399', '#f59e0b', '#fbbf24', '#d4af37'];
     for (let i = 0; i < 40; i++) {
       const piece = document.createElement('div');
       piece.className = 'confetti-piece';

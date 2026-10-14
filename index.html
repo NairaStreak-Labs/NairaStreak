@@ -2991,22 +2991,27 @@
           <div style="display:flex; justify-content:space-between; align-items:center;">
             <div>
               <span style="font-size:11px; font-weight:700; color:var(--muted); text-transform:uppercase;">Active Goal</span>
-              <h3 style="font-size:18px; color:var(--green-dark);">💰 500K Challenge</h3>
+              <h3 style="font-size:18px; color:var(--green-dark);">500K Challenge</h3>
             </div>
-            <span style="font-size:12px; font-weight:700; background:var(--green-light); color:var(--green-dark); padding:4px 10px; border-radius:12px;">Active Streak: 14 Days</span>
+            <div style="display:flex; gap:8px; align-items:center;">
+              <span style="font-size:11px; font-weight:700; background:rgba(0,0,0,0.06); color:var(--muted); padding:3px 8px; border-radius:6px; text-transform:uppercase; letter-spacing:0.5px; border:1px solid var(--border);">Example</span>
+              <span style="font-size:12px; font-weight:700; background:var(--green-light); color:var(--green-dark); padding:4px 10px; border-radius:12px;">Active Streak: 14 Days</span>
+            </div>
           </div>
         </div>
         <div class="reveal-layer">
           <div style="display:flex; justify-content:space-between; margin-bottom:8px;">
-            <span style="font-size:13px; color:var(--muted);">Total Saved: <strong class="tabular" style="color:var(--text);">₦325,000</strong> of ₦500,000</span>
-            <span style="font-size:13px; font-weight:700; color:var(--green-dark);">65%</span>
+            <span style="font-size:13px; color:var(--muted);">Total Saved: <strong class="tabular" style="color:var(--text);">₦325,000</strong> of ₦500,000 · ₦175,000 remaining</span>
+            <span style="font-size:13px; font-weight:700; color:var(--green-dark);">65.0%</span>
           </div>
           <div style="height:10px; background:var(--green-light); border-radius:5px; overflow:hidden;">
             <div style="height:100%; width:65%; background:var(--green);"></div>
           </div>
         </div>
         <div class="reveal-layer" style="display:flex; justify-content:space-around; text-align:center;">
-          <div><div style="font-size:16px; font-weight:700;" class="tabular">₦3,676</div><div style="font-size:11px; color:var(--muted);">Daily Target</div></div>
+          <div><div style="font-size:16px; font-weight:700;" class="tabular">₦1,250</div><div style="font-size:11px; color:var(--muted);">Daily Target</div></div>
+          <div><div style="font-size:16px; font-weight:700;" class="tabular">140</div><div style="font-size:11px; color:var(--muted);">Days Left</div></div>
+          <div><div style="font-size:16px; font-weight:700;" class="tabular">25</div><div style="font-size:11px; color:var(--muted);">Days Saved</div></div>
           <div><div style="font-size:16px; font-weight:700; color:var(--amber);" class="tabular">14 Days</div><div style="font-size:11px; color:var(--muted);">Current Streak</div></div>
           <div><div style="font-size:16px; font-weight:700; color:var(--green-dark);">On Pace</div><div style="font-size:11px; color:var(--muted);">Status</div></div>
         </div>
@@ -3545,14 +3550,14 @@
       <header class="dash-header">
         <div class="header-titles">
           <h1 id="appHeaderTitle">Emergency Fund</h1>
-          <p id="subtitle">Target ₦500,000 by 13 Oct 2027</p>
+          <p id="subtitle">Target ₦500,000</p>
         </div>
         <div class="header-actions">
           <button type="button" class="icon-btn" id="darkToggle" title="Toggle dark mode" aria-label="Toggle dark mode">🌙</button>
           <button type="button" class="btn-desktop-new-goal" id="appNewGoalBtn">+ New goal</button>
           <button type="button" class="btn-desktop-save" id="headerSaveBtn">
             <span class="btn-check-icon">✓</span>
-            <span id="headerSaveBtnText">I saved ₦1,370 today</span>
+            <span id="headerSaveBtnText">I saved today</span>
           </button>
         </div>
       </header>
@@ -3569,35 +3574,35 @@
               <span class="hero-status-pill" id="dashboardGoalStatus">Active</span>
             </div>
             
-            <div class="hero-amount tabular" id="totalAmount">₦34,250</div>
+            <div class="hero-amount tabular" id="totalAmount">₦0</div>
             
             <div class="hero-subtext">
-              <span class="hero-subtext-mobile" id="heroSubtextMobile">of ₦500,000 · ₦465,750 to go</span>
-              <span class="hero-subtext-desktop" id="heroSubtextDesktop">of ₦500,000 target · ₦465,750 remaining</span>
+              <span class="hero-subtext-mobile" id="heroSubtextMobile">of ₦500,000 · ₦500,000 to go</span>
+              <span class="hero-subtext-desktop" id="heroSubtextDesktop">of ₦500,000 target · ₦500,000 remaining</span>
             </div>
             
             <div class="hero-progress-track">
-              <div class="hero-progress-fill" id="progressFill" style="width: 6.9%;"></div>
+              <div class="hero-progress-fill" id="progressFill" style="width: 0%;"></div>
             </div>
             
             <div class="hero-progress-labels">
-              <span id="progressPct">6.9% complete</span>
-              <span class="hero-prog-right-mobile" id="heroDaysLeftMobile">340 days left</span>
+              <span id="progressPct">0% complete</span>
+              <span class="hero-prog-right-mobile" id="heroDaysLeftMobile">—</span>
               <span class="hero-prog-right-desktop tabular" id="heroTargetDesktop">₦500,000</span>
             </div>
             
             <!-- MOBILE STATS (INSIDE HERO CARD ON MOBILE) -->
             <div class="hero-stats-mobile" id="heroStatsMobile">
               <div class="h-stat">
-                <div class="h-stat-num tabular" id="daysSavedMobile">25</div>
+                <div class="h-stat-num tabular" id="daysSavedMobile">0</div>
                 <div class="h-stat-label">Days saved</div>
               </div>
               <div class="h-stat">
-                <div class="h-stat-num tabular" id="daysLeftMobile">340</div>
+                <div class="h-stat-num tabular" id="daysLeftMobile">—</div>
                 <div class="h-stat-label">Days left</div>
               </div>
               <div class="h-stat">
-                <div class="h-stat-num tabular" id="streakMobile">23 🔥</div>
+                <div class="h-stat-num tabular" id="streakMobile">0 🔥</div>
                 <div class="h-stat-label">Day streak</div>
               </div>
             </div>
@@ -3607,17 +3612,17 @@
           <div class="pace-card-desktop">
             <div class="pace-label">Recommended pace</div>
             <div class="pace-value-row">
-              <span class="pace-value tabular" id="dashboardRecPaceVal">₦1,370</span>
+              <span class="pace-value tabular" id="dashboardRecPaceVal">—</span>
               <span class="pace-unit" id="dashboardRecPaceUnit">/ day</span>
             </div>
             <div class="pace-divider"></div>
             <div class="pace-meta-row">
               <span class="pace-meta-label">Deadline</span>
-              <span class="pace-meta-val" id="dashboardDeadlineVal">13 Oct 2027</span>
+              <span class="pace-meta-val" id="dashboardDeadlineVal">—</span>
             </div>
             <div class="pace-meta-row">
               <span class="pace-meta-label">Remaining</span>
-              <span class="pace-meta-val tabular" id="dashboardRemainingVal">₦465,750</span>
+              <span class="pace-meta-val tabular" id="dashboardRemainingVal">₦500,000</span>
             </div>
           </div>
         </div>
@@ -3631,8 +3636,8 @@
             <div class="metric-info">
               <div class="metric-label">Days saved</div>
               <div class="metric-value-row">
-                <span class="metric-val tabular" id="daysSaved">25</span>
-                <span class="metric-sub" id="daysSavedSub">of 365</span>
+                <span class="metric-val tabular" id="daysSaved">0</span>
+                <span class="metric-sub" id="daysSavedSub">days</span>
               </div>
             </div>
           </div>
@@ -3644,7 +3649,7 @@
             <div class="metric-info">
               <div class="metric-label">Days left</div>
               <div class="metric-value-row">
-                <span class="metric-val tabular" id="daysLeft">340</span>
+                <span class="metric-val tabular" id="daysLeft">—</span>
               </div>
             </div>
           </div>
@@ -3656,7 +3661,7 @@
             <div class="metric-info">
               <div class="metric-label">Current streak</div>
               <div class="metric-value-row">
-                <span class="metric-val tabular" id="streak">23</span>
+                <span class="metric-val tabular" id="streak">0</span>
                 <span class="metric-sub">days</span>
               </div>
             </div>
@@ -3691,7 +3696,7 @@
         <div class="mobile-save-bar">
           <button type="button" class="btn-mobile-save" id="mobileSaveBtn">
             <span class="btn-check-icon">✓</span>
-            <span id="mobileSaveBtnText">I saved ₦1,370 today</span>
+            <span id="mobileSaveBtnText">I saved today</span>
           </button>
         </div>
 
@@ -3875,7 +3880,7 @@
   function getDefaultEndDate() {
     const today = new Date();
     today.setHours(0, 0, 0, 0);
-    const target = new Date(today.getTime() + 340 * 24 * 60 * 60 * 1000);
+    const target = new Date(today.getTime() + 365 * 24 * 60 * 60 * 1000);
     return `${target.getFullYear()}-${String(target.getMonth() + 1).padStart(2, '0')}-${String(target.getDate()).padStart(2, '0')}`;
   }
 
@@ -3895,45 +3900,9 @@
   }
   function saveEntries(entries) { localStorage.setItem(STORAGE_KEY, JSON.stringify(entries)); }
 
-  // Returns existing entries, or initializes 25 days sample contributions totaling ₦34,250
-  // matching the Emergency Fund PDF redesign specification (25 days saved, 23-day streak up to yesterday)
+  // Returns existing entries; brand-new users start cleanly at zero (0 saved, 0 streak)
   function getOrInitEntries() {
-    let entries = getEntries();
-    if (!entries || entries.length === 0) {
-      const list = [];
-      const today = new Date();
-      today.setHours(0, 0, 0, 0);
-      // 23 consecutive daily savings leading up to yesterday (streak = 23)
-      for (let i = 1; i <= 23; i++) {
-        const d = new Date(today);
-        d.setDate(d.getDate() - i);
-        const dateStr = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
-        list.push({
-          id: Date.now() - i * 86400000,
-          date: dateStr,
-          amount: 1370,
-          type: 'daily',
-          note: 'Daily saving'
-        });
-      }
-      // Day 24 skipped (missed day) so streak is precisely 23 days
-      // Days 25 and 26 saved to bring total saved days to 25 (total saved = 25 * ₦1,370 = ₦34,250)
-      for (let i = 25; i <= 26; i++) {
-        const d = new Date(today);
-        d.setDate(d.getDate() - i);
-        const dateStr = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
-        list.push({
-          id: Date.now() - i * 86400000,
-          date: dateStr,
-          amount: 1370,
-          type: 'daily',
-          note: 'Daily saving'
-        });
-      }
-      saveEntries(list);
-      return list;
-    }
-    return entries;
+    return getEntries();
   }
 
   function getSettings() {
@@ -5353,6 +5322,19 @@
       runSimulation();
     });
   });
+
+  // Single Source of Truth for Landing Page Preview Example
+  const PREVIEW_EXAMPLE = {
+    name: '500K Challenge',
+    target: 500000,
+    saved: 325000,
+    daysLeft: 140,
+    daysSaved: 25,
+    streak: 14,
+    get remaining() { return this.target - this.saved; },
+    get percent() { return Math.round((this.saved / this.target) * 1000) / 10; },
+    get dailyPace() { return Math.ceil(this.remaining / this.daysLeft); }
+  };
 
   document.getElementById('simApplyBtn').addEventListener('click', () => {
     const targetAmt = parseFloat(simGoalInput.value) || 500000;

@@ -7,6 +7,28 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [0.5.0] — 2026-10-14 (Emergency Fund Dashboard Redesign)
+
+### Added
+- **Fintech Dashboard Layout (Mobile & Desktop Aligned with PDF Specification)**:
+  - **Desktop (≥768px)**: Fixed left sidebar (`Home`, `History`, `Plan`, `Settings`, profile avatar and logout), top app bar with active goal title, target deadline, dark mode toggle, `+ New goal` button, and prominent `✓ I saved ₦... today` CTA.
+  - **Hero & Pace Grid (Top Row)**: Deep forest green (`#083324`) hero card displaying total saved (`₦34,250`), `Active` pill, goal target (`₦500,000`), remaining balance, smooth progress bar (`6.9% complete`), paired with dedicated Recommended Pace card (`₦1,280 / day`, deadline, remaining).
+  - **3-Metric KPI Row (Middle Row)**: Metric cards for `Days saved` (with total days), `Days left` (clock icon), and `Current streak` (flame icon).
+  - **Habit & Ledger Grid (Bottom Row)**: `Last 7 days` streak dot tracker with dynamic solid green check circles and dashed pending circle for today, paired with `Recent activity` card featuring transaction icon badges and amount labels.
+  - **Mobile Layout (≤767px)**: Clean vertical stack with embedded 3-stat hero card, horizontal 7-day streak tracker, recent activity feed, floating save action CTA, and fixed 4-tab bottom navigation bar (`Home`, `History`, `Plan`, `Settings`).
+  - **Tab Views**: Seamless tab routing between `Home` (PDF redesign), `History` (calendar, full ledger, JSON backup/restore), `Plan` (contribution cadence & projections), and `Settings` (profile, dark mode, reminders).
+  - **Defensive Error Hardening**: Comprehensive optional chaining across all DOM elements and event handlers preventing null pointer crashes.
+
+### Changed
+- **Service Worker Cache**: Bumped cache to `nairastreak-dash-v1`.
+
+### Verified
+- Headless browser visual verification across desktop (1440×900) and mobile (390×844) viewports.
+- Dark mode rendering verified with deep forest contrast styling.
+- 100% test pass on calculation unit test suite (`tests/test_calculations.js`).
+
+---
+
 ## [0.4.0] — 2026-10-13 (Premium Split-Screen Auth Experience)
 
 ### Changed

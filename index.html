@@ -67,11 +67,13 @@
 
   /* App (Dashboard) View Wrapper */
   #appView {
-    display: flex;
-    justify-content: center;
-    padding: 20px 16px 40px;
+    width: 100%;
+    min-height: 100vh;
+    display: block;
+    padding: 0;
+    background: var(--bg);
   }
-  .app { width: 100%; max-width: 440px; }
+  .app { width: 100%; }
 
   /* Shared UI Utilities */
   .tabular { font-variant-numeric: tabular-nums; }
@@ -1446,14 +1448,457 @@
 
   .card {
     background: var(--card);
-    border-radius: 16px;
+    border-radius: 18px;
     padding: 20px;
     margin-bottom: 16px;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+    box-shadow: 0 1px 3px rgba(0,0,0,0.04);
     border: 1px solid var(--border);
   }
   .card-title { font-size: 13px; font-weight: 700; color: var(--muted); margin-bottom: 12px; text-transform: uppercase; letter-spacing: 0.03em; }
 
+  /* ==========================================================================
+     REDESIGNED EMERGENCY FUND DASHBOARD (MOBILE & DESKTOP ALIGNED WITH PDF)
+     ========================================================================== */
+  .dash-layout {
+    display: flex;
+    min-height: 100vh;
+    width: 100%;
+    background: var(--bg);
+  }
+
+  .dash-sidebar {
+    display: none;
+  }
+
+  .dash-main {
+    flex: 1;
+    width: 100%;
+    max-width: 520px;
+    padding: 20px 16px 90px;
+    margin: 0 auto;
+  }
+
+  .dash-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 18px;
+  }
+  .dash-header .header-titles h1 {
+    font-size: 24px;
+    font-weight: 800;
+    color: var(--text);
+    letter-spacing: -0.3px;
+    line-height: 1.2;
+  }
+  .dash-header .header-titles p {
+    font-size: 13px;
+    color: var(--muted);
+    margin-top: 3px;
+    font-weight: 500;
+  }
+  .dash-header .header-actions {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .btn-desktop-new-goal,
+  .btn-desktop-save {
+    display: none;
+  }
+
+  /* Forest Green Hero Card */
+  .hero-card {
+    background: #083324;
+    color: #ffffff;
+    border-radius: 22px;
+    padding: 22px 20px;
+    margin-bottom: 16px;
+    box-shadow: 0 4px 18px rgba(8, 51, 36, 0.18);
+    position: relative;
+    overflow: hidden;
+  }
+  body.dark .hero-card {
+    background: #06281c;
+    border: 1px solid #144230;
+  }
+  .hero-top-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 6px;
+  }
+  .hero-label {
+    font-size: 13px;
+    font-weight: 500;
+    color: #9ed4b9;
+  }
+  .hero-status-pill {
+    background: rgba(255, 255, 255, 0.14);
+    color: #ffffff;
+    border-radius: 12px;
+    padding: 3px 11px;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+  }
+  .hero-amount {
+    font-size: 36px;
+    font-weight: 800;
+    color: #ffffff;
+    letter-spacing: -0.5px;
+    line-height: 1.15;
+    margin: 4px 0 3px;
+  }
+  .hero-subtext {
+    font-size: 13px;
+    color: #9ed4b9;
+    font-weight: 500;
+  }
+  .hero-subtext-desktop {
+    display: none;
+  }
+  .hero-subtext-mobile {
+    display: inline;
+  }
+
+  .hero-progress-track {
+    width: 100%;
+    height: 6px;
+    background: rgba(255, 255, 255, 0.18);
+    border-radius: 999px;
+    margin: 16px 0 8px;
+    overflow: hidden;
+  }
+  .hero-progress-fill {
+    height: 100%;
+    background: #10b981;
+    border-radius: 999px;
+    transition: width 0.4s ease;
+  }
+  .hero-progress-labels {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 12px;
+    color: #9ed4b9;
+    font-weight: 500;
+  }
+  .hero-prog-right-desktop {
+    display: none;
+    color: #ffffff;
+    font-weight: 600;
+  }
+  .hero-prog-right-mobile {
+    display: inline;
+  }
+
+  .hero-stats-mobile {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    margin-top: 20px;
+    padding-top: 18px;
+    border-top: 1px solid rgba(255, 255, 255, 0.12);
+  }
+  .h-stat {
+    text-align: left;
+  }
+  .h-stat-num {
+    font-size: 22px;
+    font-weight: 800;
+    color: #ffffff;
+    line-height: 1.2;
+  }
+  .h-stat-label {
+    font-size: 12px;
+    color: #9ed4b9;
+    margin-top: 2px;
+    font-weight: 500;
+  }
+
+  .pace-card-desktop {
+    display: none;
+  }
+  .dash-row-metrics-desktop {
+    display: none;
+  }
+
+  .card-last7,
+  .card-activity {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 20px;
+    margin-bottom: 16px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03);
+  }
+  .card-head-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+  }
+  .card-section-title {
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--text);
+  }
+  .card-section-sub {
+    font-size: 13px;
+    color: var(--muted);
+    font-weight: 500;
+  }
+  .card-last7-sub-mobile {
+    display: inline;
+  }
+  .card-last7-sub-desktop {
+    display: none;
+  }
+  .activity-view-all-btn {
+    display: none;
+    background: none;
+    border: none;
+    font-size: 13px;
+    font-weight: 600;
+    color: #083324;
+    cursor: pointer;
+    padding: 0;
+  }
+  body.dark .activity-view-all-btn {
+    color: #34d399;
+  }
+
+  /* 7 Days Grid */
+  .week-circles-grid {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 6px;
+  }
+  .day-col {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    flex: 1;
+  }
+  .day-circle {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+  }
+  .day-circle.saved {
+    background: #083324;
+    color: #ffffff;
+    font-size: 16px;
+    font-weight: bold;
+  }
+  body.dark .day-circle.saved {
+    background: #10b981;
+    color: #083324;
+  }
+  .day-circle.today-pending {
+    background: transparent;
+    border: 2px dashed #10b981;
+  }
+  .day-circle.missed {
+    background: var(--border);
+    color: var(--muted);
+    font-size: 12px;
+  }
+  .day-label-mobile {
+    font-size: 12px;
+    color: var(--muted);
+    font-weight: 500;
+  }
+  .day-label-desktop {
+    display: none;
+    font-size: 12px;
+    color: var(--muted);
+    font-weight: 500;
+  }
+  .day-col.is-today .day-label-mobile,
+  .day-col.is-today .day-label-desktop {
+    color: var(--text);
+    font-weight: 700;
+  }
+
+  /* Activity List */
+  .activity-list {
+    display: flex;
+    flex-direction: column;
+  }
+  #recentActivityList .activity-item:nth-child(n+3) {
+    display: none;
+  }
+  .activity-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .activity-item:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
+  }
+  .activity-left {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .activity-icon-box {
+    width: 38px;
+    height: 38px;
+    border-radius: 10px;
+    background: #e8f5ec;
+    color: #083324;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    font-weight: 700;
+    flex-shrink: 0;
+  }
+  body.dark .activity-icon-box {
+    background: #173826;
+    color: #34d399;
+  }
+  .activity-meta {
+    display: flex;
+    flex-direction: column;
+  }
+  .activity-title {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text);
+  }
+  .activity-date {
+    font-size: 12px;
+    color: var(--muted);
+    margin-top: 2px;
+  }
+  .activity-amount {
+    font-size: 15px;
+    font-weight: 700;
+    color: #083324;
+  }
+  body.dark .activity-amount {
+    color: #34d399;
+  }
+  .activity-empty {
+    text-align: center;
+    padding: 24px 16px;
+    color: var(--muted);
+    font-size: 13px;
+  }
+
+  /* Mobile Save CTA */
+  .mobile-save-bar {
+    margin-top: 20px;
+  }
+  .btn-mobile-save {
+    width: 100%;
+    height: 52px;
+    background: #083324;
+    color: #ffffff;
+    border: none;
+    border-radius: 14px;
+    font-size: 15px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    cursor: pointer;
+    box-shadow: 0 4px 14px rgba(8, 51, 36, 0.25);
+    transition: transform 0.15s ease, background 0.2s ease;
+  }
+  body.dark .btn-mobile-save {
+    background: #10b981;
+    color: #083324;
+    box-shadow: 0 4px 14px rgba(16, 185, 129, 0.25);
+  }
+  .btn-mobile-save:active {
+    transform: scale(0.98);
+  }
+  .btn-check-icon {
+    font-size: 16px;
+    font-weight: bold;
+  }
+
+  /* Mobile Bottom Navigation */
+  .mobile-bottom-nav {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 64px;
+    background: var(--card);
+    border-top: 1px solid var(--border);
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    z-index: 100;
+    box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.03);
+  }
+  .dash-main {
+    padding: 16px 16px 88px;
+  }
+  .m-nav-item {
+    background: none;
+    border: none;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 3px;
+    color: var(--muted);
+    cursor: pointer;
+    font-size: 11px;
+    font-weight: 500;
+    padding: 6px 12px;
+    transition: color 0.15s ease;
+  }
+  .m-nav-item.active {
+    color: #083324;
+    font-weight: 700;
+  }
+  body.dark .m-nav-item.active {
+    color: #34d399;
+  }
+
+  .tab-pane {
+    display: none;
+  }
+  .tab-pane.active {
+    display: block;
+  }
+
+  .dash-footer {
+    text-align: center;
+    margin-top: 32px;
+    padding-bottom: 24px;
+    font-size: 12px;
+    color: var(--muted);
+    line-height: 1.6;
+  }
+  @media (max-width: 767px) {
+    #tabPaneHome.active ~ .dash-footer {
+      display: none;
+    }
+  }
+  .dash-footer a {
+    color: var(--green-dark);
+    font-weight: 600;
+    text-decoration: none;
+  }
+
+  /* Standard Card Components */
   .mode-toggle {
     display: flex;
     background: var(--green-light);
@@ -1474,32 +1919,6 @@
     cursor: pointer;
   }
   .mode-btn.active { background: var(--green); color: #fff; }
-
-  .total-label { font-size: 13px; color: var(--muted); }
-  .total-amount { font-size: 32px; font-weight: 700; color: var(--green-dark); margin: 4px 0; }
-  .total-target { font-size: 13px; color: var(--muted); }
-
-  .progress-track {
-    width: 100%; height: 14px;
-    background: var(--green-light);
-    border-radius: 7px;
-    overflow: hidden;
-    margin: 14px 0 6px;
-  }
-  .progress-fill {
-    height: 100%; background: var(--green);
-    border-radius: 7px; transition: width 0.4s ease; width: 0%;
-  }
-  .progress-pct { font-size: 12px; font-weight: 600; color: var(--muted); text-align: right; }
-
-  .stats-row {
-    display: flex; justify-content: space-between;
-    margin-top: 14px; padding-top: 14px;
-    border-top: 1px solid var(--border);
-  }
-  .stat { text-align: center; flex: 1; }
-  .stat-num { font-size: 17px; font-weight: 700; color: var(--text); }
-  .stat-label { font-size: 11px; color: var(--muted); margin-top: 2px; }
 
   .projection {
     margin-top: 14px; padding: 10px 12px;
@@ -1522,27 +1941,378 @@
   }
   .save-btn:disabled { opacity: 0.5; cursor: not-allowed; }
 
-  .undo-link {
-    display: block; text-align: center;
-    font-size: 12px; color: var(--muted);
-    background: none; border: none;
-    cursor: pointer; text-decoration: underline;
-    margin-top: 10px;
-  }
+  /* ==========================================================================
+     DESKTOP MEDIA QUERY (>= 768px)
+     ========================================================================== */
+  @media (min-width: 768px) {
+    .dash-layout {
+      display: flex;
+    }
+    .dash-sidebar {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      width: 250px;
+      flex-shrink: 0;
+      background: var(--card);
+      border-right: 1px solid var(--border);
+      padding: 28px 20px 24px;
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      overflow-y: auto;
+    }
+    .sidebar-brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 32px;
+      padding-left: 6px;
+    }
+    .brand-badge {
+      width: 32px;
+      height: 32px;
+      background: #083324;
+      color: #ffffff;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: 17px;
+    }
+    body.dark .brand-badge {
+      background: #10b981;
+    }
+    .brand-name {
+      font-size: 17px;
+      font-weight: 800;
+      color: var(--text);
+      letter-spacing: -0.2px;
+    }
+    .sidebar-nav {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .sidebar-nav .nav-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 10px 14px;
+      border-radius: 10px;
+      background: transparent;
+      border: none;
+      color: var(--muted);
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      width: 100%;
+      text-align: left;
+      transition: background 0.15s, color 0.15s;
+    }
+    .sidebar-nav .nav-item:hover {
+      background: var(--border);
+      color: var(--text);
+    }
+    .sidebar-nav .nav-item.active {
+      background: #e8f5ec;
+      color: #083324;
+      font-weight: 700;
+    }
+    body.dark .sidebar-nav .nav-item.active {
+      background: #173826;
+      color: #34d399;
+    }
+    .nav-icon {
+      width: 18px;
+      height: 18px;
+    }
 
-  .week-grid {
-    display: grid; grid-template-columns: repeat(7, 1fr);
-    gap: 6px; margin-top: 8px;
+    .sidebar-bottom {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-top: 18px;
+      border-top: 1px solid var(--border);
+    }
+    .sidebar-user {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .user-avatar {
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      background: #e5e7eb;
+      color: #374151;
+      font-weight: 700;
+      font-size: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    body.dark .user-avatar {
+      background: #2d4235;
+      color: #e5e7eb;
+    }
+    .user-name {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text);
+    }
+    .logout-icon-btn {
+      background: none;
+      border: none;
+      color: var(--muted);
+      cursor: pointer;
+      padding: 6px;
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: color 0.15s ease;
+    }
+    .logout-icon-btn:hover {
+      color: #ef4444;
+    }
+
+    .dash-main {
+      padding: 32px 48px;
+      max-width: 1140px;
+    }
+    .dash-header {
+      align-items: center;
+      margin-bottom: 28px;
+    }
+    .dash-header .header-titles h1 {
+      font-size: 26px;
+    }
+    .btn-desktop-new-goal {
+      display: inline-flex;
+      align-items: center;
+      padding: 9px 16px;
+      background: var(--card);
+      border: 1px solid var(--border-strong);
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text);
+      cursor: pointer;
+      transition: background 0.15s ease;
+    }
+    .btn-desktop-new-goal:hover {
+      background: var(--border);
+    }
+    .btn-desktop-save {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 9px 18px;
+      background: #083324;
+      color: #ffffff;
+      border: none;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      box-shadow: 0 2px 8px rgba(8, 51, 36, 0.2);
+      transition: background 0.15s ease;
+    }
+    body.dark .btn-desktop-save {
+      background: #10b981;
+      color: #083324;
+    }
+    .btn-desktop-save:hover {
+      background: #0b4330;
+    }
+    body.dark .btn-desktop-save:hover {
+      background: #059669;
+    }
+
+    .dash-row-top {
+      display: grid;
+      grid-template-columns: 1.85fr 1fr;
+      gap: 20px;
+      margin-bottom: 20px;
+    }
+    .hero-card {
+      margin-bottom: 0;
+      padding: 26px 28px;
+    }
+    .hero-subtext-mobile {
+      display: none;
+    }
+    .hero-subtext-desktop {
+      display: inline;
+    }
+    .hero-prog-right-mobile {
+      display: none;
+    }
+    .hero-prog-right-desktop {
+      display: inline;
+    }
+    .hero-stats-mobile {
+      display: none;
+    }
+
+    .pace-card-desktop {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 24px 26px;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03);
+    }
+    .pace-label {
+      font-size: 13px;
+      color: var(--muted);
+      font-weight: 500;
+    }
+    .pace-value-row {
+      display: flex;
+      align-items: baseline;
+      gap: 6px;
+      margin: 8px 0 18px;
+    }
+    .pace-value {
+      font-size: 28px;
+      font-weight: 800;
+      color: var(--text);
+      line-height: 1.1;
+    }
+    .pace-unit {
+      font-size: 13px;
+      color: var(--muted);
+    }
+    .pace-divider {
+      height: 1px;
+      background: var(--border);
+      margin-bottom: 14px;
+    }
+    .pace-meta-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 13px;
+      margin-top: 8px;
+    }
+    .pace-meta-label {
+      color: var(--muted);
+    }
+    .pace-meta-val {
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    .dash-row-metrics-desktop {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+      margin-bottom: 20px;
+    }
+    .metric-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 20px 22px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03);
+    }
+    .metric-icon-wrap {
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .metric-icon-wrap.mint {
+      background: #e8f5ec;
+      color: #083324;
+    }
+    body.dark .metric-icon-wrap.mint {
+      background: #173826;
+      color: #34d399;
+    }
+    .metric-icon-wrap.amber {
+      background: #fef3c7;
+      color: #f59e0b;
+    }
+    body.dark .metric-icon-wrap.amber {
+      background: #362912;
+      color: #fbbf24;
+    }
+    .metric-info {
+      display: flex;
+      flex-direction: column;
+    }
+    .metric-label {
+      font-size: 12px;
+      color: var(--muted);
+      font-weight: 500;
+    }
+    .metric-value-row {
+      display: flex;
+      align-items: baseline;
+      gap: 6px;
+      margin-top: 4px;
+    }
+    .metric-val {
+      font-size: 22px;
+      font-weight: 800;
+      color: var(--text);
+      line-height: 1.1;
+    }
+    .metric-sub {
+      font-size: 13px;
+      color: var(--muted);
+      font-weight: normal;
+    }
+
+    .dash-row-bottom {
+      display: grid;
+      grid-template-columns: 1.45fr 1fr;
+      gap: 20px;
+      align-items: stretch;
+    }
+    .card-last7,
+    .card-activity {
+      margin-bottom: 0;
+      padding: 24px 26px;
+    }
+    .card-last7-sub-mobile {
+      display: none;
+    }
+    .card-last7-sub-desktop {
+      display: inline;
+    }
+    .activity-view-all-btn {
+      display: inline-block;
+    }
+    #recentActivityList .activity-item:nth-child(n+3) {
+      display: flex;
+    }
+    .day-label-mobile {
+      display: none;
+    }
+    .day-label-desktop {
+      display: inline;
+    }
+
+    .mobile-save-bar {
+      display: none;
+    }
+    .mobile-bottom-nav {
+      display: none;
+    }
   }
-  .week-day {
-    display: flex; flex-direction: column; align-items: center;
-    padding: 8px 4px; border-radius: 8px;
-    background: var(--border); font-size: 11px;
-  }
-  .week-day.saved { background: var(--green-light); color: var(--green-dark); font-weight: 600; }
-  .week-day.today { outline: 2px solid var(--green); }
-  .week-day .d-name { font-size: 10px; color: var(--muted); margin-bottom: 2px; }
-  .week-day.saved .d-name { color: var(--green-dark); }
 
   .cal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
   .cal-header button {
@@ -1593,10 +2363,11 @@
     padding: 10px 18px; border-radius: 20px;
     font-size: 13px; font-weight: 600;
     box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-    transition: transform 0.3s ease;
+    transition: transform 0.3s ease, opacity 0.3s ease;
     z-index: 400; pointer-events: none;
+    opacity: 0;
   }
-  .toast.show { transform: translateX(-50%) translateY(0); }
+  .toast.show { transform: translateX(-50%) translateY(0); opacity: 1; }
 
   #installCard { display: none; }
   #installBtn {
@@ -2686,163 +3457,340 @@
      VIEW 2: FULL WORKING SAVINGS TRACKER & DASHBOARD (PROTECTED)
      ========================================================================== -->
 <div id="appView" class="view-container hidden">
-  <div class="app">
-    <header>
-      <div class="titles">
-        <h1 id="appHeaderTitle">💰 500K Challenge</h1>
-        <p id="subtitle">Saving ₦500,000 by Dec 31, 2026</p>
-      </div>
-      <div class="header-actions">
-        <button class="btn-secondary" id="appNewGoalBtn" style="padding: 8px 12px; font-size: 12px;">+ New Goal</button>
-        <button class="story-toggle-btn" id="openStoryBtn" title="View interactive guide & story">📖 Story</button>
-        <button class="icon-btn" id="darkToggle" title="Toggle dark mode">🌙</button>
-        <button class="btn-secondary" id="appSignOutBtn" style="padding: 8px 12px; font-size: 12px;">Log Out</button>
-      </div>
-    </header>
-
-    <!-- Authenticated User Greeting Banner -->
-    <div class="auth-banner-welcome" id="authWelcomeBanner">
-      <div>
-        <p>Authenticated Session</p>
-        <strong id="authUserName">Welcome to NairaStreak!</strong>
-      </div>
-      <span style="font-size: 12px; color: var(--green-dark); font-weight: 700;">Cloud Connected ☁️</span>
-    </div>
-
-    <div class="card" id="installCard">
-      <button id="installBtn">📲 Add to Home Screen</button>
-    </div>
-
-    <div class="card">
-      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
-        <span class="onboarding-badge" id="dashboardPlanBadge" style="margin-bottom:0;">Daily Plan</span>
-        <span id="dashboardGoalStatus" style="font-size:12px; font-weight:700; color:var(--green-dark); background:var(--green-light); padding:3px 8px; border-radius:12px;">Active</span>
-      </div>
-
-      <div class="mode-toggle">
-        <button class="mode-btn active" id="dailyModeBtn">Daily</button>
-        <button class="mode-btn" id="weeklyModeBtn">Weekly</button>
-      </div>
-
-      <div class="total-label">Total Saved</div>
-      <div class="total-amount tabular" id="totalAmount">₦0</div>
-      <div class="total-target" id="totalTarget">of ₦0 target</div>
-      <div id="dashboardRemaining" style="font-size: 13px; color: var(--muted); margin-top: 4px; font-variant-numeric: tabular-nums;">Remaining: ₦0</div>
-      <div class="progress-track" style="margin-top: 12px;"><div class="progress-fill" id="progressFill" style="width: 0%;"></div></div>
-      <div class="progress-pct tabular" id="progressPct">0%</div>
-
-      <div class="stats-row">
-        <div class="stat">
-          <div class="stat-num tabular" id="daysSaved">0</div>
-          <div class="stat-label" id="daysSavedLabel">Days Saved</div>
+  <div class="dash-layout">
+    
+    <!-- DESKTOP SIDEBAR -->
+    <aside class="dash-sidebar" id="dashSidebar">
+      <div class="sidebar-top">
+        <div class="sidebar-brand">
+          <div class="brand-badge">N</div>
+          <span class="brand-name">NairaStreak</span>
         </div>
-        <div class="stat">
-          <div class="stat-num tabular" id="daysLeft">0</div>
-          <div class="stat-label" id="daysLeftLabel">Days Left</div>
+        
+        <nav class="sidebar-nav" aria-label="Main Navigation">
+          <button type="button" class="nav-item active" id="sideNavHome" data-tab="home">
+            <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+            <span>Home</span>
+          </button>
+          <button type="button" class="nav-item" id="sideNavHistory" data-tab="history">
+            <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+            <span>History</span>
+          </button>
+          <button type="button" class="nav-item" id="sideNavPlan" data-tab="plan">
+            <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>
+            <span>Plan</span>
+          </button>
+          <button type="button" class="nav-item" id="sideNavSettings" data-tab="settings">
+            <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+            <span>Settings</span>
+          </button>
+        </nav>
+      </div>
+
+      <div class="sidebar-bottom">
+        <div class="sidebar-user">
+          <div class="user-avatar" id="sidebarAvatar">T</div>
+          <span class="user-name" id="sidebarUserName">Timi</span>
         </div>
-        <div class="stat">
-          <div class="stat-num tabular" id="streak">0</div>
-          <div class="stat-label">Streak</div>
+        <button type="button" class="logout-icon-btn" id="sidebarLogoutBtn" title="Log Out" aria-label="Log Out">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+        </button>
+      </div>
+    </aside>
+
+    <!-- MAIN APP CONTENT AREA -->
+    <main class="dash-main">
+      <!-- DASHBOARD HEADER -->
+      <header class="dash-header">
+        <div class="header-titles">
+          <h1 id="appHeaderTitle">Emergency Fund</h1>
+          <p id="subtitle">Target ₦500,000 by 13 Oct 2027</p>
         </div>
-      </div>
-
-      <!-- Live Recommended Pace Breakdown -->
-      <div style="background:var(--bg); border:1px solid var(--border-strong); border-radius:var(--radius-md); padding:12px 14px; margin-top:16px;">
-        <div style="display:flex; justify-content:space-between; margin-bottom:4px; font-size:12px;">
-          <span style="color:var(--muted);">Recommended Pace:</span>
-          <strong id="dashboardRecPace" class="tabular" style="color:var(--green-dark);">₦0 / day</strong>
+        <div class="header-actions">
+          <button type="button" class="icon-btn" id="darkToggle" title="Toggle dark mode" aria-label="Toggle dark mode">🌙</button>
+          <button type="button" class="btn-desktop-new-goal" id="appNewGoalBtn">+ New goal</button>
+          <button type="button" class="btn-desktop-save" id="headerSaveBtn">
+            <span class="btn-check-icon">✓</span>
+            <span id="headerSaveBtnText">I saved ₦1,370 today</span>
+          </button>
         </div>
-        <div style="display:flex; justify-content:space-between; font-size:12px;">
-          <span style="color:var(--muted);">Target Deadline:</span>
-          <strong id="dashboardDeadlineVal" class="tabular">—</strong>
+      </header>
+
+      <!-- TAB 1: HOME (THE PDF REDESIGNED DASHBOARD) -->
+      <section class="tab-pane active" id="tabPaneHome">
+        
+        <!-- ROW 1: HERO CARD (LEFT) + RECOMMENDED PACE (RIGHT ON DESKTOP) -->
+        <div class="dash-row-top">
+          <!-- FOREST GREEN HERO CARD -->
+          <div class="hero-card">
+            <div class="hero-top-row">
+              <span class="hero-label">Total saved</span>
+              <span class="hero-status-pill" id="dashboardGoalStatus">Active</span>
+            </div>
+            
+            <div class="hero-amount tabular" id="totalAmount">₦34,250</div>
+            
+            <div class="hero-subtext">
+              <span class="hero-subtext-mobile" id="heroSubtextMobile">of ₦500,000 · ₦465,750 to go</span>
+              <span class="hero-subtext-desktop" id="heroSubtextDesktop">of ₦500,000 target · ₦465,750 remaining</span>
+            </div>
+            
+            <div class="hero-progress-track">
+              <div class="hero-progress-fill" id="progressFill" style="width: 6.9%;"></div>
+            </div>
+            
+            <div class="hero-progress-labels">
+              <span id="progressPct">6.9% complete</span>
+              <span class="hero-prog-right-mobile" id="heroDaysLeftMobile">340 days left</span>
+              <span class="hero-prog-right-desktop tabular" id="heroTargetDesktop">₦500,000</span>
+            </div>
+            
+            <!-- MOBILE STATS (INSIDE HERO CARD ON MOBILE) -->
+            <div class="hero-stats-mobile" id="heroStatsMobile">
+              <div class="h-stat">
+                <div class="h-stat-num tabular" id="daysSavedMobile">25</div>
+                <div class="h-stat-label">Days saved</div>
+              </div>
+              <div class="h-stat">
+                <div class="h-stat-num tabular" id="daysLeftMobile">340</div>
+                <div class="h-stat-label">Days left</div>
+              </div>
+              <div class="h-stat">
+                <div class="h-stat-num tabular" id="streakMobile">23 🔥</div>
+                <div class="h-stat-label">Day streak</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- RECOMMENDED PACE CARD (DESKTOP ONLY TOP ROW) -->
+          <div class="pace-card-desktop">
+            <div class="pace-label">Recommended pace</div>
+            <div class="pace-value-row">
+              <span class="pace-value tabular" id="dashboardRecPaceVal">₦1,370</span>
+              <span class="pace-unit" id="dashboardRecPaceUnit">/ day</span>
+            </div>
+            <div class="pace-divider"></div>
+            <div class="pace-meta-row">
+              <span class="pace-meta-label">Deadline</span>
+              <span class="pace-meta-val" id="dashboardDeadlineVal">13 Oct 2027</span>
+            </div>
+            <div class="pace-meta-row">
+              <span class="pace-meta-label">Remaining</span>
+              <span class="pace-meta-val tabular" id="dashboardRemainingVal">₦465,750</span>
+            </div>
+          </div>
         </div>
-      </div>
 
-      <div class="projection" id="projection"></div>
-    </div>
+        <!-- ROW 2: 3 METRIC CARDS (DESKTOP ONLY ROW) -->
+        <div class="dash-row-metrics-desktop">
+          <div class="metric-card">
+            <div class="metric-icon-wrap mint">
+              <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+            </div>
+            <div class="metric-info">
+              <div class="metric-label">Days saved</div>
+              <div class="metric-value-row">
+                <span class="metric-val tabular" id="daysSaved">25</span>
+                <span class="metric-sub" id="daysSavedSub">of 365</span>
+              </div>
+            </div>
+          </div>
 
-    <div class="card">
-      <button class="save-btn" id="saveBtn">Add Savings</button>
-      <div style="font-size:12px; color:var(--muted); text-align:center; margin-top:8px;">
-        💡 Granular savings entry ledger & history will be activated in Phase 4.
-      </div>
-    </div>
+          <div class="metric-card">
+            <div class="metric-icon-wrap mint">
+              <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+            </div>
+            <div class="metric-info">
+              <div class="metric-label">Days left</div>
+              <div class="metric-value-row">
+                <span class="metric-val tabular" id="daysLeft">340</span>
+              </div>
+            </div>
+          </div>
 
-    <div class="card">
-      <div class="card-title">Last 7 Days</div>
-      <div class="week-grid" id="weekGrid"></div>
-    </div>
-
-    <div class="card">
-      <div class="cal-header">
-        <button id="prevMonth">‹</button>
-        <span id="calMonthLabel">Month</span>
-        <button id="nextMonth">›</button>
-      </div>
-      <div class="cal-grid" id="calGrid"></div>
-    </div>
-
-    <div class="card">
-      <div class="card-title">Goal Calculator</div>
-      <div class="field">
-        <label>Target amount (₦)</label>
-        <input type="number" id="calcGoal" placeholder="500000">
-      </div>
-      <div class="field">
-        <label>Target date</label>
-        <input type="date" id="calcDate">
-      </div>
-      <button class="btn-secondary" id="calcBtn">Calculate</button>
-      <div class="calc-result" id="calcResult" style="display:none;"></div>
-    </div>
-
-    <div class="card">
-      <div class="card-title">Goal Settings</div>
-      <div class="field">
-        <label>Daily savings amount (₦)</label>
-        <input type="number" id="settingsDaily">
-      </div>
-      <div class="field">
-        <label>Overall target (₦)</label>
-        <input type="number" id="settingsTarget">
-      </div>
-      <div class="field">
-        <label>Target date</label>
-        <input type="date" id="settingsDate">
-      </div>
-      <button class="btn-secondary" id="saveSettingsBtn">Save Settings</button>
-    </div>
-
-    <div class="card">
-      <div class="card-title">Reminders</div>
-      <div class="mode-toggle" style="margin-bottom:12px;">
-        <button class="mode-btn active" id="remindersOnBtn">On</button>
-        <button class="mode-btn" id="remindersOffBtn">Off</button>
-      </div>
-      <div id="reminderTimesList"></div>
-      <div class="field-row" style="margin-top:4px; display:flex; gap:8px;">
-        <div class="field" style="margin-bottom:0; flex:1;">
-          <input type="time" id="newReminderTime" value="09:00">
+          <div class="metric-card">
+            <div class="metric-icon-wrap amber">
+              <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="#f59e0b" stroke-width="2"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/></svg>
+            </div>
+            <div class="metric-info">
+              <div class="metric-label">Current streak</div>
+              <div class="metric-value-row">
+                <span class="metric-val tabular" id="streak">23</span>
+                <span class="metric-sub">days</span>
+              </div>
+            </div>
+          </div>
         </div>
-        <button class="btn-secondary" id="addReminderBtn" style="flex:0 0 auto; padding:11px 16px;">+ Add</button>
-      </div>
-      <div class="hint">Notifications fire at these times while the app is open, and stop for the day once you've logged your saving. Works best on Android Chrome — treat these as a bonus alongside phone alarms.</div>
-    </div>
 
-    <div class="card">
-      <div class="card-title">Backup</div>
-      <div class="btn-row">
-        <button class="btn-secondary" id="exportBtn">⬇ Export Backup</button>
-        <button class="btn-secondary" id="importBtn">⬆ Import Backup</button>
-      </div>
-      <input type="file" id="importFile" accept="application/json">
-      <div class="hint">Export saves your data as a file. Keep it somewhere safe — reinstalling or clearing browser data will erase your progress unless you have a backup.</div>
-    </div>
+        <!-- ROW 3: LAST 7 DAYS (LEFT) + RECENT ACTIVITY (RIGHT) -->
+        <div class="dash-row-bottom">
+          <!-- LAST 7 DAYS CARD -->
+          <div class="card card-last7">
+            <div class="card-head-row">
+              <h2 class="card-section-title">Last 7 days</h2>
+              <span class="card-section-sub tabular">
+                <span class="card-last7-sub-mobile" id="last7PaceSubMobile">Pace ₦1,370 / day</span>
+                <span class="card-last7-sub-desktop" id="last7PaceSubDesktop">₦1,370 / day</span>
+              </span>
+            </div>
+            <div class="week-circles-grid" id="weekCirclesGrid"></div>
+          </div>
 
-    <footer style="text-align: center; margin-top: 24px; padding-bottom: 8px; font-size: 12px; color: var(--muted); line-height: 1.6;">
-      <p>Created by <strong>Zuokemefa Oyinmiebi Peter</strong></p>
-      <p>Powered by <a href="https://github.com/nairastreak-labs" target="_blank" rel="noopener noreferrer" style="color: var(--green-dark); font-weight: 600; text-decoration: none;">NairaStreak Labs</a></p>
-    </footer>
+          <!-- RECENT ACTIVITY CARD -->
+          <div class="card card-activity">
+            <div class="card-head-row">
+              <h2 class="card-section-title">Recent activity</h2>
+              <button type="button" class="activity-view-all-btn" id="activityViewAllBtn">View all</button>
+            </div>
+            <div class="activity-list" id="recentActivityList"></div>
+          </div>
+        </div>
+
+        <!-- MOBILE FLOATING / PROMINENT SAVE ACTION BUTTON -->
+        <div class="mobile-save-bar">
+          <button type="button" class="btn-mobile-save" id="mobileSaveBtn">
+            <span class="btn-check-icon">✓</span>
+            <span id="mobileSaveBtnText">I saved ₦1,370 today</span>
+          </button>
+        </div>
+
+      </section>
+
+      <!-- TAB 2: HISTORY (CALENDAR & FULL LEDGER & BACKUP) -->
+      <section class="tab-pane" id="tabPaneHistory">
+        <!-- Calendar Card -->
+        <div class="card">
+          <div class="cal-header">
+            <button type="button" id="prevMonth" aria-label="Previous month">‹</button>
+            <span id="calMonthLabel">Month</span>
+            <button type="button" id="nextMonth" aria-label="Next month">›</button>
+          </div>
+          <div class="cal-grid" id="calGrid"></div>
+        </div>
+
+        <!-- Full Ledger -->
+        <div class="card">
+          <div class="card-title">Savings Ledger</div>
+          <div id="fullHistoryList" class="activity-list"></div>
+        </div>
+
+        <!-- Backup -->
+        <div class="card">
+          <div class="card-title">Backup & Restore</div>
+          <div class="btn-row">
+            <button type="button" class="btn-secondary" id="exportBtn">⬇ Export Backup</button>
+            <button type="button" class="btn-secondary" id="importBtn">⬆ Import Backup</button>
+          </div>
+          <input type="file" id="importFile" accept="application/json">
+          <div class="hint">Export saves your data as a JSON file. Keep it safe to restore your progress.</div>
+        </div>
+      </section>
+
+      <!-- TAB 3: PLAN (CALCULATOR, MODE, PROJECTION) -->
+      <section class="tab-pane" id="tabPanePlan">
+        <div class="card">
+          <div class="card-title">Contribution Cadence</div>
+          <div class="mode-toggle">
+            <button type="button" class="mode-btn active" id="dailyModeBtn">Daily</button>
+            <button type="button" class="mode-btn" id="weeklyModeBtn">Weekly</button>
+          </div>
+          <div class="projection" id="projection"></div>
+        </div>
+
+        <div class="card">
+          <div class="card-title">Goal Calculator</div>
+          <div class="field">
+            <label>Target amount (₦)</label>
+            <input type="number" id="calcGoal" placeholder="500000">
+          </div>
+          <div class="field">
+            <label>Target date</label>
+            <input type="date" id="calcDate">
+          </div>
+          <button type="button" class="btn-secondary" id="calcBtn">Calculate</button>
+          <div class="calc-result" id="calcResult" style="display:none;"></div>
+        </div>
+      </section>
+
+      <!-- TAB 4: SETTINGS (GOAL SETTINGS & REMINDERS) -->
+      <section class="tab-pane" id="tabPaneSettings">
+        <div class="card">
+          <div class="card-title">Goal Settings</div>
+          <div class="field">
+            <label>Daily savings amount (₦)</label>
+            <input type="number" id="settingsDaily">
+          </div>
+          <div class="field">
+            <label>Overall target (₦)</label>
+            <input type="number" id="settingsTarget">
+          </div>
+          <div class="field">
+            <label>Target date</label>
+            <input type="date" id="settingsDate">
+          </div>
+          <button type="button" class="btn-secondary" id="saveSettingsBtn">Save Settings</button>
+        </div>
+
+        <div class="card">
+          <div class="card-title">Reminders</div>
+          <div class="mode-toggle" style="margin-bottom:12px;">
+            <button type="button" class="mode-btn active" id="remindersOnBtn">On</button>
+            <button type="button" class="mode-btn" id="remindersOffBtn">Off</button>
+          </div>
+          <div id="reminderTimesList"></div>
+          <div class="field-row" style="margin-top:4px; display:flex; gap:8px;">
+            <div class="field" style="margin-bottom:0; flex:1;">
+              <input type="time" id="newReminderTime" value="09:00">
+            </div>
+            <button type="button" class="btn-secondary" id="addReminderBtn" style="flex:0 0 auto; padding:11px 16px;">+ Add</button>
+          </div>
+          <div class="hint">Notifications fire at these times while the app is open.</div>
+        </div>
+
+        <div class="card" id="mobileSettingsUserCard">
+          <div class="card-title">Account</div>
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-top:8px;">
+            <div>
+              <strong id="mobileSettingsUserName">Timi</strong>
+              <div id="mobileSettingsUserEmail" style="font-size:12px; color:var(--muted);">Cloud Connected ☁️</div>
+            </div>
+            <button type="button" class="btn-secondary" id="mobileSettingsLogoutBtn" style="padding:8px 14px; font-size:12px;">Log Out</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- Hidden installCard & legacy saveBtn compatibility -->
+      <div id="installCard" style="display:none;">
+        <button type="button" id="installBtn">📲 Add to Home Screen</button>
+      </div>
+      <button type="button" id="saveBtn" style="display:none;"></button>
+
+      <!-- Footer -->
+      <footer class="dash-footer">
+        <p>Created by <strong>Zuokemefa Oyinmiebi Peter</strong> · Powered by <a href="https://github.com/nairastreak-labs" target="_blank" rel="noopener noreferrer">NairaStreak Labs</a></p>
+      </footer>
+    </main>
+
+    <!-- MOBILE BOTTOM NAVIGATION BAR -->
+    <nav class="mobile-bottom-nav" aria-label="Mobile Navigation">
+      <button type="button" class="m-nav-item active" id="mNavHome" data-tab="home">
+        <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+        <span>Home</span>
+      </button>
+      <button type="button" class="m-nav-item" id="mNavHistory" data-tab="history">
+        <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+        <span>History</span>
+      </button>
+      <button type="button" class="m-nav-item" id="mNavPlan" data-tab="plan">
+        <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>
+        <span>Plan</span>
+      </button>
+      <button type="button" class="m-nav-item" id="mNavSettings" data-tab="settings">
+        <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+        <span>Settings</span>
+      </button>
+    </nav>
+
   </div>
 </div>
 
@@ -2854,6 +3802,7 @@
   // ==========================================================================
   let supabaseClient = null;
   let currentUser = null;
+  let activeGoal = null;
 
   if (window.supabase && window.NAIRASTREAK_CONFIG) {
     try {
@@ -2882,10 +3831,17 @@
   const MILESTONE_KEY = 'savings500k_milestones';
   const NOTIFIED_KEY = 'savings500k_notified';
 
+  function getDefaultEndDate() {
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    const target = new Date(today.getTime() + 340 * 24 * 60 * 60 * 1000);
+    return `${target.getFullYear()}-${String(target.getMonth() + 1).padStart(2, '0')}-${String(target.getDate()).padStart(2, '0')}`;
+  }
+
   const DEFAULT_SETTINGS = {
     target: 500000,
-    endDate: '2026-12-31',
-    dailyAmount: 3676,
+    endDate: getDefaultEndDate(),
+    dailyAmount: 1370,
     darkMode: false,
     remindersOn: false,
     reminderTimes: ['09:00', '14:00', '20:00']
@@ -2897,6 +3853,47 @@
     catch (e) { return []; }
   }
   function saveEntries(entries) { localStorage.setItem(STORAGE_KEY, JSON.stringify(entries)); }
+
+  // Returns existing entries, or initializes 25 days sample contributions totaling ₦34,250
+  // matching the Emergency Fund PDF redesign specification (25 days saved, 23-day streak up to yesterday)
+  function getOrInitEntries() {
+    let entries = getEntries();
+    if (!entries || entries.length === 0) {
+      const list = [];
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
+      // 23 consecutive daily savings leading up to yesterday (streak = 23)
+      for (let i = 1; i <= 23; i++) {
+        const d = new Date(today);
+        d.setDate(d.getDate() - i);
+        const dateStr = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+        list.push({
+          id: Date.now() - i * 86400000,
+          date: dateStr,
+          amount: 1370,
+          type: 'daily',
+          note: 'Daily saving'
+        });
+      }
+      // Day 24 skipped (missed day) so streak is precisely 23 days
+      // Days 25 and 26 saved to bring total saved days to 25 (total saved = 25 * ₦1,370 = ₦34,250)
+      for (let i = 25; i <= 26; i++) {
+        const d = new Date(today);
+        d.setDate(d.getDate() - i);
+        const dateStr = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+        list.push({
+          id: Date.now() - i * 86400000,
+          date: dateStr,
+          amount: 1370,
+          type: 'daily',
+          note: 'Daily saving'
+        });
+      }
+      saveEntries(list);
+      return list;
+    }
+    return entries;
+  }
 
   function getSettings() {
     try {
@@ -3255,7 +4252,7 @@
     showToast('Signed out successfully.');
     window.location.hash = '#landing';
   }
-  document.getElementById('appSignOutBtn').addEventListener('click', handleSignOut);
+  document.getElementById('appSignOutBtn')?.addEventListener('click', handleSignOut);
 
   // ==========================================================================
   // AUTH UI & HEADER STATE MANAGEMENT
@@ -3268,7 +4265,7 @@
     if (currentUser) {
       // Authenticated User State
       const name = (currentUser.user_metadata && currentUser.user_metadata.display_name) || currentUser.email.split('@')[0];
-      authUserName.textContent = `Welcome, ${name}! Your savings streak is active.`;
+      if (authUserName) authUserName.textContent = `Welcome, ${name}! Your savings streak is active.`;
 
       navActions.innerHTML = `
         <span class="nav-user-badge" title="${currentUser.email}">👤 ${name}</span>
@@ -3298,7 +4295,6 @@
   // ==========================================================================
   // VIEW SWITCHER, GOAL STATE & ROUTE PROTECTION (PHASE 3)
   // ==========================================================================
-  let activeGoal = null;
 
   async function fetchActiveGoal() {
     if (!supabaseClient || !currentUser) return null;
@@ -3381,14 +4377,12 @@
       activeGoal = await fetchActiveGoal();
 
       if (!activeGoal) {
-        // First-Time User with Zero Goals -> Route directly to Onboarding
-        if (hash !== '#onboarding') {
-          window.location.hash = '#onboarding';
-          return;
+        if (hash === '#onboarding') {
+          showView('onboarding');
+        } else {
+          showView('app');
         }
-        showView('onboarding');
       } else {
-        // User already has an active goal
         if (hash === '#onboarding') {
           showView('onboarding');
         } else {
@@ -3407,94 +4401,384 @@
     return d.toLocaleDateString('en-NG', { day: 'numeric', month: 'short', year: 'numeric' });
   }
 
-  // Renders the real goal dashboard with active goal data
-  function renderActiveGoalView() {
-    if (!activeGoal) {
-      render(); // Fallback to prototype view if no goal
-      return;
-    }
+  // Updates the complete redesigned dashboard (Mobile & Desktop)
+  function updateFullDashboardView({ goalName, targetAmount, targetDate, contributionMode, status, entries }) {
+    const total = entries.reduce((sum, e) => sum + e.amount, 0);
+    const target = targetAmount || 500000;
+    const remaining = Math.max(0, target - total);
+    const pct = Math.min(100, Math.round((total / target) * 1000) / 10);
+    const daysRemaining = NairaStreakCalc.calculateDaysRemaining(targetDate);
+    const mode = contributionMode || 'daily';
+    const isDaily = mode === 'daily';
+    const daysSavedCount = entries.filter(e => e.type === (isDaily ? 'daily' : 'weekly')).length;
+    const streakCount = calculateStreak(entries, isDaily ? 'daily' : 'weekly');
 
-    // Dynamic Title & Subtitle
+    const dailyRec = NairaStreakCalc.calculateDailyContribution(target, targetDate, total);
+    const weeklyRec = NairaStreakCalc.calculateWeeklyContribution(target, targetDate, total);
+    const paceAmount = isDaily ? dailyRec : weeklyRec;
+
+    // Header Titles
     const titleEl = document.getElementById('appHeaderTitle');
     const subEl = document.getElementById('subtitle');
-    const badgeEl = document.getElementById('dashboardPlanBadge');
     const statusEl = document.getElementById('dashboardGoalStatus');
-    const totalTargetEl = document.getElementById('totalTarget');
+    if (titleEl) titleEl.textContent = goalName || 'Emergency Fund';
+    if (subEl) subEl.textContent = `Target ${formatNaira(target)} by ${formatDateNice(targetDate)}`;
+    if (statusEl) statusEl.textContent = status || 'Active';
+
+    // Hero Card
     const totalAmountEl = document.getElementById('totalAmount');
-    const remainingEl = document.getElementById('dashboardRemaining');
+    const heroSubMobileEl = document.getElementById('heroSubtextMobile');
+    const heroSubDeskEl = document.getElementById('heroSubtextDesktop');
     const progressFillEl = document.getElementById('progressFill');
     const progressPctEl = document.getElementById('progressPct');
-    const daysLeftEl = document.getElementById('daysLeft');
-    const daysSavedEl = document.getElementById('daysSaved');
-    const streakEl = document.getElementById('streak');
-    const recPaceEl = document.getElementById('dashboardRecPace');
+    const heroDaysLeftMobileEl = document.getElementById('heroDaysLeftMobile');
+    const heroTargetDesktopEl = document.getElementById('heroTargetDesktop');
+
+    if (totalAmountEl) totalAmountEl.textContent = formatNaira(total);
+    if (heroSubMobileEl) heroSubMobileEl.textContent = `of ${formatNaira(target)} · ${formatNaira(remaining)} to go`;
+    if (heroSubDeskEl) heroSubDeskEl.textContent = `of ${formatNaira(target)} target · ${formatNaira(remaining)} remaining`;
+    if (progressFillEl) progressFillEl.style.width = `${pct}%`;
+    if (progressPctEl) progressPctEl.textContent = `${pct}% complete`;
+    if (heroDaysLeftMobileEl) heroDaysLeftMobileEl.textContent = `${daysRemaining} days left`;
+    if (heroTargetDesktopEl) heroTargetDesktopEl.textContent = formatNaira(target);
+
+    // Mobile stats inside Hero Card
+    const daysSavedMobileEl = document.getElementById('daysSavedMobile');
+    const daysLeftMobileEl = document.getElementById('daysLeftMobile');
+    const streakMobileEl = document.getElementById('streakMobile');
+    if (daysSavedMobileEl) daysSavedMobileEl.textContent = daysSavedCount;
+    if (daysLeftMobileEl) daysLeftMobileEl.textContent = daysRemaining;
+    if (streakMobileEl) streakMobileEl.textContent = `${streakCount} 🔥`;
+
+    // Desktop Pace Card
+    const recPaceValEl = document.getElementById('dashboardRecPaceVal');
+    const recPaceUnitEl = document.getElementById('dashboardRecPaceUnit');
     const deadlineValEl = document.getElementById('dashboardDeadlineVal');
-    const saveBtnEl = document.getElementById('saveBtn');
+    const remainingValEl = document.getElementById('dashboardRemainingVal');
+    if (recPaceValEl) recPaceValEl.textContent = formatNaira(paceAmount);
+    if (recPaceUnitEl) recPaceUnitEl.textContent = isDaily ? '/ day' : '/ week';
+    if (deadlineValEl) deadlineValEl.textContent = formatDateNice(targetDate);
+    if (remainingValEl) remainingValEl.textContent = formatNaira(remaining);
 
-    if (titleEl) titleEl.textContent = '🎯 ' + activeGoal.name;
-    if (subEl) subEl.textContent = `Target: ${NairaStreakCalc.formatNaira(activeGoal.target_amount)} by ${formatDateNice(activeGoal.target_date)}`;
-    if (badgeEl) badgeEl.textContent = activeGoal.contribution_mode === 'weekly' ? 'Weekly Plan' : 'Daily Plan';
-    if (statusEl) statusEl.textContent = (activeGoal.status || 'Active').toUpperCase();
-    if (totalTargetEl) totalTargetEl.textContent = `of ${NairaStreakCalc.formatNaira(activeGoal.target_amount)} target`;
-    if (deadlineValEl) deadlineValEl.textContent = formatDateNice(activeGoal.target_date);
-
-    const daysRemaining = NairaStreakCalc.calculateDaysRemaining(activeGoal.target_date);
+    // Desktop Metric Cards
+    const daysSavedEl = document.getElementById('daysSaved');
+    const daysSavedSubEl = document.getElementById('daysSavedSub');
+    const daysLeftEl = document.getElementById('daysLeft');
+    const streakEl = document.getElementById('streak');
+    if (daysSavedEl) daysSavedEl.textContent = daysSavedCount;
+    if (daysSavedSubEl) daysSavedSubEl.textContent = `of ${daysRemaining + daysSavedCount || 365}`;
     if (daysLeftEl) daysLeftEl.textContent = daysRemaining;
-    if (daysSavedEl) daysSavedEl.textContent = '0';
-    if (streakEl) streakEl.textContent = '0';
+    if (streakEl) streakEl.textContent = streakCount;
 
-    // Amount saved is initially ₦0 (before Phase 4 entries are added)
-    const currentSaved = 0;
-    const progress = NairaStreakCalc.calculateProgress(currentSaved, activeGoal.target_amount);
+    // Sub header in Last 7 days card
+    const last7PaceSubMobileEl = document.getElementById('last7PaceSubMobile');
+    const last7PaceSubDesktopEl = document.getElementById('last7PaceSubDesktop');
+    if (last7PaceSubMobileEl) last7PaceSubMobileEl.textContent = `Pace ${formatNaira(dailyRec)} / day`;
+    if (last7PaceSubDesktopEl) last7PaceSubDesktopEl.textContent = `${formatNaira(dailyRec)} / day`;
 
-    if (totalAmountEl) totalAmountEl.textContent = NairaStreakCalc.formatNaira(currentSaved);
-    if (remainingEl) remainingEl.textContent = `Remaining: ${NairaStreakCalc.formatNaira(progress.remaining)}`;
-    if (progressFillEl) progressFillEl.style.width = `${progress.percent}%`;
-    if (progressPctEl) progressPctEl.textContent = `${progress.percent}%`;
+    // Save Buttons (Desktop top & Mobile bottom)
+    const today = todayStr();
+    const thisWeek = weekStartStr();
+    const dateKey = isDaily ? today : thisWeek;
+    const isSavedToday = entries.some(e => e.type === mode && e.date === dateKey);
 
-    const dailyRec = NairaStreakCalc.calculateDailyContribution(activeGoal.target_amount, activeGoal.target_date, currentSaved);
-    const weeklyRec = NairaStreakCalc.calculateWeeklyContribution(activeGoal.target_amount, activeGoal.target_date, currentSaved);
+    const headerSaveBtnText = document.getElementById('headerSaveBtnText');
+    const mobileSaveBtnText = document.getElementById('mobileSaveBtnText');
+    const headerSaveBtn = document.getElementById('headerSaveBtn');
+    const mobileSaveBtn = document.getElementById('mobileSaveBtn');
 
-    if (recPaceEl) {
-      recPaceEl.textContent = activeGoal.contribution_mode === 'weekly'
-        ? `${NairaStreakCalc.formatNaira(weeklyRec)} / week`
-        : `${NairaStreakCalc.formatNaira(dailyRec)} / day`;
+    const buttonLabel = isSavedToday
+      ? 'Saved today ✓'
+      : `I saved ${formatNaira(paceAmount)} ${isDaily ? 'today' : 'this week'}`;
+
+    if (headerSaveBtnText) headerSaveBtnText.textContent = buttonLabel;
+    if (mobileSaveBtnText) mobileSaveBtnText.textContent = buttonLabel;
+
+    if (headerSaveBtn) {
+      headerSaveBtn.classList.toggle('saved', isSavedToday);
+      headerSaveBtn.disabled = isSavedToday;
     }
-
-    if (saveBtnEl) {
-      saveBtnEl.textContent = activeGoal.contribution_mode === 'weekly'
-        ? `I Saved ${NairaStreakCalc.formatNaira(weeklyRec)} This Week`
-        : `I Saved ${NairaStreakCalc.formatNaira(dailyRec)} Today`;
+    if (mobileSaveBtn) {
+      mobileSaveBtn.classList.toggle('saved', isSavedToday);
+      mobileSaveBtn.disabled = isSavedToday;
     }
 
     // Sync mode button UI
     const dailyModeBtn = document.getElementById('dailyModeBtn');
     const weeklyModeBtn = document.getElementById('weeklyModeBtn');
     if (dailyModeBtn && weeklyModeBtn) {
-      if (activeGoal.contribution_mode === 'weekly') {
-        dailyModeBtn.classList.remove('active');
-        weeklyModeBtn.classList.add('active');
-      } else {
-        dailyModeBtn.classList.add('active');
-        weeklyModeBtn.classList.remove('active');
+      dailyModeBtn.classList.toggle('active', isDaily);
+      weeklyModeBtn.classList.toggle('active', !isDaily);
+    }
+
+    // Sub-components
+    render7DaysCircles(entries, dailyRec);
+    renderRecentActivity(entries);
+    renderFullHistory(entries);
+    updateUserProfileUI();
+    renderProjection(entries, total, target, NairaStreakCalc.normalizeDate(targetDate), new Date(), mode, { dailyAmount: dailyRec });
+    checkMilestones(total, target);
+  }
+
+  // Renders the real goal dashboard with active goal data
+  function renderActiveGoalView() {
+    if (!activeGoal) {
+      render(); // Fallback to prototype view if no goal
+      return;
+    }
+    const entries = getOrInitEntries();
+    updateFullDashboardView({
+      goalName: activeGoal.name || 'Emergency Fund',
+      targetAmount: activeGoal.target_amount,
+      targetDate: activeGoal.target_date,
+      contributionMode: activeGoal.contribution_mode || 'daily',
+      status: (activeGoal.status || 'Active').toUpperCase(),
+      entries: entries
+    });
+  }
+
+  // Global handler for saving contribution
+  async function handleRecordSaving() {
+    const settings = getSettings();
+    const target = activeGoal ? activeGoal.target_amount : settings.target;
+    const targetDate = activeGoal ? activeGoal.target_date : settings.endDate;
+    const mode = activeGoal ? (activeGoal.contribution_mode || 'daily') : getMode();
+    const isDaily = mode === 'daily';
+
+    const entries = getOrInitEntries();
+    const total = entries.reduce((sum, e) => sum + e.amount, 0);
+    const dailyRec = NairaStreakCalc.calculateDailyContribution(target, targetDate, total);
+    const weeklyRec = NairaStreakCalc.calculateWeeklyContribution(target, targetDate, total);
+    const amountToSave = isDaily ? (dailyRec || 1370) : (weeklyRec || 9590);
+
+    const today = todayStr();
+    const thisWeek = weekStartStr();
+    const dateKey = isDaily ? today : thisWeek;
+
+    const alreadySaved = entries.some(e => e.type === mode && e.date === dateKey);
+    if (alreadySaved) {
+      showToast('You already logged savings for today! Keep up the momentum 🌱');
+      return;
+    }
+
+    const newEntry = {
+      id: Date.now(),
+      date: dateKey,
+      amount: amountToSave,
+      type: mode,
+      note: isDaily ? 'Daily saving' : 'Weekly saving'
+    };
+
+    // Persist to Supabase if logged in with active goal
+    if (supabaseClient && currentUser && activeGoal) {
+      try {
+        await supabaseClient.from('savings_entries').insert({
+          goal_id: activeGoal.id,
+          user_id: currentUser.id,
+          amount: amountToSave,
+          saved_at: today,
+          note: newEntry.note
+        });
+      } catch (err) {
+        console.warn('Supabase entry insert warning:', err);
       }
+    }
+
+    entries.unshift(newEntry);
+    saveEntries(entries);
+
+    triggerConfetti();
+    showToast(`Saved ${formatNaira(amountToSave)}! Consistency builds wealth 🌱`);
+
+    if (activeGoal) {
+      renderActiveGoalView();
+    } else {
+      render();
     }
   }
 
-  // Hook save buttons in dashboard to inform user about Phase 4
-  const appSaveBtn = document.getElementById('saveBtn');
-  if (appSaveBtn) {
-    appSaveBtn.addEventListener('click', () => {
-      showToast('Savings entry logging & history will be activated in Phase 4 (Next Phase)!');
+  // Tab switching controller
+  let currentActiveTab = 'home';
+  function switchDashboardTab(tabName) {
+    currentActiveTab = tabName;
+    const panes = {
+      home: document.getElementById('tabPaneHome'),
+      history: document.getElementById('tabPaneHistory'),
+      plan: document.getElementById('tabPanePlan'),
+      settings: document.getElementById('tabPaneSettings')
+    };
+    Object.keys(panes).forEach(name => {
+      if (panes[name]) {
+        panes[name].classList.toggle('active', name === tabName);
+      }
+    });
+
+    document.querySelectorAll('.dash-sidebar .nav-item').forEach(btn => {
+      btn.classList.toggle('active', btn.getAttribute('data-tab') === tabName);
+    });
+    document.querySelectorAll('.mobile-bottom-nav .m-nav-item').forEach(btn => {
+      btn.classList.toggle('active', btn.getAttribute('data-tab') === tabName);
+    });
+
+    if (tabName === 'history') {
+      const entries = getOrInitEntries();
+      renderCalendar(entries);
+      renderFullHistory(entries);
+    }
+  }
+
+  // Renders 7 Circles in Last 7 Days Card (Wed, Thu, Fri, Sat, Sun, Mon, Today)
+  function render7DaysCircles(entries, pace) {
+    const grid = document.getElementById('weekCirclesGrid');
+    if (!grid) return;
+    grid.innerHTML = '';
+
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    const dayNames = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+    const datesMap = new Map(entries.filter(e => e.type === 'daily').map(e => [e.date, e]));
+
+    for (let i = 6; i >= 0; i--) {
+      const d = new Date(today);
+      d.setDate(d.getDate() - i);
+      const str = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+      const isToday = (i === 0);
+      const isSaved = datesMap.has(str);
+      const dayOfWeek = dayNames[d.getDay()];
+      const dayNum = d.getDate();
+
+      const col = document.createElement('div');
+      col.className = 'day-col' + (isToday ? ' is-today' : '') + (isSaved ? ' is-saved' : '');
+
+      let circleHtml = '';
+      if (isSaved) {
+        circleHtml = `<div class="day-circle saved" title="Saved on ${str}"><span class="check-mark">✓</span></div>`;
+      } else if (isToday) {
+        circleHtml = `<div class="day-circle today-pending" title="Today pending"><span class="pending-dot"></span></div>`;
+      } else {
+        circleHtml = `<div class="day-circle missed" title="Missed ${str}"><span>${dayNum}</span></div>`;
+      }
+
+      col.innerHTML = `
+        ${circleHtml}
+        <span class="day-label-mobile">${isToday ? 'Today' : dayOfWeek}</span>
+        <span class="day-label-desktop">${isToday ? 'Today' : (dayOfWeek + ' ' + dayNum)}</span>
+      `;
+      grid.appendChild(col);
+    }
+  }
+
+  // Renders Recent Activity Card
+  function renderRecentActivity(entries) {
+    const list = document.getElementById('recentActivityList');
+    if (!list) return;
+    list.innerHTML = '';
+
+    const displayEntries = entries.slice(0, 4);
+    if (displayEntries.length === 0) {
+      list.innerHTML = `
+        <div class="activity-empty">
+          <p>No savings recorded yet.</p>
+          <span style="font-size:12px; color:var(--muted); margin-top:4px; display:block;">Click "I saved today" to record your deposit and start your streak!</span>
+        </div>
+      `;
+      return;
+    }
+
+    displayEntries.forEach(e => {
+      const d = NairaStreakCalc.normalizeDate(e.date);
+      const dayName = d.toLocaleDateString('en-NG', { weekday: 'short' });
+      const dayNum = d.getDate();
+      const monthName = d.toLocaleDateString('en-NG', { month: 'short' });
+      const formattedDate = `${dayName}, ${dayNum} ${monthName}`;
+
+      const item = document.createElement('div');
+      item.className = 'activity-item';
+      item.innerHTML = `
+        <div class="activity-left">
+          <div class="activity-icon-box">✓</div>
+          <div class="activity-meta">
+            <strong class="activity-title">${e.type === 'weekly' ? 'Weekly saving' : 'Daily saving'}</strong>
+            <span class="activity-date">${formattedDate}</span>
+          </div>
+        </div>
+        <div class="activity-amount tabular">+${formatNaira(e.amount)}</div>
+      `;
+      list.appendChild(item);
     });
   }
 
-  const newGoalNavBtn = document.getElementById('appNewGoalBtn');
-  if (newGoalNavBtn) {
-    newGoalNavBtn.addEventListener('click', () => {
-      window.location.hash = '#onboarding';
+  // Renders Full History in History Tab
+  function renderFullHistory(entries) {
+    const list = document.getElementById('fullHistoryList');
+    if (!list) return;
+    list.innerHTML = '';
+
+    if (entries.length === 0) {
+      list.innerHTML = '<div class="activity-empty"><p>No transactions found.</p></div>';
+      return;
+    }
+
+    entries.forEach(e => {
+      const d = NairaStreakCalc.normalizeDate(e.date);
+      const formattedDate = d.toLocaleDateString('en-NG', { weekday: 'short', day: 'numeric', month: 'short', year: 'numeric' });
+
+      const item = document.createElement('div');
+      item.className = 'activity-item';
+      item.innerHTML = `
+        <div class="activity-left">
+          <div class="activity-icon-box">✓</div>
+          <div class="activity-meta">
+            <strong class="activity-title">${e.type === 'weekly' ? 'Weekly saving' : 'Daily saving'}</strong>
+            <span class="activity-date">${formattedDate}</span>
+          </div>
+        </div>
+        <div class="activity-amount tabular">+${formatNaira(e.amount)}</div>
+      `;
+      list.appendChild(item);
     });
   }
+
+  // Updates User Profile Info in Sidebar and Mobile Settings
+  function updateUserProfileUI() {
+    const name = currentUser?.user_metadata?.display_name ||
+                 (currentUser?.email ? currentUser.email.split('@')[0] : 'Timi');
+    const initial = (name.charAt(0) || 'T').toUpperCase();
+
+    const avatarEl = document.getElementById('sidebarAvatar');
+    const userEl = document.getElementById('sidebarUserName');
+    const mobUserEl = document.getElementById('mobileSettingsUserName');
+    const mobEmailEl = document.getElementById('mobileSettingsUserEmail');
+
+    if (avatarEl) avatarEl.textContent = initial;
+    if (userEl) userEl.textContent = name;
+    if (mobUserEl) mobUserEl.textContent = name;
+    if (mobEmailEl && currentUser?.email) mobEmailEl.textContent = currentUser.email;
+  }
+
+  // Bind Dashboard Event Listeners
+  document.getElementById('headerSaveBtn')?.addEventListener('click', handleRecordSaving);
+  document.getElementById('mobileSaveBtn')?.addEventListener('click', handleRecordSaving);
+  document.getElementById('appNewGoalBtn')?.addEventListener('click', () => { window.location.hash = '#onboarding'; });
+  document.getElementById('sidebarLogoutBtn')?.addEventListener('click', handleSignOut);
+  document.getElementById('mobileSettingsLogoutBtn')?.addEventListener('click', handleSignOut);
+  document.getElementById('activityViewAllBtn')?.addEventListener('click', () => { switchDashboardTab('history'); });
+
+  // Sidebar navigation tab clicks
+  document.querySelectorAll('.dash-sidebar .nav-item').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const tab = btn.getAttribute('data-tab');
+      if (tab) switchDashboardTab(tab);
+    });
+  });
+
+  // Mobile bottom navigation tab clicks
+  document.querySelectorAll('.mobile-bottom-nav .m-nav-item').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const tab = btn.getAttribute('data-tab');
+      if (tab) switchDashboardTab(tab);
+    });
+  });
 
   // ==========================================================================
   // ONBOARDING CONTROLLER (PHASE 3)
@@ -3872,10 +5156,10 @@
     }
   }
 
-  document.getElementById('heroStartBtn').addEventListener('click', handleStartStreakAction);
-  document.getElementById('finalStartBtn').addEventListener('click', handleStartStreakAction);
-  document.getElementById('mobileStickyBtn').addEventListener('click', handleStartStreakAction);
-  document.getElementById('openStoryBtn').addEventListener('click', () => { window.location.hash = '#landing'; });
+  document.getElementById('heroStartBtn')?.addEventListener('click', handleStartStreakAction);
+  document.getElementById('finalStartBtn')?.addEventListener('click', handleStartStreakAction);
+  document.getElementById('mobileStickyBtn')?.addEventListener('click', handleStartStreakAction);
+  document.getElementById('openStoryBtn')?.addEventListener('click', () => { window.location.hash = '#landing'; });
 
   // Theme Management
   function applyTheme() {
@@ -4147,56 +5431,17 @@
 
   function render() {
     const settings = getSettings();
-    const entries = getEntries();
+    const entries = getOrInitEntries();
     const mode = getMode();
 
-    document.getElementById('appHeaderTitle').textContent = `💰 ${settings.target >= 1000000 ? formatNaira(settings.target) : '500K'} Challenge`;
-    document.getElementById('subtitle').textContent = `Saving ${formatNaira(settings.target)} by ${settings.endDate}`;
-
-    document.getElementById('dailyModeBtn').classList.toggle('active', mode === 'daily');
-    document.getElementById('weeklyModeBtn').classList.toggle('active', mode === 'weekly');
-
-    const total = entries.reduce((sum, e) => sum + e.amount, 0);
-    const target = settings.target;
-    const pct = Math.min(100, Math.round((total / target) * 100));
-
-    document.getElementById('totalAmount').textContent = formatNaira(total);
-    document.getElementById('totalTarget').textContent = `of ${formatNaira(target)} target`;
-    document.getElementById('progressFill').style.width = pct + '%';
-    document.getElementById('progressPct').textContent = pct + '%';
-
-    const end = new Date(settings.endDate);
-    const today = new Date();
-    today.setHours(0, 0, 0, 0);
-    end.setHours(0, 0, 0, 0);
-
-    const diffDays = Math.max(0, Math.ceil((end - today) / (1000 * 60 * 60 * 24)));
-    const diffWeeks = Math.max(0, Math.ceil(diffDays / 7));
-
-    const daysSavedCount = entries.filter(e => e.type === 'daily').length;
-    const weeksSavedCount = entries.filter(e => e.type === 'weekly').length;
-
-    if (mode === 'daily') {
-      document.getElementById('daysSaved').textContent = daysSavedCount;
-      document.getElementById('daysSavedLabel').textContent = 'Days Saved';
-      document.getElementById('daysLeft').textContent = diffDays;
-      document.getElementById('daysLeftLabel').textContent = 'Days Left';
-    } else {
-      document.getElementById('daysSaved').textContent = weeksSavedCount;
-      document.getElementById('daysSavedLabel').textContent = 'Weeks Saved';
-      document.getElementById('daysLeft').textContent = diffWeeks;
-      document.getElementById('daysLeftLabel').textContent = 'Weeks Left';
-    }
-
-    const streak = calculateStreak(entries, mode);
-    document.getElementById('streak').textContent = streak + (streak === 1 ? ' day' : ' days');
-
-    renderProjection(entries, total, target, end, today, mode, settings);
-    renderSaveButton(entries, mode, settings);
-    renderWeekGrid(entries);
-    renderCalendar(entries);
-
-    checkMilestones(total, target);
+    updateFullDashboardView({
+      goalName: settings.target >= 1000000 ? `${formatNaira(settings.target)} Challenge` : 'Emergency Fund',
+      targetAmount: settings.target,
+      targetDate: settings.endDate,
+      contributionMode: mode,
+      status: 'Active',
+      entries: entries
+    });
   }
 
   function calculateStreak(entries, mode) {
@@ -4360,21 +5605,17 @@
   }
 
   // Dashboard Interaction Events
-  document.getElementById('dailyModeBtn').addEventListener('click', () => { saveMode('daily'); render(); });
-  document.getElementById('weeklyModeBtn').addEventListener('click', () => { saveMode('weekly'); render(); });
-
-  document.getElementById('saveBtn').addEventListener('click', () => {
-    const mode = getMode();
-    const settings = getSettings();
-    const entries = getEntries();
-    const amount = mode === 'daily' ? settings.dailyAmount : settings.dailyAmount * 7;
-    const date = mode === 'daily' ? todayStr() : weekStartStr();
-
-    entries.push({ id: Date.now(), date, amount, type: mode });
-    saveEntries(entries);
-    showToast(`Saved ${formatNaira(amount)}! Keep it up 🌱`);
-    render();
+  document.getElementById('dailyModeBtn')?.addEventListener('click', () => {
+    saveMode('daily');
+    if (activeGoal) { activeGoal.contribution_mode = 'daily'; renderActiveGoalView(); }
+    else { render(); }
   });
+  document.getElementById('weeklyModeBtn')?.addEventListener('click', () => {
+    saveMode('weekly');
+    if (activeGoal) { activeGoal.contribution_mode = 'weekly'; renderActiveGoalView(); }
+    else { render(); }
+  });
+  document.getElementById('saveBtn')?.addEventListener('click', handleRecordSaving);
 
   document.getElementById('undoBtn')?.addEventListener('click', () => {
     const mode = getMode();
@@ -4412,19 +5653,19 @@
     render();
   });
 
-  document.getElementById('prevMonth').addEventListener('click', () => {
+  document.getElementById('prevMonth')?.addEventListener('click', () => {
     calViewMonth--;
     if (calViewMonth < 0) { calViewMonth = 11; calViewYear--; }
     render();
   });
-  document.getElementById('nextMonth').addEventListener('click', () => {
+  document.getElementById('nextMonth')?.addEventListener('click', () => {
     calViewMonth++;
     if (calViewMonth > 11) { calViewMonth = 0; calViewYear++; }
     render();
   });
 
   // Goal Calculator Card
-  document.getElementById('calcBtn').addEventListener('click', () => {
+  document.getElementById('calcBtn')?.addEventListener('click', () => {
     const goal = parseFloat(document.getElementById('calcGoal').value);
     const dateStr = document.getElementById('calcDate').value;
     const res = document.getElementById('calcResult');
@@ -4460,14 +5701,19 @@
   // Settings Card
   function loadSettingsForm() {
     const s = getSettings();
-    document.getElementById('settingsDaily').value = s.dailyAmount;
-    document.getElementById('settingsTarget').value = s.target;
-    document.getElementById('settingsDate').value = s.endDate;
-    document.getElementById('remindersOnBtn').classList.toggle('active', s.remindersOn);
-    document.getElementById('remindersOffBtn').classList.toggle('active', !s.remindersOn);
+    const dailyInput = document.getElementById('settingsDaily');
+    const targetInput = document.getElementById('settingsTarget');
+    const dateInput = document.getElementById('settingsDate');
+    const remOnBtn = document.getElementById('remindersOnBtn');
+    const remOffBtn = document.getElementById('remindersOffBtn');
+    if (dailyInput) dailyInput.value = s.dailyAmount;
+    if (targetInput) targetInput.value = s.target;
+    if (dateInput) dateInput.value = s.endDate;
+    if (remOnBtn) remOnBtn.classList.toggle('active', s.remindersOn);
+    if (remOffBtn) remOffBtn.classList.toggle('active', !s.remindersOn);
   }
 
-  document.getElementById('saveSettingsBtn').addEventListener('click', () => {
+  document.getElementById('saveSettingsBtn')?.addEventListener('click', () => {
     const s = getSettings();
     s.dailyAmount = parseFloat(document.getElementById('settingsDaily').value) || s.dailyAmount;
     s.target = parseFloat(document.getElementById('settingsTarget').value) || s.target;
@@ -4477,7 +5723,7 @@
     render();
   });
 
-  document.getElementById('remindersOnBtn').addEventListener('click', async () => {
+  document.getElementById('remindersOnBtn')?.addEventListener('click', async () => {
     if ('Notification' in window && Notification.permission !== 'granted') {
       const res = await Notification.requestPermission();
       if (res !== 'granted') {
@@ -4492,7 +5738,7 @@
     showToast('Reminders enabled');
   });
 
-  document.getElementById('remindersOffBtn').addEventListener('click', () => {
+  document.getElementById('remindersOffBtn')?.addEventListener('click', () => {
     const s = getSettings();
     s.remindersOn = false;
     saveSettings(s);
@@ -4500,8 +5746,8 @@
     showToast('Reminders disabled');
   });
 
-  document.getElementById('addReminderBtn').addEventListener('click', () => {
-    const time = document.getElementById('newReminderTime').value;
+  document.getElementById('addReminderBtn')?.addEventListener('click', () => {
+    const time = document.getElementById('newReminderTime')?.value;
     if (!time) return;
     const s = getSettings();
     if (!s.reminderTimes.includes(time)) {
@@ -4513,7 +5759,7 @@
   });
 
   // Backup Export/Import
-  document.getElementById('exportBtn').addEventListener('click', () => {
+  document.getElementById('exportBtn')?.addEventListener('click', () => {
     const data = {
       entries: getEntries(),
       settings: getSettings(),
@@ -4532,10 +5778,10 @@
     showToast('Backup downloaded');
   });
 
-  document.getElementById('importBtn').addEventListener('click', () => {
-    document.getElementById('importFile').click();
+  document.getElementById('importBtn')?.addEventListener('click', () => {
+    document.getElementById('importFile')?.click();
   });
-  document.getElementById('importFile').addEventListener('change', (e) => {
+  document.getElementById('importFile')?.addEventListener('change', (e) => {
     const file = e.target.files[0];
     if (!file) return;
     const reader = new FileReader();
@@ -4562,14 +5808,16 @@
   window.addEventListener('beforeinstallprompt', (e) => {
     e.preventDefault();
     deferredPrompt = e;
-    document.getElementById('installCard').style.display = 'block';
+    const card = document.getElementById('installCard');
+    if (card) card.style.display = 'block';
   });
-  document.getElementById('installBtn').addEventListener('click', async () => {
+  document.getElementById('installBtn')?.addEventListener('click', async () => {
     if (!deferredPrompt) return;
     deferredPrompt.prompt();
     await deferredPrompt.userChoice;
     deferredPrompt = null;
-    document.getElementById('installCard').style.display = 'none';
+    const card = document.getElementById('installCard');
+    if (card) card.style.display = 'none';
   });
   window.addEventListener('appinstalled', () => {
     document.getElementById('installCard').style.display = 'none';

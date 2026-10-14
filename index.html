@@ -2991,22 +2991,27 @@
           <div style="display:flex; justify-content:space-between; align-items:center;">
             <div>
               <span style="font-size:11px; font-weight:700; color:var(--muted); text-transform:uppercase;">Active Goal</span>
-              <h3 style="font-size:18px; color:var(--green-dark);">💰 500K Challenge</h3>
+              <h3 style="font-size:18px; color:var(--green-dark);">500K Challenge</h3>
             </div>
-            <span style="font-size:12px; font-weight:700; background:var(--green-light); color:var(--green-dark); padding:4px 10px; border-radius:12px;">Active Streak: 14 Days</span>
+            <div style="display:flex; gap:8px; align-items:center;">
+              <span style="font-size:11px; font-weight:700; background:rgba(0,0,0,0.06); color:var(--muted); padding:3px 8px; border-radius:6px; text-transform:uppercase; letter-spacing:0.5px; border:1px solid var(--border);">Example</span>
+              <span style="font-size:12px; font-weight:700; background:var(--green-light); color:var(--green-dark); padding:4px 10px; border-radius:12px;">Active Streak: 14 Days</span>
+            </div>
           </div>
         </div>
         <div class="reveal-layer">
           <div style="display:flex; justify-content:space-between; margin-bottom:8px;">
-            <span style="font-size:13px; color:var(--muted);">Total Saved: <strong class="tabular" style="color:var(--text);">₦325,000</strong> of ₦500,000</span>
-            <span style="font-size:13px; font-weight:700; color:var(--green-dark);">65%</span>
+            <span style="font-size:13px; color:var(--muted);">Total Saved: <strong class="tabular" style="color:var(--text);">₦325,000</strong> of ₦500,000 · ₦175,000 remaining</span>
+            <span style="font-size:13px; font-weight:700; color:var(--green-dark);">65.0%</span>
           </div>
           <div style="height:10px; background:var(--green-light); border-radius:5px; overflow:hidden;">
             <div style="height:100%; width:65%; background:var(--green);"></div>
           </div>
         </div>
         <div class="reveal-layer" style="display:flex; justify-content:space-around; text-align:center;">
-          <div><div style="font-size:16px; font-weight:700;" class="tabular">₦3,676</div><div style="font-size:11px; color:var(--muted);">Daily Target</div></div>
+          <div><div style="font-size:16px; font-weight:700;" class="tabular">₦1,250</div><div style="font-size:11px; color:var(--muted);">Daily Target</div></div>
+          <div><div style="font-size:16px; font-weight:700;" class="tabular">140</div><div style="font-size:11px; color:var(--muted);">Days Left</div></div>
+          <div><div style="font-size:16px; font-weight:700;" class="tabular">25</div><div style="font-size:11px; color:var(--muted);">Days Saved</div></div>
           <div><div style="font-size:16px; font-weight:700; color:var(--amber);" class="tabular">14 Days</div><div style="font-size:11px; color:var(--muted);">Current Streak</div></div>
           <div><div style="font-size:16px; font-weight:700; color:var(--green-dark);">On Pace</div><div style="font-size:11px; color:var(--muted);">Status</div></div>
         </div>
@@ -5317,6 +5322,19 @@
       runSimulation();
     });
   });
+
+  // Single Source of Truth for Landing Page Preview Example
+  const PREVIEW_EXAMPLE = {
+    name: '500K Challenge',
+    target: 500000,
+    saved: 325000,
+    daysLeft: 140,
+    daysSaved: 25,
+    streak: 14,
+    get remaining() { return this.target - this.saved; },
+    get percent() { return Math.round((this.saved / this.target) * 1000) / 10; },
+    get dailyPace() { return Math.ceil(this.remaining / this.daysLeft); }
+  };
 
   document.getElementById('simApplyBtn').addEventListener('click', () => {
     const targetAmt = parseFloat(simGoalInput.value) || 500000;

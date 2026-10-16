@@ -66,3 +66,17 @@ Cross-user isolation is enforced **at the database engine level** via PostgreSQL
 - **Anonymous Role Guard**: Verified that unauthenticated requests to `profiles`, `goals`, or `savings_entries` return 0 records under RLS.
 - **Secret Scan**: Verified zero database passwords, service-role keys, or private JWT tokens committed to source control.
 - **Service Worker Quarantine**: Verified `sw.js` (cache `nairastreak-auth-v2`) explicitly bypasses all requests matching `*.supabase.co` or bearing an `Authorization` header, enforcing `networkResponse.type === 'basic'` for cached shell assets.
+
+## Stabilize route guard (2026-10-16)
+Protected views are hidden in initial HTML with an explicit specificity-safe CSS
+rule. Routing waits for managed session restoration; it rechecks the route,
+request generation and user identity after goal/ledger loads. Hash changes and
+browser Back use the same guard. Logout clears in-memory ledger and hides the
+app immediately, so pending responses cannot remount it. Supabase auth callbacks
+schedule routing outside the callback to avoid auth-lock deadlocks. Client routing
+is a presentation guard; RLS remains the authorization boundary.
+
+The historical verification claims above predate this sprint. Live RLS, auth
+expiration, email recovery and production headers are NOT VERIFIED in this sprint;
+no Supabase calls or migrations were run. Browser checks must be rerun after
+installing test tooling if the package registry is unavailable.

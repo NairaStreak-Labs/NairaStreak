@@ -89,6 +89,8 @@
   .view-container { width: 100%; }
   .view-container.hidden { display: none !important; }
 
+  #appView.hidden, #onboardingView.hidden, #landingView.hidden { display: none !important; }
+
   /* App (Dashboard) View Wrapper */
   #appView {
     width: 100%;
@@ -3890,6 +3892,8 @@
   let supabaseClient = null;
   let currentUser = null;
   let activeGoal = null;
+  let authReady = false;
+  let routeGeneration = 0;
 
   if (window.supabase && window.NAIRASTREAK_CONFIG) {
     try {
@@ -4360,6 +4364,7 @@
   }
 
   function showView(viewName) {
+    if (['app', 'dashboard', 'onboarding'].includes(viewName) && (!authReady || !currentUser)) viewName = 'landing';
     const landingView = document.getElementById('landingView');
     const onboardingView = document.getElementById('onboardingView');
     const appView = document.getElementById('appView');
@@ -4388,7 +4393,9 @@
 
   // Routing Guard
   async function checkRoute() {
+    const generation = ++routeGeneration;
     const hash = window.location.hash;
+    if (!authReady) { showView('landing'); return; }
 
     if (hash === '#recovery' || hash.startsWith('#recovery')) {
       showView('landing');
@@ -4414,9 +4421,14 @@
         return;
       }
 
-      // Fetch active goal for authenticated user
-      activeGoal = await fetchActiveGoal();
+      // Recheck identity and route after every await; logout invalidates pending loads.
+      const userId = currentUser.id;
+      showView('landing');
+      const goal = await fetchActiveGoal();
+      if (generation !== routeGeneration || currentUser?.id !== userId || location.hash !== hash) return;
+      activeGoal = goal;
       if (activeGoal) await rehydrateLedger();
+      if (generation !== routeGeneration || currentUser?.id !== userId || location.hash !== hash) return;
 
       if (!activeGoal) {
         if (hash === '#onboarding') {
@@ -5770,17 +5782,17 @@
 
         // Listen for live auth events
         supabaseClient.auth.onAuthStateChange(async (event, session) => {
-          if (event === 'SIGNED_IN' && session?.user) {
+          if ((event === 'SIGNED_IN' || event === 'TOKEN_REFRESHED') && session?.user) {
             currentUser = session.user;
             updateAuthUI();
-            await checkRoute();
+            setTimeout(checkRoute, 0);
           } else if (event === 'SIGNED_OUT') {
             currentUser = null;
             activeGoal = null;
             resetLedger();
             showView('landing');
             updateAuthUI();
-            await checkRoute();
+            setTimeout(checkRoute, 0);
           } else if (event === 'PASSWORD_RECOVERY') {
             isPasswordRecoverySession = true;
             openAuthModal('recovery');
@@ -5790,6 +5802,7 @@
         console.warn('Session retrieval error:', e);
       }
     }
+    authReady = true;
     updateAuthUI();
     await checkRoute();
   }

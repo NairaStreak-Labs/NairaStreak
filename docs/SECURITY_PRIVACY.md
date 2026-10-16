@@ -80,3 +80,9 @@ The historical verification claims above predate this sprint. Live RLS, auth
 expiration, email recovery and production headers are NOT VERIFIED in this sprint;
 no Supabase calls or migrations were run. Browser checks must be rerun after
 installing test tooling if the package registry is unavailable.
+
+Stabilize review additionally makes unknown auth/provider failures generic, clears
+private UI before awaiting logout, and preserves a retry path if sign out fails.
+A pending ledger read cannot replace a later successful mutation. The Node UI
+harness executes the actual dashboard renderer and route guard with DOM stubs;
+it verifies zero state and a stale-load/logout race, without claiming browser QA.

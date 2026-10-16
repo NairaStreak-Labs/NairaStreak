@@ -4137,7 +4137,7 @@
     if (msg.includes('rate limit')) return 'Too many attempts. Please wait a moment and try again.';
     if (msg.includes('Email not confirmed')) return 'Please check your email and click the confirmation link before signing in.';
     if (msg.includes('Error sending confirmation email')) return 'Unable to send confirmation email. Please check that your email address is valid.';
-    return msg || 'Authentication error. Please check your details and try again.';
+    return 'Unable to authenticate. Check your connection and details, then try again.';
   }
 
   // Handle Sign Up
@@ -4297,16 +4297,20 @@
 
   // Handle Sign Out
   async function handleSignOut() {
-    try {
-      if (supabaseClient) await supabaseClient.auth.signOut();
-    } catch (e) {}
-    currentUser = null;
-    activeGoal = null;
-    resetLedger();
-    showView('landing');
-    updateAuthUI();
-    showToast('Signed out successfully.');
+    const user = currentUser;
+    currentUser = null; activeGoal = null; routeGeneration++;
+    resetLedger(); showView('landing'); updateAuthUI();
     window.location.hash = '#landing';
+    try {
+      if (supabaseClient) {
+        const { error } = await supabaseClient.auth.signOut();
+        if (error) throw error;
+      }
+      showToast('Signed out successfully.');
+    } catch (_) {
+      currentUser = user; updateAuthUI();
+      showToast('Sign out could not finish. Check your connection and use Log Out to retry.');
+    }
   }
   document.getElementById('appSignOutBtn')?.addEventListener('click', handleSignOut);
 
@@ -4364,14 +4368,10 @@
         .order('created_at', { ascending: false })
         .limit(1);
 
-      if (error) {
-        console.warn('Error fetching active goal:', error);
-        return null;
-      }
+      if (error) throw new Error('goal-load');
       return data && data.length > 0 ? data[0] : null;
     } catch (e) {
-      console.warn('Exception fetching active goal:', e);
-      return null;
+      throw new Error('goal-load');
     }
   }
 
@@ -4436,7 +4436,11 @@
       // Recheck identity and route after every await; logout invalidates pending loads.
       const userId = currentUser.id;
       showView('landing');
-      const goal = await fetchActiveGoal();
+      let goal;
+      try { goal = await fetchActiveGoal(); } catch (_) {
+        if (generation === routeGeneration) showToast('Could not load your goal. Check your connection and open Dashboard to retry.');
+        return;
+      }
       if (generation !== routeGeneration || currentUser?.id !== userId || location.hash !== hash) return;
       activeGoal = goal;
       if (activeGoal) await rehydrateLedger();
@@ -4545,7 +4549,7 @@
     const today = todayStr();
     const thisWeek = weekStartStr();
     const dateKey = isDaily ? today : thisWeek;
-    const isSavedToday = entries.some(e => e.type === mode && e.date === dateKey);
+    const isSavedToday = entries.some(e => (isDaily ? e.date : weekStartStr(e.date)) === dateKey);
 
     const headerSaveBtnText = document.getElementById('headerSaveBtnText');
     const mobileSaveBtnText = document.getElementById('mobileSaveBtnText');
@@ -4614,13 +4618,13 @@
     const fields = document.getElementById('ledgerForm').elements;
     if (!fields.entryId.value) fields.entryId.value = crypto.randomUUID();
     fields.amount.value = amount; fields.savedAt.value = todayStr(); fields.note.value = 'Planned saving';
-    switchDashboardTab('history');
+    switchDashboardTab('history', false);
     await submitLedgerEntry({ id: fields.entryId.value, amount, date: todayStr(), note: fields.note.value });
   }
 
   // Tab switching controller
   let currentActiveTab = 'home';
-  function switchDashboardTab(tabName) {
+  function switchDashboardTab(tabName, refresh = true) {
     currentActiveTab = tabName;
     const panes = {
       home: document.getElementById('tabPaneHome'),
@@ -4642,7 +4646,7 @@
     });
 
     if (tabName === 'history') {
-      rehydrateLedger();
+      if (refresh) rehydrateLedger();
       const entries = ledger ? ledger.entries() : [];
       renderCalendar(entries);
       renderFullHistory(entries);
@@ -5155,7 +5159,7 @@
       submitBtn.disabled = false;
       submitBtn.textContent = 'Start This Goal ';
       if (errBox) {
-        errBox.textContent = err.message || 'Failed to save your goal. Please check your connection and retry.';
+        errBox.textContent = 'Failed to save your goal. Please check your connection and retry.';
         errBox.classList.remove('hidden');
       }
     }
@@ -5374,10 +5378,10 @@
   // DASHBOARD TRACKER LOGIC (PRESERVED)
   // ==========================================================================
   function hasLoggedToday() {
-    const entries = getEntries();
+    const entries = currentUser ? (ledger ? ledger.entries() : []) : getEntries();
     const today = todayStr();
     const thisWeek = weekStartStr();
-    return entries.some(e => (e.type === 'daily' && e.date === today) || (e.type === 'weekly' && e.date === thisWeek));
+    return entries.some(e => e.date === today || (e.type === 'weekly' && weekStartStr(e.date) === thisWeek));
   }
 
   function checkReminders() {
@@ -5387,9 +5391,7 @@
     if (!('Notification' in window) || Notification.permission !== 'granted') return;
 
     const now = new Date();
-    const hh = String(now.getHours()).padStart(2, '0');
-    const mm = String(now.getMinutes()).padStart(2, '0');
-    const current = `${hh}:${mm}`;
+    const current = new Intl.DateTimeFormat('en-GB', { timeZone: 'Africa/Lagos', hour: '2-digit', minute: '2-digit', hourCycle: 'h23' }).format(now);
 
     const state = getNotifiedState();
     if (settings.reminderTimes.includes(current) && !state.times.includes(current)) {
@@ -5397,14 +5399,14 @@
       saveNotifiedState(state);
       if (navigator.serviceWorker && navigator.serviceWorker.ready) {
         navigator.serviceWorker.ready.then(reg => {
-          reg.showNotification(' NairaStreak · 500K Challenge', {
+          reg.showNotification('NairaStreak reminder', {
             body: "Have you saved today? Tap to log it.",
             icon: 'icon-192.png',
             badge: 'icon-192.png'
           });
         });
       } else {
-        new Notification(' NairaStreak · 500K Challenge', { body: "Have you saved today?", icon: 'icon-192.png' });
+        new Notification('NairaStreak reminder', { body: "Have you saved today?", icon: 'icon-192.png' });
       }
     }
   }
@@ -5484,7 +5486,7 @@
     });
   }
 
-  function calculateStreak(entries, mode) { return NairaStreakCalc.calculateStreak(entries, mode); }
+  function calculateStreak(entries, mode) { return NairaStreakCalc.calculateStreak(entries.map(e => ({ ...e, type: mode })), mode); }
 
   function renderProjection(entries, total, target, end, today, mode, settings) {
     const el = document.getElementById('projection');
@@ -5613,7 +5615,7 @@
   document.getElementById('prevMonth')?.addEventListener('click', () => {
     calViewMonth--;
     if (calViewMonth < 0) { calViewMonth = 11; calViewYear--; }
-    render();
+    renderCalendar(ledger ? ledger.entries() : []);
   });
   document.getElementById('nextMonth')?.addEventListener('click', () => {
     calViewMonth++;
@@ -5673,8 +5675,8 @@
     s.target = NairaStreakCalc.parseNairaInput(document.getElementById('settingsTarget').value);
     s.endDate = document.getElementById('settingsDate').value;
     saveSettings(s);
-    showToast('Settings saved');
-    render();
+    showToast('Settings saved locally. Your cloud goal is unchanged.');
+    renderActiveGoalView();
   });
 
   document.getElementById('remindersOnBtn')?.addEventListener('click', async () => {

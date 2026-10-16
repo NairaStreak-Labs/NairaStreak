@@ -5,7 +5,7 @@
 })(typeof self !== 'undefined' ? self : this, function() {
   function create(client, storage, userId, goal) {
     const key = `nairastreak:ledger:${userId}:${goal.id}`;
-    let rows = [];
+    let rows = [], revision = 0, loadGeneration = 0;
     function cache() { try { storage.setItem(key, JSON.stringify(rows)); } catch (_) {} }
     function map(row) {
       return { ...row, amount: Number(row.amount), date: row.saved_at,
@@ -14,7 +14,7 @@
     function scoped() { return client.from('savings_entries'); }
     async function load() {
       // Supabase returns at most 1000 rows by default. Read every page.
-      const result = [];
+      const result = [], startedRevision = revision, generation = ++loadGeneration;
       for (let start = 0; ; start += 1000) {
         const { data, error } = await scoped().select('*').eq('user_id', userId)
           .eq('goal_id', goal.id).order('saved_at', { ascending: false })
@@ -23,6 +23,7 @@
         result.push(...data.map(map));
         if (data.length < 1000) break;
       }
+      if (startedRevision !== revision || generation !== loadGeneration) return rows;
       rows = result; cache(); return rows;
     }
     function cached() {
@@ -35,12 +36,14 @@
         goal_id: goal.id, amount: entry.amount, saved_at: entry.date, note: entry.note || null
       }, { onConflict: 'id' }).select('*').single();
       if (error || !data) throw new Error('write');
+      revision++;
       rows = [map(data), ...rows.filter(r => r.id !== data.id)]; cache(); return rows;
     }
     async function remove(id) {
       const { data, error } = await scoped().delete().eq('id', id).eq('user_id', userId)
         .eq('goal_id', goal.id).select('id');
       if (error || !data?.length) throw new Error('delete');
+      revision++;
       rows = rows.filter(r => r.id !== id); cache(); return rows;
     }
     return { load, cached, put, remove, entries: () => rows };

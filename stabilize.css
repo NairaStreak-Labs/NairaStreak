@@ -9,3 +9,16 @@ body.dark .field-error { color:#fca5a5; }
 #ledgerForm input { width:100%; padding:10px; color:var(--text); background:var(--card); border:1px solid var(--border-strong); border-radius:8px; min-height:44px; }
 .ledger-actions { display:flex; gap:8px; flex-wrap:wrap; }
 .activity-item { flex-wrap:wrap; gap:12px; }
+#sidebarToggle { display:none; }
+@media (min-width:1024px) {
+  #sidebarToggle { display:grid; place-items:center; margin-bottom:12px; }
+  body.sidebar-collapsed .dash-sidebar { width:80px; padding-inline:12px; }
+  body.sidebar-collapsed .dash-main { margin-left:80px; width:calc(100% - 80px); }
+  body.sidebar-collapsed .sidebar-brand, body.sidebar-collapsed .sidebar-user,
+  body.sidebar-collapsed .nav-item span { display:none; }
+  body.sidebar-collapsed .nav-item { justify-content:center; padding-inline:8px; }
+  body.sidebar-collapsed .sidebar-bottom { justify-content:center; flex-wrap:wrap; }
+}
+@media (prefers-reduced-motion:reduce) {
+  *, *::before, *::after { animation:none !important; transition:none !important; scroll-behavior:auto !important; }
+}

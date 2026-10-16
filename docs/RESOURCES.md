@@ -10,7 +10,7 @@
 | Service | Category | Purpose | Documentation / Endpoint |
 | :--- | :--- | :--- | :--- |
 | **Supabase** | BaaS (Backend) | Managed PostgreSQL, GoTrue Auth, and Row Level Security | [https://supabase.com/docs](https://supabase.com/docs) |
-| **Netlify** | Static Hosting & CDN | Automated Git deploys, global edge caching, SSL, and custom headers | [https://docs.netlify.com](https://docs.netlify.com) |
+| **Vercel** | Static Hosting & CDN | Automated Git deploys, global edge caching, SSL, and custom headers | [https://vercel.com/docs](https://vercel.com/docs) |
 | **GitHub** | Source Control | Organization repositories, issue tracking, and automated workflows | [https://github.com/nairastreak-labs](https://github.com/nairastreak-labs) |
 
 ---

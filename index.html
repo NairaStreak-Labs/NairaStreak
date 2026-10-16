@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>NairaStreak · The Savings Consistency Engine</title>
 <meta name="description" content="Turn intimidating savings goals into effortless daily streaks with NairaStreak Labs. 100% non-custodial savings habit tracker.">
 <meta name="theme-color" content="#083324">
@@ -15,6 +15,9 @@
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="config.js"></script>
 <script src="calculations.js"></script>
+<script src="ledger.js"></script>
+<script src="icons.js"></script>
+<script src="legacy-data.js"></script>
 
 <style>
   :root {
@@ -86,6 +89,8 @@
   .hidden { display: none !important; }
   .view-container { width: 100%; }
   .view-container.hidden { display: none !important; }
+
+  #appView.hidden, #onboardingView.hidden, #landingView.hidden { display: none !important; }
 
   /* App (Dashboard) View Wrapper */
   #appView {
@@ -2760,6 +2765,7 @@
     .auth-modal-card { animation: none !important; }
   }
 </style>
+<link rel="stylesheet" href="stabilize.css">
 </head>
 <body>
 
@@ -2777,12 +2783,12 @@
         <span>NairaStreak</span>
       </a>
       <div class="landing-nav-center" aria-label="Trust Badge">
-        <span>🛡️ 100% Non-Custodial Habit Tracker</span>
+        <span><svg class="ui-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3 3 7v5c0 5 9 9 9 9s9-4 9-9V7Z"/></svg> 100% Non-Custodial Habit Tracker</span>
       </div>
       <div class="landing-nav-actions" id="landingNavActions">
         <!-- Will be dynamically populated for Signed Out vs Signed In -->
         <a href="#breakdownSection" class="btn-secondary" style="display:none;" id="navHowItWorks">How it works</a>
-        <button class="icon-btn" id="landingDarkToggle" aria-label="Toggle dark mode" title="Toggle dark mode">🌙</button>
+        <button class="icon-btn" id="landingDarkToggle" aria-label="Toggle dark mode" title="Toggle dark mode"><svg class="ui-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 15A9 9 0 0 1 9 4a9 9 0 1 0 11 11Z"/></svg></button>
         <button class="btn-secondary" id="navSignInBtn">Sign In</button>
         <button class="btn-primary" id="navSignUpBtn" style="padding: 8px 16px; font-size: 13px;">Start Streak</button>
       </div>
@@ -2801,8 +2807,8 @@
 
     <!-- 1. HERO SECTION: THE BIG NUMBER -->
     <header class="story-section hero-section" id="heroSection">
-      <div class="hero-tag">✨ The Savings Consistency Engine</div>
-      <h2 class="hero-headline">You said you'd start saving.</h2>
+      <div class="hero-tag"><svg class="ui-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><path d="m12 2 3 7 7 3-7 3-3 7-3-7-7-3 7-3Z"/></svg> The Savings Consistency Engine</div>
+      <h1 class="hero-headline">You said you'd start saving.</h1>
       <div class="hero-big-number tabular" id="heroTargetDisplay">₦500,000</div>
       <p class="hero-thesis">
         <strong>₦500,000 can feel impossible</strong> when you look at it all at once.<br>
@@ -2826,12 +2832,12 @@
           <p>When your deadline is months away, procrastinating today feels harmless. But lost days accumulate into an unreachable scramble.</p>
         </div>
         <div class="problem-card">
-          <div class="problem-icon">🌪️</div>
+          <div class="problem-icon"><svg class="ui-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 5h18M5 9h14M7 13h10M9 17h6M11 21h2"/></svg></div>
           <h3>The Lump-Sum Shock</h3>
           <p>Waiting for a giant financial windfall leaves you stranded with ₦0 saved. Intimidation paralyzes action.</p>
         </div>
         <div class="problem-card">
-          <div class="problem-icon">🔒</div>
+          <div class="problem-icon"><svg class="ui-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 10h12v11H6Zm2 0V6a4 4 0 0 1 8 0v4"/></svg></div>
           <h3>The Out-of-Sight Black Hole</h3>
           <p>Traditional bank accounts hide your progress. Without visible streaks, your daily discipline lacks positive reinforcement.</p>
         </div>
@@ -2895,16 +2901,16 @@
         </p>
       </div>
       <div class="streak-interactive-box">
-        <div class="streak-flame-meter" id="streakFlameIcon">🔥</div>
+        <div class="streak-flame-meter" id="streakFlameIcon"><svg class="ui-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3c1 5 7 7 7 12a7 7 0 0 1-14 0c0-3 2-5 3-7 0 4 4 4 4-5Z"/></svg></div>
         <div class="streak-badge-hero" id="streakDaysCount">7 DAY UNBROKEN STREAK</div>
         <div class="streak-week-track">
-          <div class="streak-day-node active"><span class="streak-day-name">Mon</span><div class="streak-day-check">✓</div></div>
-          <div class="streak-day-node active"><span class="streak-day-name">Tue</span><div class="streak-day-check">✓</div></div>
-          <div class="streak-day-node active"><span class="streak-day-name">Wed</span><div class="streak-day-check">✓</div></div>
-          <div class="streak-day-node active"><span class="streak-day-name">Thu</span><div class="streak-day-check">✓</div></div>
-          <div class="streak-day-node active"><span class="streak-day-name">Fri</span><div class="streak-day-check">✓</div></div>
-          <div class="streak-day-node active"><span class="streak-day-name">Sat</span><div class="streak-day-check">✓</div></div>
-          <div class="streak-day-node active"><span class="streak-day-name">Sun</span><div class="streak-day-check">✓</div></div>
+          <div class="streak-day-node active"><span class="streak-day-name">Mon</span><div class="streak-day-check"><svg class="ui-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><path d="m5 12 4 4L19 6"/></svg></div></div>
+          <div class="streak-day-node active"><span class="streak-day-name">Tue</span><div class="streak-day-check"><svg class="ui-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><path d="m5 12 4 4L19 6"/></svg></div></div>
+          <div class="streak-day-node active"><span class="streak-day-name">Wed</span><div class="streak-day-check"><svg class="ui-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><path d="m5 12 4 4L19 6"/></svg></div></div>
+          <div class="streak-day-node active"><span class="streak-day-name">Thu</span><div class="streak-day-check"><svg class="ui-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><path d="m5 12 4 4L19 6"/></svg></div></div>
+          <div class="streak-day-node active"><span class="streak-day-name">Fri</span><div class="streak-day-check"><svg class="ui-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><path d="m5 12 4 4L19 6"/></svg></div></div>
+          <div class="streak-day-node active"><span class="streak-day-name">Sat</span><div class="streak-day-check"><svg class="ui-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><path d="m5 12 4 4L19 6"/></svg></div></div>
+          <div class="streak-day-node active"><span class="streak-day-name">Sun</span><div class="streak-day-check"><svg class="ui-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><path d="m5 12 4 4L19 6"/></svg></div></div>
         </div>
         <p style="font-size: 14px; color: var(--muted); max-width: 440px; margin: 0 auto;">
           NairaStreak tracks your streak every calendar day. When you log your saving, the streak stays alive.
@@ -2934,10 +2940,10 @@
           <div class="journey-fill-bar" id="journeyFillBar" style="width: 75%;"></div>
         </div>
         <div class="milestones-track">
-          <div class="milestone-pill unlocked">🌱 25% · ₦125k</div>
-          <div class="milestone-pill unlocked">⚡ 50% · ₦250k</div>
-          <div class="milestone-pill unlocked">🎯 75% · ₦375k</div>
-          <div class="milestone-pill" id="milestone100">🏆 100% · ₦500k</div>
+          <div class="milestone-pill unlocked"><svg class="ui-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22V11C4 11 3 6 3 3c7 0 9 3 9 8 0-6 3-8 9-8 0 7-3 8-9 8"/></svg> 25% · ₦125k</div>
+          <div class="milestone-pill unlocked"><svg class="ui-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><path d="m13 2-9 12h7l-1 8 10-13h-8Z"/></svg> 50% · ₦250k</div>
+          <div class="milestone-pill unlocked"><svg class="ui-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18Zm0 5a4 4 0 1 0 0 8 4 4 0 0 0 0-8Z"/></svg> 75% · ₦375k</div>
+          <div class="milestone-pill" id="milestone100"><svg class="ui-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 3h10v7a5 5 0 0 1-10 0ZM7 5H3v4a4 4 0 0 0 4 4m10-8h4v4a4 4 0 0 1-4 4m-5 2v6m-5 0h10"/></svg> 100% · ₦500k</div>
         </div>
       </div>
     </section>
@@ -3039,16 +3045,16 @@
             <span style="font-size: 12px; font-weight: 600; color: var(--green-dark);">Pace ₦1,250 / day</span>
           </div>
           <div class="week-circles-grid" style="pointer-events: none; margin-bottom: 14px;">
-            <div class="day-col"><div class="day-circle saved"><span class="check-mark">✓</span></div><span class="day-label-mobile">Mon</span></div>
-            <div class="day-col"><div class="day-circle saved"><span class="check-mark">✓</span></div><span class="day-label-mobile">Tue</span></div>
-            <div class="day-col"><div class="day-circle saved"><span class="check-mark">✓</span></div><span class="day-label-mobile">Wed</span></div>
-            <div class="day-col"><div class="day-circle saved"><span class="check-mark">✓</span></div><span class="day-label-mobile">Thu</span></div>
-            <div class="day-col"><div class="day-circle saved"><span class="check-mark">✓</span></div><span class="day-label-mobile">Fri</span></div>
-            <div class="day-col"><div class="day-circle saved"><span class="check-mark">✓</span></div><span class="day-label-mobile">Sat</span></div>
+            <div class="day-col"><div class="day-circle saved"><span class="check-mark"><svg class="ui-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><path d="m5 12 4 4L19 6"/></svg></span></div><span class="day-label-mobile">Mon</span></div>
+            <div class="day-col"><div class="day-circle saved"><span class="check-mark"><svg class="ui-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><path d="m5 12 4 4L19 6"/></svg></span></div><span class="day-label-mobile">Tue</span></div>
+            <div class="day-col"><div class="day-circle saved"><span class="check-mark"><svg class="ui-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><path d="m5 12 4 4L19 6"/></svg></span></div><span class="day-label-mobile">Wed</span></div>
+            <div class="day-col"><div class="day-circle saved"><span class="check-mark"><svg class="ui-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><path d="m5 12 4 4L19 6"/></svg></span></div><span class="day-label-mobile">Thu</span></div>
+            <div class="day-col"><div class="day-circle saved"><span class="check-mark"><svg class="ui-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><path d="m5 12 4 4L19 6"/></svg></span></div><span class="day-label-mobile">Fri</span></div>
+            <div class="day-col"><div class="day-circle saved"><span class="check-mark"><svg class="ui-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><path d="m5 12 4 4L19 6"/></svg></span></div><span class="day-label-mobile">Sat</span></div>
             <div class="day-col is-today"><div class="day-circle today-pending"><span class="pending-dot"></span></div><span class="day-label-mobile">Today</span></div>
           </div>
           <button type="button" class="btn-primary" style="width: 100%; height: 46px; font-size: 14px; pointer-events: none;">
-            <span>✓</span>
+            <span><svg class="ui-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><path d="m5 12 4 4L19 6"/></svg></span>
             <span>I saved ₦1,250 today</span>
           </button>
         </div>
@@ -3065,31 +3071,31 @@
         </p>
         <div class="trust-points-grid">
           <div class="trust-point">
-            <span class="trust-point-icon">🛡️</span>
+            <span class="trust-point-icon"><svg class="ui-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3 3 7v5c0 5 9 9 9 9s9-4 9-9V7Z"/></svg></span>
             <div>
               <h4>Zero Custody of Funds</h4>
               <p>NairaStreak cannot deposit, withdraw, transfer, or touch your money. We don't ask for BVN, NIN, or card numbers.</p>
             </div>
           </div>
           <div class="trust-point">
-            <span class="trust-point-icon">💾</span>
+            <span class="trust-point-icon"><svg class="ui-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3h15l3 3v15H3Zm4 0v6h10V3M7 21v-8h10v8"/></svg></span>
             <div>
               <h4>Private & Cloud-Backed</h4>
               <p>Your goal data is secured by PostgreSQL Row Level Security. Never accessible to any other user.</p>
             </div>
           </div>
           <div class="trust-point">
-            <span class="trust-point-icon">🚫</span>
+            <span class="trust-point-icon"><svg class="ui-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18ZM6 6l12 12"/></svg></span>
             <div>
               <h4>No Loans, No Speculation</h4>
               <p>We will never try to sell you crypto, payday loans, or high-risk schemes. Our only mission is your personal savings consistency.</p>
             </div>
           </div>
           <div class="trust-point">
-            <span class="trust-point-icon">🔔</span>
+            <span class="trust-point-icon"><svg class="ui-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 17h14l-2-3V9a5 5 0 0 0-10 0v5Zm5 3h4"/></svg></span>
             <div>
               <h4>Smart Non-Intrusive Habits</h4>
-              <p>Timely notifications remind you during the day, then automatically stop once you log today's progress.</p>
+              <p>In-app reminders notify you at your chosen times while NairaStreak is open. They stop after you log today's progress.</p>
             </div>
           </div>
         </div>
@@ -3163,7 +3169,7 @@
       <div class="auth-story-card">
         <div class="auth-card-header">
           <div class="auth-card-category">
-            <span>💻</span>
+            <span><svg class="ui-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 3h16v13H4ZM1 20h22"/></svg></span>
             <span>Tech Career Laptop Goal</span>
           </div>
           <span class="auth-card-badge">Active Streak</span>
@@ -3178,15 +3184,15 @@
         <div class="auth-card-metrics-grid">
           <div class="auth-card-metric-pill">
             <div class="auth-card-metric-label">Streak</div>
-            <div class="auth-card-metric-val">🔥 12 Days</div>
+            <div class="auth-card-metric-val"><svg class="ui-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3c1 5 7 7 7 12a7 7 0 0 1-14 0c0-3 2-5 3-7 0 4 4 4 4-5Z"/></svg> 12 Days</div>
           </div>
           <div class="auth-card-metric-pill">
             <div class="auth-card-metric-label">Today's Step</div>
-            <div class="auth-card-metric-val">⚡ ₦1,370</div>
+            <div class="auth-card-metric-val"><svg class="ui-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><path d="m13 2-9 12h7l-1 8 10-13h-8Z"/></svg> ₦1,370</div>
           </div>
           <div class="auth-card-metric-pill">
             <div class="auth-card-metric-label">Days Left</div>
-            <div class="auth-card-metric-val">📅 126 Days</div>
+            <div class="auth-card-metric-val"><svg class="ui-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 5h18v16H3Zm0 5h18M7 2v6m10-6v6"/></svg> 126 Days</div>
           </div>
         </div>
         <div class="auth-habit-row">
@@ -3247,7 +3253,7 @@
       </div>
 
       <!-- SIGN IN FORM -->
-      <div id="authSigninView" class="hidden">
+      <div id="authSigninView" class="hidden" aria-hidden="true" inert>
         <div class="auth-header">
           <h3 id="authHeadingSignin" class="auth-title">Welcome back</h3>
           <p class="auth-subtitle">Log in to keep your savings streak going.</p>
@@ -3273,7 +3279,7 @@
       </div>
 
       <!-- FORGOT PASSWORD FORM -->
-      <div id="authForgotView" class="hidden">
+      <div id="authForgotView" class="hidden" aria-hidden="true" inert>
         <div class="auth-header">
           <h3 id="authHeadingForgot" class="auth-title">Reset your password</h3>
           <p class="auth-subtitle">We'll send you a secure link to reset your password.</p>
@@ -3292,7 +3298,7 @@
       </div>
 
       <!-- UPDATE PASSWORD FORM (RECOVERY) -->
-      <div id="authRecoveryView" class="hidden">
+      <div id="authRecoveryView" class="hidden" aria-hidden="true" inert>
         <div class="auth-header">
           <h3 id="authHeadingRecovery" class="auth-title">Set new password</h3>
           <p class="auth-subtitle">Enter your new secure password below.</p>
@@ -3332,13 +3338,13 @@
     <div class="onboarding-card">
       <!-- STEP 1: WELCOME -->
       <div class="onboarding-step-pane active" id="onboardingStep1">
-        <div class="onboarding-badge">🎯 Goal Planning</div>
+        <div class="onboarding-badge"><svg class="ui-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18Zm0 5a4 4 0 1 0 0 8 4 4 0 0 0 0-8Z"/></svg> Goal Planning</div>
         <h2 class="onboarding-title">Let's turn your goal into a plan.</h2>
         <p class="onboarding-desc">
           Tell us what you're saving for and NairaStreak will break it down into manageable daily or weekly micro-contributions.
         </p>
         <div style="background: var(--bg); border: 1px solid var(--border-strong); border-radius: var(--radius-md); padding: 16px; margin-bottom: 24px;">
-          <div style="font-weight: 700; font-size: 14px; margin-bottom: 4px; color: var(--green-dark);">✨ Non-Custodial & Private</div>
+          <div style="font-weight: 700; font-size: 14px; margin-bottom: 4px; color: var(--green-dark);"><svg class="ui-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><path d="m12 2 3 7 7 3-7 3-3 7-3-7-7-3 7-3Z"/></svg> Non-Custodial & Private</div>
           <div style="font-size: 13px; color: var(--muted); line-height: 1.4;">
             NairaStreak tracks your habits and pace. We never hold or move your money.
           </div>
@@ -3358,47 +3364,47 @@
 
         <div class="template-grid" role="radiogroup" aria-label="Savings Goal Templates">
           <button type="button" class="template-btn active" data-template="Emergency Fund" data-amt="100000" role="radio" aria-checked="true">
-            <span class="template-btn-icon">🛡️</span>
+            <span class="template-btn-icon"><svg class="ui-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3 3 7v5c0 5 9 9 9 9s9-4 9-9V7Z"/></svg></span>
             <span class="template-btn-name">Emergency Fund</span>
             <span class="template-btn-amt">₦100,000 preset</span>
           </button>
           <button type="button" class="template-btn" data-template="Rent" data-amt="1200000" role="radio" aria-checked="false">
-            <span class="template-btn-icon">🏠</span>
+            <span class="template-btn-icon"><svg class="ui-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><path d="m3 10 9-7 9 7v11h-7v-7h-4v7H3Z"/></svg></span>
             <span class="template-btn-name">Rent</span>
             <span class="template-btn-amt">₦1.2M preset</span>
           </button>
           <button type="button" class="template-btn" data-template="School Fees" data-amt="500000" role="radio" aria-checked="false">
-            <span class="template-btn-icon">🎓</span>
+            <span class="template-btn-icon"><svg class="ui-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><path d="m2 8 10-5 10 5-10 5Zm4 3v7l6 3 6-3v-7"/></svg></span>
             <span class="template-btn-name">School Fees</span>
             <span class="template-btn-amt">₦500,000 preset</span>
           </button>
           <button type="button" class="template-btn" data-template="New Laptop" data-amt="650000" role="radio" aria-checked="false">
-            <span class="template-btn-icon">💻</span>
+            <span class="template-btn-icon"><svg class="ui-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 3h16v13H4ZM1 20h22"/></svg></span>
             <span class="template-btn-name">New Laptop</span>
             <span class="template-btn-amt">₦650,000 preset</span>
           </button>
           <button type="button" class="template-btn" data-template="Travel" data-amt="400000" role="radio" aria-checked="false">
-            <span class="template-btn-icon">✈️</span>
+            <span class="template-btn-icon"><svg class="ui-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><path d="m2 12 8-3V3l3-1 2 7 7 3-7 3-2 7-3-1v-6Z"/></svg></span>
             <span class="template-btn-name">Travel</span>
             <span class="template-btn-amt">₦400,000 preset</span>
           </button>
           <button type="button" class="template-btn" data-template="Business" data-amt="1000000" role="radio" aria-checked="false">
-            <span class="template-btn-icon">🚀</span>
+            <span class="template-btn-icon"><svg class="ui-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3c5 3 6 8 6 12l-6-2-6 2c0-4 1-9 6-12ZM9 17l3 5 3-5"/></svg></span>
             <span class="template-btn-name">Business</span>
             <span class="template-btn-amt">₦1,000,000 preset</span>
           </button>
           <button type="button" class="template-btn" data-template="₦500K Challenge" data-amt="500000" role="radio" aria-checked="false">
-            <span class="template-btn-icon">⚡</span>
+            <span class="template-btn-icon"><svg class="ui-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><path d="m13 2-9 12h7l-1 8 10-13h-8Z"/></svg></span>
             <span class="template-btn-name">₦500K Challenge</span>
             <span class="template-btn-amt">₦500,000 preset</span>
           </button>
           <button type="button" class="template-btn" data-template="₦1M Challenge" data-amt="1000000" role="radio" aria-checked="false">
-            <span class="template-btn-icon">🏆</span>
+            <span class="template-btn-icon"><svg class="ui-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 3h10v7a5 5 0 0 1-10 0ZM7 5H3v4a4 4 0 0 0 4 4m10-8h4v4a4 4 0 0 1-4 4m-5 2v6m-5 0h10"/></svg></span>
             <span class="template-btn-name">₦1M Challenge</span>
             <span class="template-btn-amt">₦1,000,000 preset</span>
           </button>
           <button type="button" class="template-btn" data-template="Custom Goal" data-amt="300000" role="radio" aria-checked="false">
-            <span class="template-btn-icon">✨</span>
+            <span class="template-btn-icon"><svg class="ui-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><path d="m12 2 3 7 7 3-7 3-3 7-3-7-7-3 7-3Z"/></svg></span>
             <span class="template-btn-name">Custom Goal</span>
             <span class="template-btn-amt">Set your own</span>
           </button>
@@ -3463,11 +3469,11 @@
           <span class="hint" style="display:block; margin-bottom: 8px; font-weight: 600;">How often do you want to save?</span>
           <div class="cadence-choice-grid" role="radiogroup" aria-label="Savings Frequency">
             <button type="button" class="cadence-card active" id="cadenceDailyBtn" data-mode="daily" role="radio" aria-checked="true">
-              <div class="cadence-title">📅 Daily Plan</div>
+              <div class="cadence-title"><svg class="ui-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 5h18v16H3Zm0 5h18M7 2v6m10-6v6"/></svg> Daily Plan</div>
               <div class="cadence-desc">Smaller everyday steps that turn into an effortless habit.</div>
             </button>
             <button type="button" class="cadence-card" id="cadenceWeeklyBtn" data-mode="weekly" role="radio" aria-checked="false">
-              <div class="cadence-title">🗓️ Weekly Plan</div>
+              <div class="cadence-title"><svg class="ui-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 5h18v16H3Zm0 5h18M7 2v6m10-6v6"/></svg> Weekly Plan</div>
               <div class="cadence-desc">One focused contribution target deposited every 7 days.</div>
             </button>
           </div>
@@ -3527,7 +3533,7 @@
 
         <div class="onboarding-btn-row">
           <button type="button" class="btn-secondary" id="onboardingBackTo4Btn">Back</button>
-          <button type="button" class="btn-primary" id="onboardingSubmitGoalBtn">Start This Goal 🚀</button>
+          <button type="button" class="btn-primary" id="onboardingSubmitGoalBtn">Start This Goal <svg class="ui-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3c5 3 6 8 6 12l-6-2-6 2c0-4 1-9 6-12ZM9 17l3 5 3-5"/></svg></button>
         </div>
       </div>
     </div>
@@ -3576,7 +3582,7 @@
           <span class="user-name" id="sidebarUserName">Timi</span>
         </div>
         <button type="button" class="logout-icon-btn" id="sidebarLogoutBtn" title="Log Out" aria-label="Log Out">
-          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+          <svg aria-hidden="true" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
         </button>
       </div>
     </aside>
@@ -3590,10 +3596,10 @@
           <p id="subtitle">Target ₦500,000</p>
         </div>
         <div class="header-actions">
-          <button type="button" class="icon-btn" id="darkToggle" title="Toggle dark mode" aria-label="Toggle dark mode">🌙</button>
+          <button type="button" class="icon-btn" id="darkToggle" title="Toggle dark mode" aria-label="Toggle dark mode"><svg class="ui-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 15A9 9 0 0 1 9 4a9 9 0 1 0 11 11Z"/></svg></button>
           <button type="button" class="btn-desktop-new-goal" id="appNewGoalBtn">+ New goal</button>
           <button type="button" class="btn-desktop-save" id="headerSaveBtn">
-            <span class="btn-check-icon">✓</span>
+            <span class="btn-check-icon"><svg class="ui-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><path d="m5 12 4 4L19 6"/></svg></span>
             <span id="headerSaveBtnText">I saved today</span>
           </button>
         </div>
@@ -3639,7 +3645,7 @@
                 <div class="h-stat-label">Days left</div>
               </div>
               <div class="h-stat">
-                <div class="h-stat-num tabular" id="streakMobile">0 🔥</div>
+                <div class="h-stat-num tabular" id="streakMobile">0 <svg class="ui-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3c1 5 7 7 7 12a7 7 0 0 1-14 0c0-3 2-5 3-7 0 4 4 4 4-5Z"/></svg></div>
                 <div class="h-stat-label">Day streak</div>
               </div>
             </div>
@@ -3668,7 +3674,7 @@
         <div class="dash-row-metrics-desktop">
           <div class="metric-card">
             <div class="metric-icon-wrap mint">
-              <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+              <svg aria-hidden="true" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
             </div>
             <div class="metric-info">
               <div class="metric-label">Days saved</div>
@@ -3681,7 +3687,7 @@
 
           <div class="metric-card">
             <div class="metric-icon-wrap mint">
-              <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+              <svg aria-hidden="true" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
             </div>
             <div class="metric-info">
               <div class="metric-label">Days left</div>
@@ -3693,7 +3699,7 @@
 
           <div class="metric-card">
             <div class="metric-icon-wrap amber">
-              <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="#f59e0b" stroke-width="2"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/></svg>
+              <svg aria-hidden="true" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="#f59e0b" stroke-width="2"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/></svg>
             </div>
             <div class="metric-info">
               <div class="metric-label">Current streak</div>
@@ -3732,7 +3738,7 @@
         <!-- MOBILE FLOATING / PROMINENT SAVE ACTION BUTTON -->
         <div class="mobile-save-bar">
           <button type="button" class="btn-mobile-save" id="mobileSaveBtn">
-            <span class="btn-check-icon">✓</span>
+            <span class="btn-check-icon"><svg class="ui-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><path d="m5 12 4 4L19 6"/></svg></span>
             <span id="mobileSaveBtnText">I saved today</span>
           </button>
         </div>
@@ -3764,7 +3770,7 @@
             <button type="button" class="btn-secondary" id="exportBtn">⬇ Export Backup</button>
             <button type="button" class="btn-secondary" id="importBtn">⬆ Import Backup</button>
           </div>
-          <input type="file" id="importFile" accept="application/json">
+          <label for="importFile" class="sr-only">Import backup file</label><input type="file" id="importFile" accept="application/json">
           <div class="hint">Export saves your data as a JSON file. Keep it safe to restore your progress.</div>
         </div>
       </section>
@@ -3783,11 +3789,11 @@
         <div class="card">
           <div class="card-title">Goal Calculator</div>
           <div class="field">
-            <label>Target amount (₦)</label>
+            <label for="calcGoal">Target amount (₦)</label>
             <input type="number" id="calcGoal" placeholder="500000">
           </div>
           <div class="field">
-            <label>Target date</label>
+            <label for="calcDate">Target date</label>
             <input type="date" id="calcDate">
           </div>
           <button type="button" class="btn-secondary" id="calcBtn">Calculate</button>
@@ -3800,15 +3806,15 @@
         <div class="card">
           <div class="card-title">Goal Settings</div>
           <div class="field">
-            <label>Daily savings amount (₦)</label>
+            <label for="settingsDaily">Daily savings amount (₦)</label>
             <input type="number" id="settingsDaily">
           </div>
           <div class="field">
-            <label>Overall target (₦)</label>
+            <label for="settingsTarget">Overall target (₦)</label>
             <input type="number" id="settingsTarget">
           </div>
           <div class="field">
-            <label>Target date</label>
+            <label for="settingsDate">Target date</label>
             <input type="date" id="settingsDate">
           </div>
           <button type="button" class="btn-secondary" id="saveSettingsBtn">Save Settings</button>
@@ -3823,7 +3829,7 @@
           <div id="reminderTimesList"></div>
           <div class="field-row" style="margin-top:4px; display:flex; gap:8px;">
             <div class="field" style="margin-bottom:0; flex:1;">
-              <input type="time" id="newReminderTime" value="09:00">
+              <label for="newReminderTime">Reminder time</label><input type="time" id="newReminderTime" value="09:00">
             </div>
             <button type="button" class="btn-secondary" id="addReminderBtn" style="flex:0 0 auto; padding:11px 16px;">+ Add</button>
           </div>
@@ -3835,7 +3841,7 @@
           <div style="display:flex; justify-content:space-between; align-items:center; margin-top:8px;">
             <div>
               <strong id="mobileSettingsUserName">Timi</strong>
-              <div id="mobileSettingsUserEmail" style="font-size:12px; color:var(--muted);">Cloud Connected ☁️</div>
+              <div id="mobileSettingsUserEmail" style="font-size:12px; color:var(--muted);">Cloud Connected <svg class="ui-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><path d="m12 2 3 7 7 3-7 3-3 7-3-7-7-3 7-3Z"/></svg></div>
             </div>
             <button type="button" class="btn-secondary" id="mobileSettingsLogoutBtn" style="padding:8px 14px; font-size:12px;">Log Out</button>
           </div>
@@ -3844,7 +3850,7 @@
 
       <!-- Hidden installCard & legacy saveBtn compatibility -->
       <div id="installCard" style="display:none;">
-        <button type="button" id="installBtn">📲 Add to Home Screen</button>
+        <button type="button" id="installBtn"><svg aria-hidden="true" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v12m-5-5 5 5 5-5M4 17v4h16v-4"/></svg> Add to Home Screen</button>
       </div>
       <button type="button" id="saveBtn" style="display:none;"></button>
 
@@ -3857,19 +3863,19 @@
     <!-- MOBILE BOTTOM NAVIGATION BAR -->
     <nav class="mobile-bottom-nav" aria-label="Mobile Navigation">
       <button type="button" class="m-nav-item active" id="mNavHome" data-tab="home">
-        <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+        <svg aria-hidden="true" viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
         <span>Home</span>
       </button>
       <button type="button" class="m-nav-item" id="mNavHistory" data-tab="history">
-        <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+        <svg aria-hidden="true" viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
         <span>History</span>
       </button>
       <button type="button" class="m-nav-item" id="mNavPlan" data-tab="plan">
-        <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>
+        <svg aria-hidden="true" viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>
         <span>Plan</span>
       </button>
       <button type="button" class="m-nav-item" id="mNavSettings" data-tab="settings">
-        <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+        <svg aria-hidden="true" viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
         <span>Settings</span>
       </button>
     </nav>
@@ -3877,8 +3883,13 @@
   </div>
 </div>
 
-<div class="toast" id="toast">Saved! Consistency builds wealth.</div>
+<div class="toast" id="toast" role="status" aria-live="polite">Saved! Consistency builds wealth.</div>
 
+<script src="sidebar-controls.js"></script>
+<script src="install-controls.js"></script>
+<script src="auth-controls.js"></script>
+<script src="validation.js"></script>
+<script src="ledger-ui.js"></script>
 <script>
   // ==========================================================================
   // SUPABASE CLIENT INITIALIZATION & CONFIGURATION
@@ -3886,6 +3897,8 @@
   let supabaseClient = null;
   let currentUser = null;
   let activeGoal = null;
+  let authReady = false;
+  let routeGeneration = 0;
 
   if (window.supabase && window.NAIRASTREAK_CONFIG) {
     try {
@@ -3914,12 +3927,7 @@
   const MILESTONE_KEY = 'savings500k_milestones';
   const NOTIFIED_KEY = 'savings500k_notified';
 
-  function getDefaultEndDate() {
-    const today = new Date();
-    today.setHours(0, 0, 0, 0);
-    const target = new Date(today.getTime() + 365 * 24 * 60 * 60 * 1000);
-    return `${target.getFullYear()}-${String(target.getMonth() + 1).padStart(2, '0')}-${String(target.getDate()).padStart(2, '0')}`;
-  }
+  function getDefaultEndDate() { return NairaStreakCalc.addDays(NairaStreakCalc.dateKey(), 365); }
 
   const DEFAULT_SETTINGS = {
     target: 500000,
@@ -3932,7 +3940,10 @@
 
   // State Getters & Setters
   function getEntries() {
-    try { return JSON.parse(localStorage.getItem(STORAGE_KEY)) || []; }
+    try {
+      if (localStorage.getItem('nairastreak:demo-choice') === 'exclude') return [];
+      return JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
+    }
     catch (e) { return []; }
   }
   function saveEntries(entries) { localStorage.setItem(STORAGE_KEY, JSON.stringify(entries)); }
@@ -3969,20 +3980,9 @@
   function saveNotifiedState(s) { localStorage.setItem(NOTIFIED_KEY, JSON.stringify(s)); }
 
   // Date & Number Helpers
-  function todayStr() {
-    const d = new Date();
-    return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
-  }
-  function weekStartStr(date = new Date()) {
-    const d = new Date(date);
-    const day = d.getDay();
-    const diff = d.getDate() - day + (day === 0 ? -6 : 1);
-    d.setDate(diff);
-    return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
-  }
-  function formatNaira(amount) {
-    return '₦' + Math.round(amount).toLocaleString('en-NG');
-  }
+  function todayStr() { return NairaStreakCalc.dateKey(); }
+  function weekStartStr(date = new Date()) { return NairaStreakCalc.weekStart(date); }
+  function formatNaira(amount) { return NairaStreakCalc.formatNaira(amount, Number(amount) % 1 !== 0); }
 
   // Toast notifications
   function showToast(msg) {
@@ -4017,6 +4017,7 @@
   }
 
   function closeAuthModal() {
+    resetPasswordVisibility();
     isPasswordRecoverySession = false;
     authModal.classList.add('hidden');
     clearAuthErrors();
@@ -4027,6 +4028,7 @@
   }
 
   function switchAuthView(mode) {
+    resetPasswordVisibility();
     authSignupView.classList.add('hidden');
     authSigninView.classList.add('hidden');
     authForgotView.classList.add('hidden');
@@ -4043,6 +4045,10 @@
       authRecoveryView.classList.remove('hidden');
     }
 
+    [authSignupView, authSigninView, authForgotView, authRecoveryView].forEach(view => {
+      const inactive = view.classList.contains('hidden');
+      view.inert = inactive; view.setAttribute('aria-hidden', String(inactive));
+    });
     const headingId = authHeadingMap[mode] || 'authHeadingSignup';
     authModal.setAttribute('aria-labelledby', headingId);
 
@@ -4131,7 +4137,7 @@
     if (msg.includes('rate limit')) return 'Too many attempts. Please wait a moment and try again.';
     if (msg.includes('Email not confirmed')) return 'Please check your email and click the confirmation link before signing in.';
     if (msg.includes('Error sending confirmation email')) return 'Unable to send confirmation email. Please check that your email address is valid.';
-    return msg || 'Authentication error. Please check your details and try again.';
+    return 'Unable to authenticate. Check your connection and details, then try again.';
   }
 
   // Handle Sign Up
@@ -4212,7 +4218,7 @@
 
       currentUser = data.user;
       closeAuthModal();
-      showToast('Welcome back! 👋');
+      showToast('Welcome back! ');
       updateAuthUI();
       window.location.hash = '#dashboard';
     } catch (err) {
@@ -4291,13 +4297,20 @@
 
   // Handle Sign Out
   async function handleSignOut() {
-    try {
-      if (supabaseClient) await supabaseClient.auth.signOut();
-    } catch (e) {}
-    currentUser = null;
-    updateAuthUI();
-    showToast('Signed out successfully.');
+    const user = currentUser;
+    currentUser = null; activeGoal = null; routeGeneration++;
+    resetLedger(); showView('landing'); updateAuthUI();
     window.location.hash = '#landing';
+    try {
+      if (supabaseClient) {
+        const { error } = await supabaseClient.auth.signOut();
+        if (error) throw error;
+      }
+      showToast('Signed out successfully.');
+    } catch (_) {
+      currentUser = user; updateAuthUI();
+      showToast('Sign out could not finish. Check your connection and use Log Out to retry.');
+    }
   }
   document.getElementById('appSignOutBtn')?.addEventListener('click', handleSignOut);
 
@@ -4315,19 +4328,20 @@
       if (authUserName) authUserName.textContent = `Welcome, ${name}! Your savings streak is active.`;
 
       navActions.innerHTML = `
-        <span class="nav-user-badge" title="${currentUser.email}">👤 ${name}</span>
-        <button class="icon-btn" id="landingDarkToggleAuth" aria-label="Toggle dark mode" title="Toggle dark mode">🌙</button>
+        <span class="nav-user-badge" id="navUserBadge"></span>
+        <button class="icon-btn" id="landingDarkToggleAuth" aria-label="Toggle dark mode" title="Toggle dark mode">${NairaStreakIcons.theme}</button>
         <button class="btn-primary" id="navDashboardBtn" style="padding: 8px 16px; font-size: 13px;">Dashboard</button>
         <button class="btn-secondary" id="navSignOutBtn" style="padding: 8px 14px; font-size: 13px;">Log Out</button>
       `;
 
+      document.getElementById('navUserBadge').textContent = name;
       document.getElementById('landingDarkToggleAuth').addEventListener('click', toggleDarkMode);
       document.getElementById('navDashboardBtn').addEventListener('click', () => { window.location.hash = '#dashboard'; });
       document.getElementById('navSignOutBtn').addEventListener('click', handleSignOut);
     } else {
       // Public / Signed Out State
       navActions.innerHTML = `
-        <button class="icon-btn" id="landingDarkTogglePublic" aria-label="Toggle dark mode" title="Toggle dark mode">🌙</button>
+        <button class="icon-btn" id="landingDarkTogglePublic" aria-label="Toggle dark mode" title="Toggle dark mode">${NairaStreakIcons.theme}</button>
         <button class="btn-secondary" id="navSignInBtn" style="padding: 8px 14px; font-size: 13px;">Sign In</button>
         <button class="btn-primary" id="navSignUpBtn" style="padding: 8px 16px; font-size: 13px;">Start Streak</button>
       `;
@@ -4354,18 +4368,15 @@
         .order('created_at', { ascending: false })
         .limit(1);
 
-      if (error) {
-        console.warn('Error fetching active goal:', error);
-        return null;
-      }
+      if (error) throw new Error('goal-load');
       return data && data.length > 0 ? data[0] : null;
     } catch (e) {
-      console.warn('Exception fetching active goal:', e);
-      return null;
+      throw new Error('goal-load');
     }
   }
 
   function showView(viewName) {
+    if (['app', 'dashboard', 'onboarding'].includes(viewName) && (!authReady || !currentUser)) viewName = 'landing';
     const landingView = document.getElementById('landingView');
     const onboardingView = document.getElementById('onboardingView');
     const appView = document.getElementById('appView');
@@ -4394,7 +4405,9 @@
 
   // Routing Guard
   async function checkRoute() {
+    const generation = ++routeGeneration;
     const hash = window.location.hash;
+    if (!authReady) { showView('landing'); return; }
 
     if (hash === '#recovery' || hash.startsWith('#recovery')) {
       showView('landing');
@@ -4420,8 +4433,18 @@
         return;
       }
 
-      // Fetch active goal for authenticated user
-      activeGoal = await fetchActiveGoal();
+      // Recheck identity and route after every await; logout invalidates pending loads.
+      const userId = currentUser.id;
+      showView('landing');
+      let goal;
+      try { goal = await fetchActiveGoal(); } catch (_) {
+        if (generation === routeGeneration) showToast('Could not load your goal. Check your connection and open Dashboard to retry.');
+        return;
+      }
+      if (generation !== routeGeneration || currentUser?.id !== userId || location.hash !== hash) return;
+      activeGoal = goal;
+      if (activeGoal) await rehydrateLedger();
+      if (generation !== routeGeneration || currentUser?.id !== userId || location.hash !== hash) return;
 
       if (!activeGoal) {
         if (hash === '#onboarding') {
@@ -4445,19 +4468,18 @@
   function formatDateNice(dateVal) {
     if (!dateVal) return '—';
     const d = NairaStreakCalc.normalizeDate(dateVal);
-    return d.toLocaleDateString('en-NG', { day: 'numeric', month: 'short', year: 'numeric' });
+    return d.toLocaleDateString('en-NG', { timeZone: 'UTC', day: 'numeric', month: 'short', year: 'numeric' });
   }
 
   // Updates the complete redesigned dashboard (Mobile & Desktop)
   function updateFullDashboardView({ goalName, targetAmount, targetDate, contributionMode, status, entries }) {
-    const total = entries.reduce((sum, e) => sum + e.amount, 0);
+    const total = NairaStreakCalc.sumAmounts(entries);
     const target = targetAmount || 500000;
-    const remaining = Math.max(0, target - total);
-    const pct = Math.min(100, Math.round((total / target) * 1000) / 10);
+    const { remaining, percent: pct } = NairaStreakCalc.calculateProgress(total, target);
     const daysRemaining = NairaStreakCalc.calculateDaysRemaining(targetDate);
     const mode = contributionMode || 'daily';
     const isDaily = mode === 'daily';
-    const daysSavedCount = entries.filter(e => e.type === (isDaily ? 'daily' : 'weekly')).length;
+    const daysSavedCount = new Set(entries.map(e => e.date)).size;
     const streakCount = calculateStreak(entries, isDaily ? 'daily' : 'weekly');
 
     const dailyRec = NairaStreakCalc.calculateDailyContribution(target, targetDate, total);
@@ -4495,7 +4517,7 @@
     const streakMobileEl = document.getElementById('streakMobile');
     if (daysSavedMobileEl) daysSavedMobileEl.textContent = daysSavedCount;
     if (daysLeftMobileEl) daysLeftMobileEl.textContent = daysRemaining;
-    if (streakMobileEl) streakMobileEl.textContent = `${streakCount} 🔥`;
+    if (streakMobileEl) streakMobileEl.textContent = `${streakCount} `;
 
     // Desktop Pace Card
     const recPaceValEl = document.getElementById('dashboardRecPaceVal');
@@ -4527,7 +4549,7 @@
     const today = todayStr();
     const thisWeek = weekStartStr();
     const dateKey = isDaily ? today : thisWeek;
-    const isSavedToday = entries.some(e => e.type === mode && e.date === dateKey);
+    const isSavedToday = entries.some(e => (isDaily ? e.date : weekStartStr(e.date)) === dateKey);
 
     const headerSaveBtnText = document.getElementById('headerSaveBtnText');
     const mobileSaveBtnText = document.getElementById('mobileSaveBtnText');
@@ -4535,7 +4557,7 @@
     const mobileSaveBtn = document.getElementById('mobileSaveBtn');
 
     const buttonLabel = isSavedToday
-      ? 'Saved today ✓'
+      ? (ledgerFresh ? 'Saved today' : 'Saved locally · not refreshed')
       : `I saved ${formatNaira(paceAmount)} ${isDaily ? 'today' : 'this week'}`;
 
     if (headerSaveBtnText) headerSaveBtnText.textContent = buttonLabel;
@@ -4563,6 +4585,7 @@
     renderRecentActivity(entries);
     renderFullHistory(entries);
     updateUserProfileUI();
+    renderLedgerActions();
     renderProjection(entries, total, target, NairaStreakCalc.normalizeDate(targetDate), new Date(), mode, { dailyAmount: dailyRec });
     checkMilestones(total, target);
   }
@@ -4573,7 +4596,7 @@
       render(); // Fallback to prototype view if no goal
       return;
     }
-    const entries = getOrInitEntries();
+    const entries = ledger ? ledger.entries() : [];
     updateFullDashboardView({
       goalName: activeGoal.name || 'Emergency Fund',
       targetAmount: activeGoal.target_amount,
@@ -4586,67 +4609,22 @@
 
   // Global handler for saving contribution
   async function handleRecordSaving() {
-    const settings = getSettings();
-    const target = activeGoal ? activeGoal.target_amount : settings.target;
-    const targetDate = activeGoal ? activeGoal.target_date : settings.endDate;
-    const mode = activeGoal ? (activeGoal.contribution_mode || 'daily') : getMode();
-    const isDaily = mode === 'daily';
-
-    const entries = getOrInitEntries();
-    const total = entries.reduce((sum, e) => sum + e.amount, 0);
-    const dailyRec = NairaStreakCalc.calculateDailyContribution(target, targetDate, total);
-    const weeklyRec = NairaStreakCalc.calculateWeeklyContribution(target, targetDate, total);
-    const amountToSave = isDaily ? (dailyRec || 1370) : (weeklyRec || 9590);
-
-    const today = todayStr();
-    const thisWeek = weekStartStr();
-    const dateKey = isDaily ? today : thisWeek;
-
-    const alreadySaved = entries.some(e => e.type === mode && e.date === dateKey);
-    if (alreadySaved) {
-      showToast('You already logged savings for today! Keep up the momentum.');
-      return;
-    }
-
-    const newEntry = {
-      id: Date.now(),
-      date: dateKey,
-      amount: amountToSave,
-      type: mode,
-      note: isDaily ? 'Daily saving' : 'Weekly saving'
-    };
-
-    // Persist to Supabase if logged in with active goal
-    if (supabaseClient && currentUser && activeGoal) {
-      try {
-        await supabaseClient.from('savings_entries').insert({
-          goal_id: activeGoal.id,
-          user_id: currentUser.id,
-          amount: amountToSave,
-          saved_at: today,
-          note: newEntry.note
-        });
-      } catch (err) {
-        console.warn('Supabase entry insert warning:', err);
-      }
-    }
-
-    entries.unshift(newEntry);
-    saveEntries(entries);
-
-    triggerConfetti();
-    showToast(`Saved ${formatNaira(amountToSave)}! Consistency builds wealth.`);
-
-    if (activeGoal) {
-      renderActiveGoalView();
-    } else {
-      render();
-    }
+    if (!ledger || !activeGoal || ledgerBusy) return;
+    const total = NairaStreakCalc.sumAmounts(ledger.entries());
+    const amount = activeGoal.contribution_mode === 'weekly'
+      ? NairaStreakCalc.calculateWeeklyContribution(activeGoal.target_amount, activeGoal.target_date, total)
+      : NairaStreakCalc.calculateDailyContribution(activeGoal.target_amount, activeGoal.target_date, total);
+    if (!amount) { showToast('Your target is reached. You can log a custom amount in History.'); return; }
+    const fields = document.getElementById('ledgerForm').elements;
+    if (!fields.entryId.value) fields.entryId.value = crypto.randomUUID();
+    fields.amount.value = amount; fields.savedAt.value = todayStr(); fields.note.value = 'Planned saving';
+    switchDashboardTab('history', false);
+    await submitLedgerEntry({ id: fields.entryId.value, amount, date: todayStr(), note: fields.note.value });
   }
 
   // Tab switching controller
   let currentActiveTab = 'home';
-  function switchDashboardTab(tabName) {
+  function switchDashboardTab(tabName, refresh = true) {
     currentActiveTab = tabName;
     const panes = {
       home: document.getElementById('tabPaneHome'),
@@ -4668,7 +4646,8 @@
     });
 
     if (tabName === 'history') {
-      const entries = getOrInitEntries();
+      if (refresh) rehydrateLedger();
+      const entries = ledger ? ledger.entries() : [];
       renderCalendar(entries);
       renderFullHistory(entries);
     }
@@ -4699,7 +4678,7 @@
 
       let circleHtml = '';
       if (isSaved) {
-        circleHtml = `<div class="day-circle saved" title="Saved on ${str}"><span class="check-mark">✓</span></div>`;
+        circleHtml = `<div class="day-circle saved" title="Saved on ${str}"><span class="check-mark">${NairaStreakIcons.check}</span></div>`;
       } else if (isToday) {
         circleHtml = `<div class="day-circle today-pending" title="Today pending"><span class="pending-dot"></span></div>`;
       } else {
@@ -4743,7 +4722,7 @@
       item.className = 'activity-item';
       item.innerHTML = `
         <div class="activity-left">
-          <div class="activity-icon-box">✓</div>
+          <div class="activity-icon-box">${NairaStreakIcons.check}</div>
           <div class="activity-meta">
             <strong class="activity-title">${e.type === 'weekly' ? 'Weekly saving' : 'Daily saving'}</strong>
             <span class="activity-date">${formattedDate}</span>
@@ -4774,7 +4753,7 @@
       item.className = 'activity-item';
       item.innerHTML = `
         <div class="activity-left">
-          <div class="activity-icon-box">✓</div>
+          <div class="activity-icon-box">${NairaStreakIcons.check}</div>
           <div class="activity-meta">
             <strong class="activity-title">${e.type === 'weekly' ? 'Weekly saving' : 'Daily saving'}</strong>
             <span class="activity-date">${formattedDate}</span>
@@ -4866,12 +4845,12 @@
     if (targetDateInput) {
       const tomorrow = new Date();
       tomorrow.setDate(tomorrow.getDate() + 1);
-      targetDateInput.min = tomorrow.toISOString().split('T')[0];
+      targetDateInput.min = NairaStreakCalc.addDays(todayStr(), 1);
 
       if (!targetDateInput.value) {
         const defaultDate = new Date();
         defaultDate.setMonth(defaultDate.getMonth() + 3); // 3 months default
-        targetDateInput.value = defaultDate.toISOString().split('T')[0];
+        targetDateInput.value = NairaStreakCalc.dateKey(defaultDate);
         onboardingState.targetDate = targetDateInput.value;
       }
     }
@@ -4916,7 +4895,8 @@
 
     if (!amtInput || !dateInput || !planValEl || !planDaysEl || !planLabelEl) return;
 
-    const amt = NairaStreakCalc.parseNairaInput(amtInput.value) || 100000;
+    if (!validatePlanFields('onboardingTargetAmount', 'onboardingTargetDate')) { planValEl.textContent = '—'; planDaysEl.textContent = 'Choose a valid amount and deadline.'; return; }
+    const amt = NairaStreakCalc.parseNairaInput(amtInput.value);
     const targetDate = dateInput.value;
     const mode = onboardingState.contributionMode;
 
@@ -5097,7 +5077,7 @@
     today.setHours(0, 0, 0, 0);
     const chosen = NairaStreakCalc.normalizeDate(dateVal);
 
-    if (isNaN(chosen.getTime()) || chosen <= today) {
+    if (isNaN(chosen.getTime()) || NairaStreakCalc.calculateDaysRemaining(dateVal) <= 0) {
       if (dateErr) {
         dateErr.textContent = 'Target date must be in the future.';
         dateErr.classList.remove('hidden');
@@ -5171,15 +5151,15 @@
       // Successfully persisted goal!
       activeGoal = data;
       sessionStorage.removeItem('nairastreak_draft_goal');
-      showToast('Your goal is ready! 🎉');
+      showToast('Your goal is ready! ');
       window.location.hash = '#dashboard';
       checkRoute();
     } catch (err) {
       console.error('Goal creation failed:', err);
       submitBtn.disabled = false;
-      submitBtn.textContent = 'Start This Goal 🚀';
+      submitBtn.textContent = 'Start This Goal ';
       if (errBox) {
-        errBox.textContent = err.message || 'Failed to save your goal. Please check your connection and retry.';
+        errBox.textContent = 'Failed to save your goal. Please check your connection and retry.';
         errBox.classList.remove('hidden');
       }
     }
@@ -5212,15 +5192,15 @@
   function applyTheme() {
     const s = getSettings();
     document.body.classList.toggle('dark', !!s.darkMode);
-    const icon = s.darkMode ? '☀️' : '🌙';
+    const icon = NairaStreakIcons.theme;
     const darkToggle = document.getElementById('darkToggle');
-    if (darkToggle) darkToggle.textContent = icon;
+    if (darkToggle) darkToggle.innerHTML = icon;
     const landingDark = document.getElementById('landingDarkToggle');
-    if (landingDark) landingDark.textContent = icon;
+    if (landingDark) landingDark.innerHTML = icon;
     const landingDarkPublic = document.getElementById('landingDarkTogglePublic');
-    if (landingDarkPublic) landingDarkPublic.textContent = icon;
+    if (landingDarkPublic) landingDarkPublic.innerHTML = icon;
     const landingDarkAuth = document.getElementById('landingDarkToggleAuth');
-    if (landingDarkAuth) landingDarkAuth.textContent = icon;
+    if (landingDarkAuth) landingDarkAuth.innerHTML = icon;
   }
 
   function toggleDarkMode() {
@@ -5281,7 +5261,7 @@
       if (rect.top < window.innerHeight && rect.bottom > 0) {
         const fraction = Math.min(1, Math.max(0, (window.innerHeight - rect.top) / (rect.height + window.innerHeight * 0.5)));
         const simulatedAmount = Math.round(500000 * Math.max(0.15, fraction));
-        const simPct = Math.round((simulatedAmount / 500000) * 100);
+        const simPct = NairaStreakCalc.calculateProgress(simulatedAmount, 500000).percent;
         
         document.getElementById('journeySavedCounter').textContent = formatNaira(simulatedAmount);
         document.getElementById('journeyPctCounter').textContent = simPct + '%';
@@ -5305,11 +5285,15 @@
 
   const defaultSimDate = new Date();
   defaultSimDate.setFullYear(defaultSimDate.getFullYear() + 1);
-  simDateInput.value = defaultSimDate.toISOString().split('T')[0];
+  simDateInput.value = NairaStreakCalc.addMonths(todayStr(), 12);
 
   function runSimulation() {
-    const targetAmt = NairaStreakCalc.parseNairaInput(simGoalInput.value) || 500000;
-    const targetDate = simDateInput.value || '2026-12-31';
+    if (!validatePlanFields('simGoalAmount', 'simGoalDate')) {
+      ['simDailyVal','simWeeklyVal','simMonthlyVal','simDaysVal'].forEach(id => document.getElementById(id).textContent = '—');
+      sessionStorage.removeItem('nairastreak_draft_goal'); return false;
+    }
+    const targetAmt = NairaStreakCalc.parseNairaInput(simGoalInput.value);
+    const targetDate = simDateInput.value;
 
     const days = NairaStreakCalc.calculateDaysRemaining(targetDate);
     const daily = NairaStreakCalc.calculateDailyContribution(targetAmt, targetDate);
@@ -5355,7 +5339,7 @@
       const m = parseInt(btn.dataset.months);
       const d = new Date();
       d.setMonth(d.getMonth() + m);
-      simDateInput.value = d.toISOString().split('T')[0];
+      simDateInput.value = NairaStreakCalc.addMonths(todayStr(), m);
       runSimulation();
     });
   });
@@ -5368,21 +5352,21 @@
     daysLeft: 140,
     daysSaved: 25,
     streak: 14,
-    get remaining() { return this.target - this.saved; },
-    get percent() { return Math.round((this.saved / this.target) * 1000) / 10; },
-    get dailyPace() { return Math.ceil(this.remaining / this.daysLeft); }
+    get remaining() { return NairaStreakCalc.calculateProgress(this.saved, this.target).remaining; },
+    get percent() { return NairaStreakCalc.calculateProgress(this.saved, this.target).percent; },
+    get dailyPace() { return NairaStreakCalc.calculateDailyContribution(this.target, NairaStreakCalc.addDays(todayStr(), this.daysLeft), this.saved); }
   };
 
   document.getElementById('simApplyBtn').addEventListener('click', () => {
-    const targetAmt = parseFloat(simGoalInput.value) || 500000;
-    const targetDate = simDateInput.value || '2026-12-31';
+    if (!validatePlanFields('simGoalAmount', 'simGoalDate')) return;
+    const targetAmt = NairaStreakCalc.parseNairaInput(simGoalInput.value);
+    const targetDate = simDateInput.value;
 
     const s = getSettings();
     s.target = targetAmt;
     s.endDate = targetDate;
     
-    const diffDays = Math.max(1, Math.ceil((new Date(targetDate) - new Date()) / (1000 * 60 * 60 * 24)));
-    s.dailyAmount = Math.round(targetAmt / diffDays);
+    s.dailyAmount = NairaStreakCalc.calculateDailyContribution(targetAmt, targetDate);
     saveSettings(s);
 
     loadSettingsForm();
@@ -5394,10 +5378,10 @@
   // DASHBOARD TRACKER LOGIC (PRESERVED)
   // ==========================================================================
   function hasLoggedToday() {
-    const entries = getEntries();
+    const entries = currentUser ? (ledger ? ledger.entries() : []) : getEntries();
     const today = todayStr();
     const thisWeek = weekStartStr();
-    return entries.some(e => (e.type === 'daily' && e.date === today) || (e.type === 'weekly' && e.date === thisWeek));
+    return entries.some(e => e.date === today || (e.type === 'weekly' && weekStartStr(e.date) === thisWeek));
   }
 
   function checkReminders() {
@@ -5407,9 +5391,7 @@
     if (!('Notification' in window) || Notification.permission !== 'granted') return;
 
     const now = new Date();
-    const hh = String(now.getHours()).padStart(2, '0');
-    const mm = String(now.getMinutes()).padStart(2, '0');
-    const current = `${hh}:${mm}`;
+    const current = new Intl.DateTimeFormat('en-GB', { timeZone: 'Africa/Lagos', hour: '2-digit', minute: '2-digit', hourCycle: 'h23' }).format(now);
 
     const state = getNotifiedState();
     if (settings.reminderTimes.includes(current) && !state.times.includes(current)) {
@@ -5417,14 +5399,14 @@
       saveNotifiedState(state);
       if (navigator.serviceWorker && navigator.serviceWorker.ready) {
         navigator.serviceWorker.ready.then(reg => {
-          reg.showNotification('💰 NairaStreak · 500K Challenge', {
+          reg.showNotification('NairaStreak reminder', {
             body: "Have you saved today? Tap to log it.",
             icon: 'icon-192.png',
             badge: 'icon-192.png'
           });
         });
       } else {
-        new Notification('💰 NairaStreak · 500K Challenge', { body: "Have you saved today?", icon: 'icon-192.png' });
+        new Notification('NairaStreak reminder', { body: "Have you saved today?", icon: 'icon-192.png' });
       }
     }
   }
@@ -5480,7 +5462,7 @@
         celebrated.push(t);
         saveCelebrated(celebrated);
         triggerConfetti();
-        showToast(t === 100 ? '🎉 GOAL COMPLETE! You did it!' : `🎉 ${t}% Milestone Reached!`);
+        showToast(t === 100 ? ' GOAL COMPLETE! You did it!' : ` ${t}% Milestone Reached!`);
         break;
       }
     }
@@ -5491,7 +5473,7 @@
 
   function render() {
     const settings = getSettings();
-    const entries = getOrInitEntries();
+    const entries = currentUser ? [] : getOrInitEntries();
     const mode = getMode();
 
     updateFullDashboardView({
@@ -5504,58 +5486,12 @@
     });
   }
 
-  function calculateStreak(entries, mode) {
-    if (entries.length === 0) return 0;
-    const dates = new Set(entries.filter(e => e.type === (mode === 'daily' ? 'daily' : 'weekly')).map(e => e.date));
-    let current = new Date();
-    current.setHours(0, 0, 0, 0);
-    let streak = 0;
-
-    if (mode === 'daily') {
-      const today = todayStr();
-      const yesterday = new Date(current);
-      yesterday.setDate(yesterday.getDate() - 1);
-      const yestStr = `${yesterday.getFullYear()}-${String(yesterday.getMonth() + 1).padStart(2, '0')}-${String(yesterday.getDate()).padStart(2, '0')}`;
-
-      let checkDate = dates.has(today) ? current : (dates.has(yestStr) ? yesterday : null);
-      if (!checkDate) return 0;
-
-      while (true) {
-        const str = `${checkDate.getFullYear()}-${String(checkDate.getMonth() + 1).padStart(2, '0')}-${String(checkDate.getDate()).padStart(2, '0')}`;
-        if (dates.has(str)) {
-          streak++;
-          checkDate.setDate(checkDate.getDate() - 1);
-        } else {
-          break;
-        }
-      }
-    } else {
-      let check = new Date(current);
-      let thisWeek = weekStartStr(check);
-      let checkWeek = dates.has(thisWeek) ? check : null;
-      if (!checkWeek) {
-        check.setDate(check.getDate() - 7);
-        if (dates.has(weekStartStr(check))) checkWeek = check;
-      }
-      if (!checkWeek) return 0;
-
-      while (true) {
-        const wStr = weekStartStr(checkWeek);
-        if (dates.has(wStr)) {
-          streak++;
-          checkWeek.setDate(checkWeek.getDate() - 7);
-        } else {
-          break;
-        }
-      }
-    }
-    return streak;
-  }
+  function calculateStreak(entries, mode) { return NairaStreakCalc.calculateStreak(entries.map(e => ({ ...e, type: mode })), mode); }
 
   function renderProjection(entries, total, target, end, today, mode, settings) {
     const el = document.getElementById('projection');
     if (total >= target) {
-      el.textContent = '🎉 Goal reached! Amazing work!';
+      el.textContent = ' Goal reached! Amazing work!';
       return;
     }
     if (entries.length < 2) {
@@ -5564,25 +5500,20 @@
       return;
     }
 
-    const sorted = [...entries].sort((a, b) => new Date(a.date) - new Date(b.date));
-    const firstDate = new Date(sorted[0].date);
-    const daysElapsed = Math.max(1, Math.ceil((today - firstDate) / (1000 * 60 * 60 * 24)));
-    const dailyRate = total / daysElapsed;
-    const daysNeeded = Math.ceil((target - total) / dailyRate);
-    const projectedDate = new Date(today.getTime() + daysNeeded * 24 * 60 * 60 * 1000);
-
-    const projectedStr = projectedDate.toLocaleDateString('en-NG', { month: 'short', day: 'numeric', year: 'numeric' });
-    const diffDays = Math.ceil((projectedDate - end) / (1000 * 60 * 60 * 24));
+    const projected = NairaStreakCalc.projectFinish(entries, target, today);
+    const projectedDate = NairaStreakCalc.normalizeDate(projected);
+    const projectedStr = formatDateNice(projected);
+    const diffDays = NairaStreakCalc.calculateDaysRemaining(projected, end);
 
     if (diffDays <= 0) {
-      el.textContent = `📈 At your current pace, you'll finish around ${projectedStr} — ahead of schedule!`;
+      el.textContent = ` At your current pace, you'll finish around ${projectedStr} — ahead of schedule!`;
     } else {
-      el.textContent = `📈 At your current pace, you'll finish around ${projectedStr} (${diffDays} days behind target).`;
+      el.textContent = ` At your current pace, you'll finish around ${projectedStr} (${diffDays} days behind target).`;
     }
   }
 
   function diffDaysRemaining(end, today) {
-    return Math.max(1, Math.ceil((end - today) / (1000 * 60 * 60 * 24)));
+    return NairaStreakCalc.calculateDaysRemaining(end, today);
   }
 
   function renderSaveButton(entries, mode, settings) {
@@ -5598,7 +5529,7 @@
 
     if (entry) {
       saveBtn.disabled = true;
-      saveBtn.textContent = `✅ Saved ${formatNaira(entry.amount)} ${mode === 'daily' ? 'Today' : 'This Week'}`;
+      saveBtn.textContent = ` Saved ${formatNaira(entry.amount)} ${mode === 'daily' ? 'Today' : 'This Week'}`;
       undoBtn.style.display = 'inline-block';
     } else {
       saveBtn.disabled = false;
@@ -5626,7 +5557,7 @@
       cell.className = 'week-day' + (saved ? ' saved' : '') + (i === 0 ? ' today' : '');
       cell.innerHTML = `
         <span class="d-name">${days[d.getDay()]}</span>
-        <span>${saved ? '✓' : d.getDate()}</span>
+        <span>${saved ? '' : d.getDate()}</span>
       `;
       grid.appendChild(cell);
     }
@@ -5677,56 +5608,25 @@
   });
   document.getElementById('saveBtn')?.addEventListener('click', handleRecordSaving);
 
-  document.getElementById('undoBtn')?.addEventListener('click', () => {
-    const mode = getMode();
-    const date = mode === 'daily' ? todayStr() : weekStartStr();
-    let entries = getEntries();
-    entries = entries.filter(e => !(e.type === mode && e.date === date));
-    saveEntries(entries);
-    showToast('Entry removed');
-    render();
-  });
-
-  document.getElementById('editAmountToggle')?.addEventListener('click', () => {
-    const form = document.getElementById('editAmountForm');
-    if (form) form.style.display = form.style.display === 'none' ? 'block' : 'none';
-  });
-
-  document.getElementById('editAmountSave')?.addEventListener('click', () => {
-    const input = document.getElementById('editAmountInput');
-    if (!input) return;
-    const val = parseFloat(input.value);
-    if (!val || val <= 0) {
-      showToast('Enter a valid amount');
-      return;
-    }
-    const mode = getMode();
-    const date = mode === 'daily' ? todayStr() : weekStartStr();
-    let entries = getEntries();
-    entries = entries.filter(e => !(e.type === mode && e.date === date));
-    entries.push({ id: Date.now(), date, amount: val, type: mode });
-    saveEntries(entries);
-    input.value = '';
-    const form = document.getElementById('editAmountForm');
-    if (form) form.style.display = 'none';
-    showToast(`Saved ${formatNaira(val)}!`);
-    render();
-  });
+  document.getElementById('undoBtn')?.addEventListener('click', () => switchDashboardTab('history'));
+  document.getElementById('editAmountToggle')?.addEventListener('click', () => switchDashboardTab('history'));
+  document.getElementById('editAmountSave')?.addEventListener('click', () => switchDashboardTab('history'));
 
   document.getElementById('prevMonth')?.addEventListener('click', () => {
     calViewMonth--;
     if (calViewMonth < 0) { calViewMonth = 11; calViewYear--; }
-    render();
+    renderCalendar(ledger ? ledger.entries() : []);
   });
   document.getElementById('nextMonth')?.addEventListener('click', () => {
     calViewMonth++;
     if (calViewMonth > 11) { calViewMonth = 0; calViewYear++; }
-    render();
+    renderCalendar(ledger ? ledger.entries() : []);
   });
 
   // Goal Calculator Card
   document.getElementById('calcBtn')?.addEventListener('click', () => {
-    const goal = parseFloat(document.getElementById('calcGoal').value);
+    if (!validatePlanFields('calcGoal', 'calcDate')) { document.getElementById('calcResult').style.display = 'none'; return; }
+    const goal = NairaStreakCalc.parseNairaInput(document.getElementById('calcGoal').value);
     const dateStr = document.getElementById('calcDate').value;
     const res = document.getElementById('calcResult');
 
@@ -5735,19 +5635,11 @@
       return;
     }
 
-    const end = new Date(dateStr);
-    const now = new Date();
-    now.setHours(0, 0, 0, 0);
-    const days = Math.ceil((end - now) / (1000 * 60 * 60 * 24));
-
-    if (days <= 0) {
-      showToast('Date must be in the future');
-      return;
-    }
-
-    const daily = goal / days;
-    const weekly = goal / (days / 7);
-    const monthly = goal / (days / 30.416);
+    const days = NairaStreakCalc.calculateDaysRemaining(dateStr);
+    if (days <= 0) { showToast('Choose a future deadline.'); return; }
+    const daily = NairaStreakCalc.calculateDailyContribution(goal, dateStr);
+    const weekly = NairaStreakCalc.calculateWeeklyContribution(goal, dateStr);
+    const monthly = NairaStreakCalc.calculateMonthlyEquivalent(goal, dateStr);
 
     res.style.display = 'block';
     res.innerHTML = `
@@ -5775,12 +5667,16 @@
 
   document.getElementById('saveSettingsBtn')?.addEventListener('click', () => {
     const s = getSettings();
-    s.dailyAmount = parseFloat(document.getElementById('settingsDaily').value) || s.dailyAmount;
-    s.target = parseFloat(document.getElementById('settingsTarget').value) || s.target;
-    s.endDate = document.getElementById('settingsDate').value || s.endDate;
+    const valid = validatePlanFields('settingsTarget', 'settingsDate');
+    const daily = NairaStreakCalc.parseNairaInput(document.getElementById('settingsDaily').value);
+    fieldError('settingsDaily', daily > 0 && daily <= 1000000000 ? '' : 'Enter a daily amount above ₦0 and at most ₦1,000,000,000.');
+    if (!valid || !daily || daily > 1000000000) return;
+    s.dailyAmount = daily;
+    s.target = NairaStreakCalc.parseNairaInput(document.getElementById('settingsTarget').value);
+    s.endDate = document.getElementById('settingsDate').value;
     saveSettings(s);
-    showToast('Settings saved');
-    render();
+    showToast('Settings saved locally. Your cloud goal is unchanged.');
+    renderActiveGoalView();
   });
 
   document.getElementById('remindersOnBtn')?.addEventListener('click', async () => {
@@ -5854,33 +5750,13 @@
         loadSettingsForm();
         applyTheme();
         render();
-        showToast('Backup restored ✅');
+        showToast('Backup restored ');
       } catch (err) {
         showToast('Invalid backup file');
       }
     };
     reader.readAsText(file);
     e.target.value = '';
-  });
-
-  // PWA Install Handling
-  let deferredPrompt = null;
-  window.addEventListener('beforeinstallprompt', (e) => {
-    e.preventDefault();
-    deferredPrompt = e;
-    const card = document.getElementById('installCard');
-    if (card) card.style.display = 'block';
-  });
-  document.getElementById('installBtn')?.addEventListener('click', async () => {
-    if (!deferredPrompt) return;
-    deferredPrompt.prompt();
-    await deferredPrompt.userChoice;
-    deferredPrompt = null;
-    const card = document.getElementById('installCard');
-    if (card) card.style.display = 'none';
-  });
-  window.addEventListener('appinstalled', () => {
-    document.getElementById('installCard').style.display = 'none';
   });
 
   if ('serviceWorker' in navigator) {
@@ -5900,15 +5776,17 @@
 
         // Listen for live auth events
         supabaseClient.auth.onAuthStateChange(async (event, session) => {
-          if (event === 'SIGNED_IN' && session?.user) {
+          if ((event === 'SIGNED_IN' || event === 'TOKEN_REFRESHED') && session?.user) {
             currentUser = session.user;
             updateAuthUI();
-            await checkRoute();
+            setTimeout(checkRoute, 0);
           } else if (event === 'SIGNED_OUT') {
             currentUser = null;
             activeGoal = null;
+            resetLedger();
+            showView('landing');
             updateAuthUI();
-            await checkRoute();
+            setTimeout(checkRoute, 0);
           } else if (event === 'PASSWORD_RECOVERY') {
             isPasswordRecoverySession = true;
             openAuthModal('recovery');
@@ -5918,11 +5796,14 @@
         console.warn('Session retrieval error:', e);
       }
     }
+    authReady = true;
     updateAuthUI();
     await checkRoute();
   }
 
   // App Initialization
+  initLedgerUI();
+  promptLegacyDemo();
   applyTheme();
   loadSettingsForm();
   renderReminderTimes();

@@ -26,8 +26,8 @@ const baseDate = new Date(2026, 9, 13); // Oct 13, 2026
 const targetDate = new Date(2026, 9, 23); // Oct 23, 2026 (10 days)
 assert.strictEqual(Calc.calculateDaysRemaining(targetDate, baseDate), 10);
 assert.strictEqual(Calc.calculateDaysRemaining('2026-10-23', baseDate), 10);
-// Same day returns 1 min day
-assert.strictEqual(Calc.calculateDaysRemaining(baseDate, baseDate), 1);
+// Same day has no remaining calendar days
+assert.strictEqual(Calc.calculateDaysRemaining(baseDate, baseDate), 0);
 console.log('✓ calculateDaysRemaining tests passed');
 
 // 4. Daily and Weekly contributions

@@ -28,7 +28,7 @@
 - **Consequences**:
   - Instant page load times (< 50 KB initial payload).
   - No complex build pipelines or bundler lock-in for V1.
-  - Easy to deploy on static CDN (Netlify) with zero runtime server costs.
+  - Easy to deploy on static CDN (Vercel) with zero runtime server costs.
   - If a framework is chosen later, the business logic and database contracts are already decoupled.
 
 ---
@@ -42,7 +42,7 @@
 
 ## ADR 005: Decoupled Deployment & Original Lineage Preservation
 - **Context**: The original author deployed the prototype at `https://500ksavgoal.netlify.app`.
-- **Decision**: Never overwrite or redeploy over `https://500ksavgoal.netlify.app`. Create an entirely new Netlify site instance (e.g. `nairastreak-web.netlify.app`) for NairaStreak Labs.
+- **Decision**: Never overwrite or redeploy over `https://500ksavgoal.netlify.app`. Create an entirely new Vercel site instance (e.g. `nairastreak.vercel.app`) for NairaStreak Labs.
 - **Consequences**: Protects the historical artifact and educational portfolio of the original author while giving NairaStreak Labs independent production infrastructure.
 
 ---
@@ -85,3 +85,30 @@
   - Guaranteed mathematical consistency across all surfaces.
   - Eliminates rounding drift and disparate date calculations.
   - Fully testable in automated Node.js CI/unit suites.
+
+
+## ADR 011: Vercel production hosting (2026-10-16; supersedes ADR 005 hosting choice)
+- **Decision**: Production is https://nairastreak.vercel.app on Vercel's free tier. Configure headers only in vercel.json. Do not create a Netlify project.
+- **Reason**: Maintainer confirmed the existing production platform. Static vanilla assets need no server framework.
+- **Alternatives**: A new Netlify site was previously planned; maintaining two hosting platforms adds unnecessary drift.
+- **Consequences**: Preserve Zuokemefa Oyinmiebi Peter's original https://500ksavgoal.netlify.app unchanged. Deployment requires maintainer redeployment; this sprint does not deploy.
+
+## ADR 012: Multi-goal approved for Web V1 (2026-10-16; supersedes post-V1 scope)
+- **Decision**: Multi-goal is approved Web V1 scope, superseding any document deferring it until after V1. Implementation is explicitly excluded from the stabilize sprint.
+- **Reason**: Maintainer scope decision; existing relational schema supports multiple goals.
+- **Alternatives**: Retaining single-goal-only V1 would conflict with approved scope.
+- **Consequences**: Stabilize the active-goal journey first; design selection and switching in a later task. No profile work in this sprint.
+
+## ADR 013: NGN minor units and Lagos calendar dates (2026-10-16)
+- **Diagnosis**: No fixed 13/14 October deadline exists in the repository. Date inputs
+  used `toISOString().split('T')[0]` (UTC) while display and day boundaries used
+  browser-local time. A Lagos instant on 14 Oct at 00:30 is 13 Oct at 23:30 UTC.
+  This reproduces a one-day discrepancy; no stored deadline is changed.
+- **Decision**: Keep DATE values as YYYY-MM-DD, derive today's date in Africa/Lagos,
+  and subtract validated UTC calendar days. Sum integer kobo; round recommendations
+  upward to whole naira. Same/past deadlines have zero days and zero recommendation.
+  Monthly equivalents use 365/12 days; month presets clamp to the last valid day.
+- **Alternatives**: Browser timezone arithmetic varies by device and DST; floating
+  naira sums accumulate rounding drift.
+- **Consequences**: Existing deadline strings remain intact. Progress and streaks
+  share calculations.js; expired goals require choosing a new deadline.

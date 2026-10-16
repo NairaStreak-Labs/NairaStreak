@@ -179,3 +179,17 @@ To ensure existing prototype users do not lose their logged savings:
      `{ goal_id, user_id: auth.uid(), amount: e.amount, saved_at: e.date, note: e.note || null }`
    - Batch insert sent to `public.savings_entries`.
 4. **Archive & Cleanup**: Once the cloud confirmation arrives, `localStorage` legacy entries are tagged as migrated (e.g. `savings500k_migrated: true`) and archived safely to prevent duplicate double-imports.
+
+## Stabilize ownership hardening (2026-10-16)
+The initial entry INSERT/UPDATE policies checked only the entry's user_id. The
+additive migration `20261016_fix_entries_ownership.sql` also requires an owned goal
+in WITH CHECK, including reassignment on UPDATE. Existing positive-amount/status
+constraints and user/goal indexes are retained; NGN currency and saved_at index
+are added. SQL isolation assertions are in `supabase/tests/entries_ownership.sql`.
+These files have NOT been applied or executed against Supabase in this sprint.
+
+Legacy demo detection uses the 25-entry / ₦34,250 signature as a prompt, never
+proof that records are disposable. Settings offers Keep or Exclude from legacy
+view, preserving every savings500k key and value. No legacy import is implemented.
+Cloud failures retain the form and UUID for explicit retry; confirmed writes alone
+show Saved. Offline cache is labelled saved locally / potentially out of date.

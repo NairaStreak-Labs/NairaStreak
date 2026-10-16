@@ -102,3 +102,12 @@ When a user loses internet connectivity while running the installed PWA:
 3. **Graceful Action Disabling or Local Queuing**:
    - For V1, disable new cloud goal submissions with clear feedback: *"Internet connection required to log to cloud."*
    - Or allow optimistic local recording that flushes to Supabase upon reconnection via the `window.addEventListener('online')` event listener.
+
+## Stabilize shell v3
+`sw.js` now uses an exact same-origin asset allowlist, network-first shell updates,
+versioned NairaStreak-only old-cache cleanup and a cached index fallback on offline
+shell navigation. Query-bearing requests, all other origins, Authorization headers,
+API paths and non-GET requests bypass the worker. Newly extracted scripts and CSS
+are included in the shell. Node VM tests exercise install, cleanup, bypass and
+fallback behavior. Physical installation and offline browser operation still need
+verification. Cloud writes require connectivity; failed forms offer explicit retry.

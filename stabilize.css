@@ -49,3 +49,5 @@ input { caret-color:var(--green); }
   .landing-nav-actions button { padding-inline:8px !important; font-size:12px !important; }
   .landing-nav-actions .nav-user-badge { display:none; }
 }
+
+.dash-main { min-width:0; }

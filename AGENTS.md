@@ -464,7 +464,7 @@ Never commit or expose:
 - Resend API secrets,
 - SMTP passwords,
 - GitHub Personal Access Tokens,
-- Netlify access tokens,
+- Vercel and Netlify access tokens,
 - private authentication credentials,
 - private API keys,
 - session secrets.

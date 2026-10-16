@@ -31,6 +31,7 @@ const test=base.extend({mock:async({page},use)=>{
  });
  // Never contact CDN, Google Fonts or Supabase in this suite.
  await page.route('**/*',route=>new URL(route.request().url()).hostname==='127.0.0.1'?route.continue():route.abort());
+ await page.route('**/__axe.js', route => route.fulfill({contentType:'text/javascript',body:require('node:fs').readFileSync(require.resolve('axe-core/axe.min.js'),'utf8')}));
  await use(state);
 }});
 module.exports={test,expect};

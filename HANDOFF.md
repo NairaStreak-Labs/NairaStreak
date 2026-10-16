@@ -129,3 +129,12 @@ The repository features comprehensive documentation in the `docs/` directory:
 
 1. Maintain SMTP and verified email configuration.
 2. Advance to **Phase 4: Savings Logging, History & Live Progress** (Add Savings workflow, granular contribution entries in `public.savings_entries`, ledger editing/deletion, streak calculations, and live goal progress).
+
+## Stabilize sprint handoff — 2026-10-16
+Implementation reached Tier 1 item 13 on `sprint/stabilize`; overall status PARTIAL.
+See `docs/STABILIZE_REPORT.md` for per-item files, commands, results and limitations.
+The Node suite passes 18 tests. Browser/axe/full secret CLI verification was blocked
+by unavailable or timing-out tooling downloads; no live Supabase or deployment
+checks ran. SQL is written only. Multi-goal is approved for Web V1 but was not
+implemented. Production is https://nairastreak.vercel.app. The maintainer must
+review/apply SQL, finish browser/secret verification, push and redeploy.

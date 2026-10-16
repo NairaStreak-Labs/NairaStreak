@@ -10,7 +10,10 @@ function resetLedger() {
   document.getElementById('fullHistoryList').replaceChildren();
   document.getElementById('recentActivityList')?.replaceChildren();
 }
-function syncMessage(message) { document.getElementById('ledgerSync').textContent = message; }
+function syncMessage(message) {
+  document.getElementById('ledgerSync').textContent = message;
+  document.getElementById('dashboardSync').textContent = message;
+}
 async function rehydrateLedger() {
   if (!currentUser || !activeGoal) return;
   const identity = `${currentUser.id}:${activeGoal.id}`;
@@ -82,6 +85,8 @@ async function submitLedgerEntry(entry) {
   } finally { ledgerBusy = false; button.disabled = false; }
 }
 function initLedgerUI() {
+  const status = document.createElement('p');status.id = 'dashboardSync';status.setAttribute('role', 'status');status.setAttribute('aria-live', 'polite');
+  document.getElementById('tabPaneHome').prepend(status);
   const panel = document.createElement('section'); panel.className = 'dash-card ledger-panel';
   panel.innerHTML = `<h2>Log savings</h2><p id="ledgerSync" role="status" aria-live="polite">No goal loaded.</p>
     <button type="button" id="retryLedger" class="btn-secondary">Retry sync</button>

@@ -51,11 +51,22 @@ test('simulator and settings reject invalid inputs; no fallback',async({page,moc
  await dashboard(page);await page.evaluate(()=>switchDashboardTab('settings'));await page.locator('#settingsTarget').fill('0');await page.locator('#saveSettingsBtn').click();await expect(page.locator('#settingsTarget')).toHaveAttribute('aria-invalid','true');
 });
 test('landing and auth axe audit and touch targets',async({page,mock},info)=>{
- await page.goto('/');await theme(page,info);await page.addScriptTag({path:require.resolve('axe-core/axe.min.js')});
+ await page.goto('/');await theme(page,info);await page.addScriptTag({url:'/__axe.js'});
  const result=await page.evaluate(()=>axe.run(document.querySelector('#landingView')));
  console.log(`${info.project.name} landing axe violations: ${result.violations.length}`);
  await test.info().attach('axe',{body:JSON.stringify(result.violations),contentType:'application/json'});
  expect(result.violations).toEqual([]);
  await expect(page.locator('#landingView h1')).toHaveCount(1);
  await page.screenshot({path:`qa-report/${info.project.name}-landing.png`,fullPage:true});
+});
+
+test('baseline axe counts before sprint changes',async({page,mock},info)=>{
+ const {execFileSync}=require('node:child_process'),crypto=require('node:crypto');
+ const before=execFileSync('git',['show','origin/main:index.html'],{encoding:'utf8'});
+ const hashes=[...before.matchAll(/<script>([\s\S]*?)<\/script>/g)].map(m=>`'sha256-${crypto.createHash('sha256').update(m[1]).digest('base64')}'`).join(' ');
+ await page.route('**/__baseline',route=>route.fulfill({contentType:'text/html',body:before,headers:{'Content-Security-Policy':`default-src 'self'; script-src 'self' https://cdn.jsdelivr.net ${hashes}; style-src 'self' 'unsafe-inline'; img-src 'self' data:;`}}));
+ await page.goto('/__baseline');await theme(page,info);await page.addScriptTag({url:'/__axe.js'});
+ const result=await page.evaluate(()=>axe.run(document.querySelector('#landingView')));
+ console.log(`${info.project.name} BEFORE landing axe violations: ${result.violations.length}`);
+ await test.info().attach('axe-before',{body:JSON.stringify(result.violations),contentType:'application/json'});
 });

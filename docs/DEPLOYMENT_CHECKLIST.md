@@ -1,7 +1,7 @@
 # Deployment Checklist & Operational Guide
 
 > **Parent Organization**: NairaStreak Labs
-> **Platform**: Netlify Static Hosting + Supabase Cloud
+> **Platform**: Vercel Static Hosting + Supabase Cloud
 > **Target Temporary URL**: `nairastreak.vercel.app` *(Custom domain pending Phase 1 product naming)*
 > **Original Lineage URL**: `https://500ksavgoal.netlify.app` *(STRICT PRESERVATION: Never overwrite)*
 
@@ -9,7 +9,7 @@
 
 ## 1. Pre-Deployment Configuration
 
-### 1.1 Netlify Project Setup
+### 1.1 Vercel Project Setup
 1. Create a brand-new Vercel site linked to `github.com/nairastreak-labs/500k-challenge`.
 2. Do **NOT** connect to or import the original site `500ksavgoal.netlify.app`.
 3. Set build configuration:
@@ -17,8 +17,8 @@
    - **Build command**: *(none required / blank)*
    - **Publish directory**: `.`
 
-### 1.2 Environment Variables (Netlify Site Configuration)
-Configure in Netlify Admin -> Site Configuration -> Environment Variables:
+### 1.2 Environment Variables (Vercel Site Configuration)
+Configure in Vercel Admin -> Site Configuration -> Environment Variables:
 - `SUPABASE_URL`: `https://<your-project>.supabase.co`
 - `SUPABASE_ANON_KEY`: `<your-supabase-public-anon-key>`
 
@@ -56,3 +56,12 @@ Ensure `_headers` exists in the publish directory:
 - [ ] Refresh page; confirm data persists from Supabase.
 - [ ] Test PWA "Add to Home Screen" on mobile Chrome/Safari.
 - [ ] Verify that `https://500ksavgoal.netlify.app` remains entirely untouched and operational.
+
+## Stabilize Vercel review
+Production: https://nairastreak.vercel.app. Do not create a Netlify project.
+Headers live exclusively in vercel.json. After any inline script edit, run
+`node scripts/update-csp.cjs` and `npm test` before deployment so the CSP hash stays
+current. Supabase HTTPS/WebSocket endpoints and Google Fonts stylesheet/font
+origins are explicitly allowed. Do not expose backend secrets as client config.
+The localhost E2E server applies the actual Vercel headers; live Vercel, Supabase
+and Google Fonts connectivity must be checked after redeployment by the maintainer.

@@ -15,6 +15,7 @@
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="config.js"></script>
 <script src="calculations.js"></script>
+<script src="ledger.js"></script>
 
 <style>
   :root {
@@ -3879,6 +3880,7 @@
 
 <div class="toast" id="toast">Saved! Consistency builds wealth.</div>
 
+<script src="ledger-ui.js"></script>
 <script>
   // ==========================================================================
   // SUPABASE CLIENT INITIALIZATION & CONFIGURATION
@@ -4295,6 +4297,9 @@
       if (supabaseClient) await supabaseClient.auth.signOut();
     } catch (e) {}
     currentUser = null;
+    activeGoal = null;
+    resetLedger();
+    showView('landing');
     updateAuthUI();
     showToast('Signed out successfully.');
     window.location.hash = '#landing';
@@ -4422,6 +4427,7 @@
 
       // Fetch active goal for authenticated user
       activeGoal = await fetchActiveGoal();
+      if (activeGoal) await rehydrateLedger();
 
       if (!activeGoal) {
         if (hash === '#onboarding') {
@@ -4563,6 +4569,7 @@
     renderRecentActivity(entries);
     renderFullHistory(entries);
     updateUserProfileUI();
+    renderLedgerActions();
     renderProjection(entries, total, target, NairaStreakCalc.normalizeDate(targetDate), new Date(), mode, { dailyAmount: dailyRec });
     checkMilestones(total, target);
   }
@@ -4573,7 +4580,7 @@
       render(); // Fallback to prototype view if no goal
       return;
     }
-    const entries = getOrInitEntries();
+    const entries = ledger ? ledger.entries() : [];
     updateFullDashboardView({
       goalName: activeGoal.name || 'Emergency Fund',
       targetAmount: activeGoal.target_amount,
@@ -4586,62 +4593,13 @@
 
   // Global handler for saving contribution
   async function handleRecordSaving() {
-    const settings = getSettings();
-    const target = activeGoal ? activeGoal.target_amount : settings.target;
-    const targetDate = activeGoal ? activeGoal.target_date : settings.endDate;
-    const mode = activeGoal ? (activeGoal.contribution_mode || 'daily') : getMode();
-    const isDaily = mode === 'daily';
-
-    const entries = getOrInitEntries();
-    const total = entries.reduce((sum, e) => sum + e.amount, 0);
-    const dailyRec = NairaStreakCalc.calculateDailyContribution(target, targetDate, total);
-    const weeklyRec = NairaStreakCalc.calculateWeeklyContribution(target, targetDate, total);
-    const amountToSave = isDaily ? (dailyRec || 1370) : (weeklyRec || 9590);
-
-    const today = todayStr();
-    const thisWeek = weekStartStr();
-    const dateKey = isDaily ? today : thisWeek;
-
-    const alreadySaved = entries.some(e => e.type === mode && e.date === dateKey);
-    if (alreadySaved) {
-      showToast('You already logged savings for today! Keep up the momentum.');
-      return;
-    }
-
-    const newEntry = {
-      id: Date.now(),
-      date: dateKey,
-      amount: amountToSave,
-      type: mode,
-      note: isDaily ? 'Daily saving' : 'Weekly saving'
-    };
-
-    // Persist to Supabase if logged in with active goal
-    if (supabaseClient && currentUser && activeGoal) {
-      try {
-        await supabaseClient.from('savings_entries').insert({
-          goal_id: activeGoal.id,
-          user_id: currentUser.id,
-          amount: amountToSave,
-          saved_at: today,
-          note: newEntry.note
-        });
-      } catch (err) {
-        console.warn('Supabase entry insert warning:', err);
-      }
-    }
-
-    entries.unshift(newEntry);
-    saveEntries(entries);
-
-    triggerConfetti();
-    showToast(`Saved ${formatNaira(amountToSave)}! Consistency builds wealth.`);
-
-    if (activeGoal) {
-      renderActiveGoalView();
-    } else {
-      render();
-    }
+    if (!ledger || !activeGoal || ledgerBusy) return;
+    const total = ledger.entries().reduce((sum, e) => sum + Number(e.amount), 0);
+    const amount = activeGoal.contribution_mode === 'weekly'
+      ? NairaStreakCalc.calculateWeeklyContribution(activeGoal.target_amount, activeGoal.target_date, total)
+      : NairaStreakCalc.calculateDailyContribution(activeGoal.target_amount, activeGoal.target_date, total);
+    if (!amount) { showToast('Your target is reached. You can log a custom amount in History.'); return; }
+    await submitLedgerEntry({ id: crypto.randomUUID(), amount, date: todayStr(), note: 'Planned saving' });
   }
 
   // Tab switching controller
@@ -4668,7 +4626,8 @@
     });
 
     if (tabName === 'history') {
-      const entries = getOrInitEntries();
+      rehydrateLedger();
+      const entries = ledger ? ledger.entries() : [];
       renderCalendar(entries);
       renderFullHistory(entries);
     }
@@ -5907,6 +5866,8 @@
           } else if (event === 'SIGNED_OUT') {
             currentUser = null;
             activeGoal = null;
+            resetLedger();
+            showView('landing');
             updateAuthUI();
             await checkRoute();
           } else if (event === 'PASSWORD_RECOVERY') {
@@ -5923,6 +5884,7 @@
   }
 
   // App Initialization
+  initLedgerUI();
   applyTheme();
   loadSettingsForm();
   renderReminderTimes();

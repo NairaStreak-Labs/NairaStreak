@@ -103,3 +103,11 @@ sequenceDiagram
     App->>App: Recalculates Total, Streak, Milestones
     App->>User: Displays confetti (if milestone reached) & toast confirmation
 ```
+
+## Stabilize cloud ledger
+`ledger.js` queries all pages of the active goal's savings entries on dashboard
+and history entry. Per-user/per-goal localStorage is an offline cache, never an
+upload source. `ledger-ui.js` provides confirmed cloud CRUD, custom amounts,
+recalculation, loading/error states and retries. Legacy savings500k keys are
+preserved and never implicitly attached to an account. Browser and live backend
+journeys still require verification; Node tests exercise a mocked data provider.

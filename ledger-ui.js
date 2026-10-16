@@ -1,9 +1,11 @@
 // Integrated with the existing vanilla shell; no remote data is written to legacy keys.
+let ledgerFresh = false;
 let ledger = null;
 let ledgerIdentity = '';
 let ledgerBusy = false;
 let ledgerGeneration = 0;
 function resetLedger() {
+  ledgerFresh = false;
   ledgerGeneration++; ledger = null; ledgerIdentity = ''; ledgerBusy = false;
   document.getElementById('fullHistoryList').replaceChildren();
   document.getElementById('recentActivityList')?.replaceChildren();
@@ -17,10 +19,12 @@ async function rehydrateLedger() {
     ledgerIdentity = identity; ledger.cached();
   }
   const instance = ledger, generation = ++ledgerGeneration;
+  ledgerFresh = false;
   syncMessage('Loading savings…');
   try {
     await instance.load();
     if (generation !== ledgerGeneration || instance !== ledger || !currentUser) return;
+    ledgerFresh = true;
     syncMessage('Synced with your account.');
   } catch (_) {
     if (generation !== ledgerGeneration || instance !== ledger || !currentUser) return;
@@ -68,6 +72,7 @@ async function submitLedgerEntry(entry) {
   try {
     await instance.put(entry);
     if (instance !== ledger || !currentUser) return;
+    ledgerFresh = true;
     syncMessage('Saved to your account.'); renderActiveGoalView();
     document.getElementById('ledgerForm').reset();
     document.getElementById('entryDate').value = todayStr(); button.textContent = 'Log savings';
@@ -105,4 +110,14 @@ function initLedgerUI() {
     if (!fields.entryId.value) fields.entryId.value = crypto.randomUUID();
     submitLedgerEntry({ id: fields.entryId.value, amount, date, note: fields.note.value });
   };
+}
+function promptLegacyDemo() {
+  let entries;
+  try { entries = JSON.parse(localStorage.getItem('savings500k')); } catch (_) { return; }
+  if (!NairaStreakLegacy.isSeededDemo(entries) || localStorage.getItem('nairastreak:demo-choice')) return;
+  const notice = document.createElement('section'); notice.className = 'dash-card';
+  notice.innerHTML = `<h2>Possible old demo data found</h2><p>This device has 25 legacy entries totalling ₦34,250, matching the old demo. Would you like to exclude these from the legacy view? Your original local data will be preserved. Nothing will be uploaded.</p><button type="button" class="btn-secondary" id="keepDemo">Keep entries</button> <button type="button" class="btn-secondary" id="excludeDemo">Exclude demo from view</button>`;
+  document.getElementById('tabPaneSettings').prepend(notice);
+  notice.querySelector('#keepDemo').onclick = () => { localStorage.setItem('nairastreak:demo-choice','keep'); notice.remove(); };
+  notice.querySelector('#excludeDemo').onclick = () => { localStorage.setItem('nairastreak:demo-choice','exclude'); notice.remove(); renderActiveGoalView(); };
 }

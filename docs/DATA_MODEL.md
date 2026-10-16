@@ -187,3 +187,9 @@ in WITH CHECK, including reassignment on UPDATE. Existing positive-amount/status
 constraints and user/goal indexes are retained; NGN currency and saved_at index
 are added. SQL isolation assertions are in `supabase/tests/entries_ownership.sql`.
 These files have NOT been applied or executed against Supabase in this sprint.
+
+Legacy demo detection uses the 25-entry / ₦34,250 signature as a prompt, never
+proof that records are disposable. Settings offers Keep or Exclude from legacy
+view, preserving every savings500k key and value. No legacy import is implemented.
+Cloud failures retain the form and UUID for explicit retry; confirmed writes alone
+show Saved. Offline cache is labelled saved locally / potentially out of date.

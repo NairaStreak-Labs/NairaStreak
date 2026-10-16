@@ -16,6 +16,7 @@
 <script src="config.js"></script>
 <script src="calculations.js"></script>
 <script src="ledger.js"></script>
+<script src="legacy-data.js"></script>
 
 <style>
   :root {
@@ -3934,7 +3935,10 @@
 
   // State Getters & Setters
   function getEntries() {
-    try { return JSON.parse(localStorage.getItem(STORAGE_KEY)) || []; }
+    try {
+      if (localStorage.getItem('nairastreak:demo-choice') === 'exclude') return [];
+      return JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
+    }
     catch (e) { return []; }
   }
   function saveEntries(entries) { localStorage.setItem(STORAGE_KEY, JSON.stringify(entries)); }
@@ -4541,7 +4545,7 @@
     const mobileSaveBtn = document.getElementById('mobileSaveBtn');
 
     const buttonLabel = isSavedToday
-      ? 'Saved today ✓'
+      ? (ledgerFresh ? 'Saved today' : 'Saved locally · not refreshed')
       : `I saved ${formatNaira(paceAmount)} ${isDaily ? 'today' : 'this week'}`;
 
     if (headerSaveBtnText) headerSaveBtnText.textContent = buttonLabel;
@@ -4599,7 +4603,11 @@
       ? NairaStreakCalc.calculateWeeklyContribution(activeGoal.target_amount, activeGoal.target_date, total)
       : NairaStreakCalc.calculateDailyContribution(activeGoal.target_amount, activeGoal.target_date, total);
     if (!amount) { showToast('Your target is reached. You can log a custom amount in History.'); return; }
-    await submitLedgerEntry({ id: crypto.randomUUID(), amount, date: todayStr(), note: 'Planned saving' });
+    const fields = document.getElementById('ledgerForm').elements;
+    if (!fields.entryId.value) fields.entryId.value = crypto.randomUUID();
+    fields.amount.value = amount; fields.savedAt.value = todayStr(); fields.note.value = 'Planned saving';
+    switchDashboardTab('history');
+    await submitLedgerEntry({ id: fields.entryId.value, amount, date: todayStr(), note: fields.note.value });
   }
 
   // Tab switching controller
@@ -5450,7 +5458,7 @@
 
   function render() {
     const settings = getSettings();
-    const entries = getOrInitEntries();
+    const entries = currentUser ? [] : getOrInitEntries();
     const mode = getMode();
 
     updateFullDashboardView({
@@ -5885,6 +5893,7 @@
 
   // App Initialization
   initLedgerUI();
+  promptLegacyDemo();
   applyTheme();
   loadSettingsForm();
   renderReminderTimes();

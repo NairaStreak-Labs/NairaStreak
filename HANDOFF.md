@@ -1,12 +1,12 @@
 # 📋 NairaStreak Labs — Project Handoff
 
-> **Parent Organization**: NairaStreak Labs  
-> **Working Product Title**: 500K Challenge *(Temporary working name pending final consumer product naming)*  
-> **Original Author**: Zuokemefa Oyinmiebi Peter (Learn2earn)  
-> **Original Live Deployment**: [https://500ksavgoal.netlify.app](https://500ksavgoal.netlify.app) *(DO NOT overwrite or modify)*  
-> **Target New Deployment**: Netlify (e.g. `nairastreak-web.netlify.app` / custom domain)  
-> **Document Version**: 2.0 (Post-Directive Revision)  
-> **Date**: October 12, 2026  
+> **Parent Organization**: NairaStreak Labs
+> **Working Product Title**: 500K Challenge *(Temporary working name pending final consumer product naming)*
+> **Original Author**: Zuokemefa Oyinmiebi Peter (Learn2earn)
+> **Original Live Deployment**: [https://500ksavgoal.netlify.app](https://500ksavgoal.netlify.app) *(DO NOT overwrite or modify)*
+> **Target New Deployment**: Vercel (e.g. `nairastreak.vercel.app` / custom domain)
+> **Document Version**: 2.0 (Post-Directive Revision)
+> **Date**: October 12, 2026
 
 ---
 
@@ -91,7 +91,7 @@ flowchart TD
 - **Persistence**: **Supabase PostgreSQL** with Row Level Security (RLS) enforcing multi-tenant isolation with `(select auth.uid())` optimization.
 - **Client Config**: Browser-safe configuration in `config.js` with zero secret exposure.
 - **Service Worker**: Cache `nairastreak-auth-v2` bypassing Supabase endpoints and auth headers unconditionally.
-- **Hosting**: Netlify deployment independent of the original prototype.
+- **Hosting**: Vercel deployment independent of the original prototype.
 
 ---
 
@@ -118,7 +118,7 @@ The repository features comprehensive documentation in the `docs/` directory:
 | [`ORIGIN_AND_ATTRIBUTION.md`](docs/ORIGIN_AND_ATTRIBUTION.md) | Project origin, author credits, and deployment history |
 | [`RESOURCES.md`](docs/RESOURCES.md) | Tooling, CDN libraries, assets, and design references |
 | [`TEST_PLAN.md`](docs/TEST_PLAN.md) | Testing matrix for customer journeys and edge cases |
-| [`DEPLOYMENT_CHECKLIST.md`](docs/DEPLOYMENT_CHECKLIST.md) | Zero-downtime Netlify production deployment checklist |
+| [`DEPLOYMENT_CHECKLIST.md`](docs/DEPLOYMENT_CHECKLIST.md) | Zero-downtime Vercel production deployment checklist |
 | [`PRODUCTION_QUALITY.md`](docs/PRODUCTION_QUALITY.md) | Code quality, accessibility, Core Web Vitals targets |
 | [`DECISIONS.md`](docs/DECISIONS.md) | Architecture Decision Records (ADR 001 - ADR 008) |
 | [`ROADMAP.md`](docs/ROADMAP.md) | Complete multi-phase execution roadmap |

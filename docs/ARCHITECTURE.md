@@ -2,7 +2,7 @@
 
 > **Parent Organization**: NairaStreak Labs  
 > **Target Release**: Web V1  
-> **Infrastructure Model**: Client-Side Single Page Application (SPA/PWA) + Managed Backend-as-a-Service (Supabase) + Static CDN (Netlify)
+> **Infrastructure Model**: Client-Side Single Page Application (SPA/PWA) + Managed Backend-as-a-Service (Supabase) + Static CDN (Vercel)
 
 ---
 
@@ -17,7 +17,7 @@ flowchart TD
         SW["Service Worker (sw.js)"]
     end
 
-    subgraph CDN ["Static Delivery Network (Netlify)"]
+    subgraph CDN ["Static Delivery Network (Vercel)"]
         Edge["Global CDN Edge"]
         StaticAssets["Static HTML, CSS, JS, Icons"]
     end
@@ -44,10 +44,10 @@ flowchart TD
 
 ## 2. Component Specifications
 
-### 2.1 Static Edge Tier (Netlify)
+### 2.1 Static Edge Tier (Vercel)
 - **Role**: Serves immutable frontend application code (HTML, CSS, modular JS, images, PWA manifest) over HTTPS with HTTP/2 and Brotli compression.
-- **Independence**: Fully decoupled from `https://500ksavgoal.netlify.app`. Deployed to a new site instance (e.g. `nairastreak-web.netlify.app`).
-- **Security Headers**: Content Security Policy (CSP), X-Frame-Options, Strict-Transport-Security, and X-Content-Type-Options configured in `_headers` or `netlify.toml`.
+- **Independence**: Fully decoupled from `https://500ksavgoal.netlify.app`. Deployed to a new site instance (e.g. `nairastreak.vercel.app`).
+- **Security Headers**: Content Security Policy (CSP), X-Frame-Options, Strict-Transport-Security, and X-Content-Type-Options configured in `vercel.json`.
 
 ### 2.2 Client Application Tier (Frontend)
 - **View Router**: Lightweight state or hash router managing navigation between `/` (Public Landing), `#dashboard` / `#app`, and `#recovery`.

@@ -132,5 +132,5 @@ Web V1 is blocked from production signoff until all 17 items pass:
 13. Persistent cloud storage with cross-user isolation
 14. Responsive mobile & desktop UI
 15. Progressive Web App installation
-16. Standalone production deployment on Netlify
+16. Standalone production deployment on Vercel
 17. Automated & manual test plan signoff

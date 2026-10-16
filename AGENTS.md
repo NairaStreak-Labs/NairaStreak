@@ -306,7 +306,7 @@ Prefer the simplest architecture that safely satisfies product requirements.
 Current preferred Web V1 stack:
 
 - GitHub — source control
-- Netlify — web hosting
+- Vercel — web hosting
 - Supabase Auth — authentication
 - Supabase PostgreSQL — persistent user data
 - Supabase Row Level Security — ownership enforcement
@@ -343,7 +343,7 @@ may be introduced without explicit user approval.
 Preferred free-tier stack:
 
 - GitHub Free
-- Netlify Free
+- Vercel Hobby (free tier)
 - Supabase Free
 - Resend Free
 - PostHog Free when introduced
@@ -1363,7 +1363,7 @@ Never deploy over:
 
 That is the original project deployment.
 
-NairaStreak should use a new Netlify project during Web V1.
+NairaStreak should use a new Vercel project during Web V1.
 
 A custom domain may be introduced later.
 

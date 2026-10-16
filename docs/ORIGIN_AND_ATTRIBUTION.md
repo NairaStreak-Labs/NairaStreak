@@ -26,7 +26,7 @@ This codebase originated as the **500K Savings Challenge**, conceived and develo
 
 The NairaStreak Labs version is a distinct, forward-looking product initiative with:
 - Its own independent GitHub organization and repository (`github.com/nairastreak-labs/500k-challenge`).
-- Its own separate Netlify deployment instance (e.g. `nairastreak-web.netlify.app`).
+- Its own separate Vercel deployment instance (e.g. `nairastreak.vercel.app`).
 - Its own dedicated domain and brand identity.
 - Expansion from a single hardcoded ₦500k savings prototype into an arbitrary goal-tracking platform.
 

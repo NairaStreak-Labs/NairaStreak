@@ -107,7 +107,7 @@ gantt
 - [ ] Execute Critical Golden Journey test (TC-01 through TC-07).
 
 ### Phase 16: Independent Production Deployment
-- [ ] Configure new Netlify site instance (`nairastreak-web.netlify.app`).
+- [ ] Configure new Vercel site instance (`nairastreak.vercel.app`).
 - [ ] Verify `_headers` security policy.
 - [ ] Confirm original deployment (`500ksavgoal.netlify.app`) remains 100% untouched.
 

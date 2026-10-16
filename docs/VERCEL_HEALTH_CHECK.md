@@ -1,6 +1,9 @@
 # Vercel health check — 2026-10-16
 
-Status: **PARTIAL — production is serving an older application.**
+Status: **PARTIAL — stabilize assets verified live; full customer journey not verified.**
+
+The initial findings below describe the old deployment. See the update at the end
+for the successful stabilize deployment and subsequent live checks.
 
 Checked https://nairastreak.vercel.app with read-only HTTPS requests after the
 maintainer authorized Vercel access. No credentials, private environment files,
@@ -61,3 +64,13 @@ check did not apply SQL. After deployment, verify that response security headers
 new script imports and `nairastreak-shell-v3` are present, and run the browser
 journey and cross-user SQL checks before claiming production readiness.
 Never overwrite the original author's 500ksavgoal.netlify.app deployment.
+
+## Update: stabilize deployed and rechecked
+
+The earlier findings above are a historical pre-deployment snapshot. The subsequent
+production deployment of stabilize commit `e400040` completed successfully. A new
+HTTPS check found the live HTML byte-for-byte identical to the checkout, with
+ledger.js imported, no maximum-scale restriction, no demo-seeding function, and
+CSP, nosniff and frame-denial headers present. This supersedes the earlier claim
+that production still serves the old HTML. It does not verify live authentication,
+Supabase policies or the complete customer journey.

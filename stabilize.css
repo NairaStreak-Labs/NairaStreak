@@ -1,0 +1,11 @@
+.password-control { display:flex; align-items:center; gap:8px; }
+.password-control input { min-width:0; flex:1; }
+.password-control button { display:grid; place-items:center; min-width:44px; min-height:44px; border:1px solid var(--border-strong); border-radius:8px; color:var(--text); background:var(--card); cursor:pointer; }
+.field-error { color:#b91c1c; font-size:14px; }
+body.dark .field-error { color:#fca5a5; }
+.ledger-panel { padding:20px; margin-block:16px; }
+.ledger-panel h2 { font-size:20px; }
+#ledgerForm { display:grid; gap:8px; margin-block:16px; max-width:42rem; }
+#ledgerForm input { width:100%; padding:10px; color:var(--text); background:var(--card); border:1px solid var(--border-strong); border-radius:8px; min-height:44px; }
+.ledger-actions { display:flex; gap:8px; flex-wrap:wrap; }
+.activity-item { flex-wrap:wrap; gap:12px; }

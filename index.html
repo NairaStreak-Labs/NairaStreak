@@ -6,6 +6,7 @@
 <title>NairaStreak · The Savings Consistency Engine</title>
 <meta name="description" content="Turn intimidating savings goals into effortless daily streaks with NairaStreak Labs. 100% non-custodial savings habit tracker.">
 <meta name="theme-color" content="#083324">
+<link rel="stylesheet" href="stabilize.css">
 <link rel="manifest" href="manifest.json">
 <link rel="icon" type="image/svg+xml" href="logo.svg">
 <link rel="icon" type="image/png" href="icon-192.png">
@@ -3883,6 +3884,7 @@
 
 <div class="toast" id="toast">Saved! Consistency builds wealth.</div>
 
+<script src="auth-controls.js"></script>
 <script src="validation.js"></script>
 <script src="ledger-ui.js"></script>
 <script>
@@ -4012,6 +4014,7 @@
   }
 
   function closeAuthModal() {
+    resetPasswordVisibility();
     isPasswordRecoverySession = false;
     authModal.classList.add('hidden');
     clearAuthErrors();
@@ -4022,6 +4025,7 @@
   }
 
   function switchAuthView(mode) {
+    resetPasswordVisibility();
     authSignupView.classList.add('hidden');
     authSigninView.classList.add('hidden');
     authForgotView.classList.add('hidden');

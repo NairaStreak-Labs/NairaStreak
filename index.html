@@ -3849,7 +3849,7 @@
 
       <!-- Hidden installCard & legacy saveBtn compatibility -->
       <div id="installCard" style="display:none;">
-        <button type="button" id="installBtn">📲 Add to Home Screen</button>
+        <button type="button" id="installBtn"><svg aria-hidden="true" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v12m-5-5 5 5 5-5M4 17v4h16v-4"/></svg> Add to Home Screen</button>
       </div>
       <button type="button" id="saveBtn" style="display:none;"></button>
 
@@ -3884,6 +3884,7 @@
 
 <div class="toast" id="toast">Saved! Consistency builds wealth.</div>
 
+<script src="install-controls.js"></script>
 <script src="auth-controls.js"></script>
 <script src="validation.js"></script>
 <script src="ledger-ui.js"></script>
@@ -5747,26 +5748,6 @@
     };
     reader.readAsText(file);
     e.target.value = '';
-  });
-
-  // PWA Install Handling
-  let deferredPrompt = null;
-  window.addEventListener('beforeinstallprompt', (e) => {
-    e.preventDefault();
-    deferredPrompt = e;
-    const card = document.getElementById('installCard');
-    if (card) card.style.display = 'block';
-  });
-  document.getElementById('installBtn')?.addEventListener('click', async () => {
-    if (!deferredPrompt) return;
-    deferredPrompt.prompt();
-    await deferredPrompt.userChoice;
-    deferredPrompt = null;
-    const card = document.getElementById('installCard');
-    if (card) card.style.display = 'none';
-  });
-  window.addEventListener('appinstalled', () => {
-    document.getElementById('installCard').style.display = 'none';
   });
 
   if ('serviceWorker' in navigator) {

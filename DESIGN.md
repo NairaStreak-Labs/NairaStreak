@@ -365,3 +365,10 @@ The typeface relies on the high-performance native system font stack (`-apple-sy
 2. **Color Independence**: Every color-based indicator (streak status, pace indicator, complete goals) is paired with an explicit icon or textual label.
 3. **Reduced Motion**: All animations and transitions respect `@media (prefers-reduced-motion: reduce)`.
 4. **Responsive Integrity**: Meticulously tested and guaranteed free of horizontal scrolling at **375px**, **390px**, **768px**, **1024px**, and **1440px**.
+
+## Stabilize contrast corrections (2026-10-16)
+Use amber-text #b45309 on light surfaces and #fbbf24 on dark surfaces; amber
+#f59e0b remains decorative. The hero number uses solid forest text rather than
+a gradient ending in low-contrast emerald. The mint auth story panel retains
+forest text in dark mode. `tests/contrast.test.cjs` computes representative
+foreground/background ratios; this is not a full rendered-page accessibility audit.

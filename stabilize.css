@@ -22,3 +22,13 @@ body.dark .field-error { color:#fca5a5; }
 @media (prefers-reduced-motion:reduce) {
   *, *::before, *::after { animation:none !important; transition:none !important; scroll-behavior:auto !important; }
 }
+/* Semantic text tokens; amber decoration has a separate readable text value. */
+:root { --amber-text:#b45309; }
+body.dark { --amber-text:#fbbf24; }
+#landingView .streak-badge-hero { color:var(--amber-text); }
+#landingView .hero-big-number { background:none; -webkit-text-fill-color:currentColor; color:var(--green-dark); }
+#landingView .ladder-step { opacity:1; }
+body.dark .mode-btn.active { color:#083324; }
+body.dark .auth-story-panel { --green-dark:#083324; --text:#1f2937; --muted:#4b5563; }
+body.dark #landingView .milestone-badge { color:var(--amber-text); }
+body.sidebar-collapsed .dash-main { margin-left:0; }

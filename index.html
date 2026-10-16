@@ -3881,6 +3881,7 @@
 
 <div class="toast" id="toast">Saved! Consistency builds wealth.</div>
 
+<script src="validation.js"></script>
 <script src="ledger-ui.js"></script>
 <script>
   // ==========================================================================
@@ -4866,7 +4867,8 @@
 
     if (!amtInput || !dateInput || !planValEl || !planDaysEl || !planLabelEl) return;
 
-    const amt = NairaStreakCalc.parseNairaInput(amtInput.value) || 100000;
+    if (!validatePlanFields('onboardingTargetAmount', 'onboardingTargetDate')) { planValEl.textContent = '—'; planDaysEl.textContent = 'Choose a valid amount and deadline.'; return; }
+    const amt = NairaStreakCalc.parseNairaInput(amtInput.value);
     const targetDate = dateInput.value;
     const mode = onboardingState.contributionMode;
 
@@ -5258,8 +5260,12 @@
   simDateInput.value = NairaStreakCalc.addMonths(todayStr(), 12);
 
   function runSimulation() {
-    const targetAmt = NairaStreakCalc.parseNairaInput(simGoalInput.value) || 500000;
-    const targetDate = simDateInput.value || '2026-12-31';
+    if (!validatePlanFields('simGoalAmount', 'simGoalDate')) {
+      ['simDailyVal','simWeeklyVal','simMonthlyVal','simDaysVal'].forEach(id => document.getElementById(id).textContent = '—');
+      sessionStorage.removeItem('nairastreak_draft_goal'); return false;
+    }
+    const targetAmt = NairaStreakCalc.parseNairaInput(simGoalInput.value);
+    const targetDate = simDateInput.value;
 
     const days = NairaStreakCalc.calculateDaysRemaining(targetDate);
     const daily = NairaStreakCalc.calculateDailyContribution(targetAmt, targetDate);
@@ -5324,8 +5330,9 @@
   };
 
   document.getElementById('simApplyBtn').addEventListener('click', () => {
-    const targetAmt = parseFloat(simGoalInput.value) || 500000;
-    const targetDate = simDateInput.value || '2026-12-31';
+    if (!validatePlanFields('simGoalAmount', 'simGoalDate')) return;
+    const targetAmt = NairaStreakCalc.parseNairaInput(simGoalInput.value);
+    const targetDate = simDateInput.value;
 
     const s = getSettings();
     s.target = targetAmt;
@@ -5575,41 +5582,9 @@
   });
   document.getElementById('saveBtn')?.addEventListener('click', handleRecordSaving);
 
-  document.getElementById('undoBtn')?.addEventListener('click', () => {
-    const mode = getMode();
-    const date = mode === 'daily' ? todayStr() : weekStartStr();
-    let entries = getEntries();
-    entries = entries.filter(e => !(e.type === mode && e.date === date));
-    saveEntries(entries);
-    showToast('Entry removed');
-    render();
-  });
-
-  document.getElementById('editAmountToggle')?.addEventListener('click', () => {
-    const form = document.getElementById('editAmountForm');
-    if (form) form.style.display = form.style.display === 'none' ? 'block' : 'none';
-  });
-
-  document.getElementById('editAmountSave')?.addEventListener('click', () => {
-    const input = document.getElementById('editAmountInput');
-    if (!input) return;
-    const val = parseFloat(input.value);
-    if (!val || val <= 0) {
-      showToast('Enter a valid amount');
-      return;
-    }
-    const mode = getMode();
-    const date = mode === 'daily' ? todayStr() : weekStartStr();
-    let entries = getEntries();
-    entries = entries.filter(e => !(e.type === mode && e.date === date));
-    entries.push({ id: Date.now(), date, amount: val, type: mode });
-    saveEntries(entries);
-    input.value = '';
-    const form = document.getElementById('editAmountForm');
-    if (form) form.style.display = 'none';
-    showToast(`Saved ${formatNaira(val)}!`);
-    render();
-  });
+  document.getElementById('undoBtn')?.addEventListener('click', () => switchDashboardTab('history'));
+  document.getElementById('editAmountToggle')?.addEventListener('click', () => switchDashboardTab('history'));
+  document.getElementById('editAmountSave')?.addEventListener('click', () => switchDashboardTab('history'));
 
   document.getElementById('prevMonth')?.addEventListener('click', () => {
     calViewMonth--;
@@ -5619,12 +5594,13 @@
   document.getElementById('nextMonth')?.addEventListener('click', () => {
     calViewMonth++;
     if (calViewMonth > 11) { calViewMonth = 0; calViewYear++; }
-    render();
+    renderCalendar(ledger ? ledger.entries() : []);
   });
 
   // Goal Calculator Card
   document.getElementById('calcBtn')?.addEventListener('click', () => {
-    const goal = parseFloat(document.getElementById('calcGoal').value);
+    if (!validatePlanFields('calcGoal', 'calcDate')) { document.getElementById('calcResult').style.display = 'none'; return; }
+    const goal = NairaStreakCalc.parseNairaInput(document.getElementById('calcGoal').value);
     const dateStr = document.getElementById('calcDate').value;
     const res = document.getElementById('calcResult');
 
@@ -5665,9 +5641,13 @@
 
   document.getElementById('saveSettingsBtn')?.addEventListener('click', () => {
     const s = getSettings();
-    s.dailyAmount = parseFloat(document.getElementById('settingsDaily').value) || s.dailyAmount;
-    s.target = parseFloat(document.getElementById('settingsTarget').value) || s.target;
-    s.endDate = document.getElementById('settingsDate').value || s.endDate;
+    const valid = validatePlanFields('settingsTarget', 'settingsDate');
+    const daily = NairaStreakCalc.parseNairaInput(document.getElementById('settingsDaily').value);
+    fieldError('settingsDaily', daily > 0 && daily <= 1000000000 ? '' : 'Enter a daily amount above ₦0 and at most ₦1,000,000,000.');
+    if (!valid || !daily || daily > 1000000000) return;
+    s.dailyAmount = daily;
+    s.target = NairaStreakCalc.parseNairaInput(document.getElementById('settingsTarget').value);
+    s.endDate = document.getElementById('settingsDate').value;
     saveSettings(s);
     showToast('Settings saved');
     render();

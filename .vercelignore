@@ -7,3 +7,19 @@ vercel
 docs
 tests
 supabase
+
+# Private configuration, local reports, and development tooling must never deploy.
+.env
+.env.*
+.vercel
+scratch
+qa-report
+node_modules
+ISSUES.json
+scripts
+.github
+package-lock.json
+playwright.config.cjs
+AGENTS.md
+HANDOFF.md
+DESIGN.md

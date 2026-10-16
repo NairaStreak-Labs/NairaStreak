@@ -3917,12 +3917,7 @@
   const MILESTONE_KEY = 'savings500k_milestones';
   const NOTIFIED_KEY = 'savings500k_notified';
 
-  function getDefaultEndDate() {
-    const today = new Date();
-    today.setHours(0, 0, 0, 0);
-    const target = new Date(today.getTime() + 365 * 24 * 60 * 60 * 1000);
-    return `${target.getFullYear()}-${String(target.getMonth() + 1).padStart(2, '0')}-${String(target.getDate()).padStart(2, '0')}`;
-  }
+  function getDefaultEndDate() { return NairaStreakCalc.addDays(NairaStreakCalc.dateKey(), 365); }
 
   const DEFAULT_SETTINGS = {
     target: 500000,
@@ -3975,20 +3970,9 @@
   function saveNotifiedState(s) { localStorage.setItem(NOTIFIED_KEY, JSON.stringify(s)); }
 
   // Date & Number Helpers
-  function todayStr() {
-    const d = new Date();
-    return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
-  }
-  function weekStartStr(date = new Date()) {
-    const d = new Date(date);
-    const day = d.getDay();
-    const diff = d.getDate() - day + (day === 0 ? -6 : 1);
-    d.setDate(diff);
-    return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
-  }
-  function formatNaira(amount) {
-    return '₦' + Math.round(amount).toLocaleString('en-NG');
-  }
+  function todayStr() { return NairaStreakCalc.dateKey(); }
+  function weekStartStr(date = new Date()) { return NairaStreakCalc.weekStart(date); }
+  function formatNaira(amount) { return NairaStreakCalc.formatNaira(amount, Number(amount) % 1 !== 0); }
 
   // Toast notifications
   function showToast(msg) {
@@ -4455,19 +4439,18 @@
   function formatDateNice(dateVal) {
     if (!dateVal) return '—';
     const d = NairaStreakCalc.normalizeDate(dateVal);
-    return d.toLocaleDateString('en-NG', { day: 'numeric', month: 'short', year: 'numeric' });
+    return d.toLocaleDateString('en-NG', { timeZone: 'UTC', day: 'numeric', month: 'short', year: 'numeric' });
   }
 
   // Updates the complete redesigned dashboard (Mobile & Desktop)
   function updateFullDashboardView({ goalName, targetAmount, targetDate, contributionMode, status, entries }) {
-    const total = entries.reduce((sum, e) => sum + e.amount, 0);
+    const total = NairaStreakCalc.sumAmounts(entries);
     const target = targetAmount || 500000;
-    const remaining = Math.max(0, target - total);
-    const pct = Math.min(100, Math.round((total / target) * 1000) / 10);
+    const { remaining, percent: pct } = NairaStreakCalc.calculateProgress(total, target);
     const daysRemaining = NairaStreakCalc.calculateDaysRemaining(targetDate);
     const mode = contributionMode || 'daily';
     const isDaily = mode === 'daily';
-    const daysSavedCount = entries.filter(e => e.type === (isDaily ? 'daily' : 'weekly')).length;
+    const daysSavedCount = new Set(entries.map(e => e.date)).size;
     const streakCount = calculateStreak(entries, isDaily ? 'daily' : 'weekly');
 
     const dailyRec = NairaStreakCalc.calculateDailyContribution(target, targetDate, total);
@@ -4598,7 +4581,7 @@
   // Global handler for saving contribution
   async function handleRecordSaving() {
     if (!ledger || !activeGoal || ledgerBusy) return;
-    const total = ledger.entries().reduce((sum, e) => sum + Number(e.amount), 0);
+    const total = NairaStreakCalc.sumAmounts(ledger.entries());
     const amount = activeGoal.contribution_mode === 'weekly'
       ? NairaStreakCalc.calculateWeeklyContribution(activeGoal.target_amount, activeGoal.target_date, total)
       : NairaStreakCalc.calculateDailyContribution(activeGoal.target_amount, activeGoal.target_date, total);
@@ -4833,12 +4816,12 @@
     if (targetDateInput) {
       const tomorrow = new Date();
       tomorrow.setDate(tomorrow.getDate() + 1);
-      targetDateInput.min = tomorrow.toISOString().split('T')[0];
+      targetDateInput.min = NairaStreakCalc.addDays(todayStr(), 1);
 
       if (!targetDateInput.value) {
         const defaultDate = new Date();
         defaultDate.setMonth(defaultDate.getMonth() + 3); // 3 months default
-        targetDateInput.value = defaultDate.toISOString().split('T')[0];
+        targetDateInput.value = NairaStreakCalc.dateKey(defaultDate);
         onboardingState.targetDate = targetDateInput.value;
       }
     }
@@ -5064,7 +5047,7 @@
     today.setHours(0, 0, 0, 0);
     const chosen = NairaStreakCalc.normalizeDate(dateVal);
 
-    if (isNaN(chosen.getTime()) || chosen <= today) {
+    if (isNaN(chosen.getTime()) || NairaStreakCalc.calculateDaysRemaining(dateVal) <= 0) {
       if (dateErr) {
         dateErr.textContent = 'Target date must be in the future.';
         dateErr.classList.remove('hidden');
@@ -5248,7 +5231,7 @@
       if (rect.top < window.innerHeight && rect.bottom > 0) {
         const fraction = Math.min(1, Math.max(0, (window.innerHeight - rect.top) / (rect.height + window.innerHeight * 0.5)));
         const simulatedAmount = Math.round(500000 * Math.max(0.15, fraction));
-        const simPct = Math.round((simulatedAmount / 500000) * 100);
+        const simPct = NairaStreakCalc.calculateProgress(simulatedAmount, 500000).percent;
         
         document.getElementById('journeySavedCounter').textContent = formatNaira(simulatedAmount);
         document.getElementById('journeyPctCounter').textContent = simPct + '%';
@@ -5272,7 +5255,7 @@
 
   const defaultSimDate = new Date();
   defaultSimDate.setFullYear(defaultSimDate.getFullYear() + 1);
-  simDateInput.value = defaultSimDate.toISOString().split('T')[0];
+  simDateInput.value = NairaStreakCalc.addMonths(todayStr(), 12);
 
   function runSimulation() {
     const targetAmt = NairaStreakCalc.parseNairaInput(simGoalInput.value) || 500000;
@@ -5322,7 +5305,7 @@
       const m = parseInt(btn.dataset.months);
       const d = new Date();
       d.setMonth(d.getMonth() + m);
-      simDateInput.value = d.toISOString().split('T')[0];
+      simDateInput.value = NairaStreakCalc.addMonths(todayStr(), m);
       runSimulation();
     });
   });
@@ -5335,9 +5318,9 @@
     daysLeft: 140,
     daysSaved: 25,
     streak: 14,
-    get remaining() { return this.target - this.saved; },
-    get percent() { return Math.round((this.saved / this.target) * 1000) / 10; },
-    get dailyPace() { return Math.ceil(this.remaining / this.daysLeft); }
+    get remaining() { return NairaStreakCalc.calculateProgress(this.saved, this.target).remaining; },
+    get percent() { return NairaStreakCalc.calculateProgress(this.saved, this.target).percent; },
+    get dailyPace() { return NairaStreakCalc.calculateDailyContribution(this.target, NairaStreakCalc.addDays(todayStr(), this.daysLeft), this.saved); }
   };
 
   document.getElementById('simApplyBtn').addEventListener('click', () => {
@@ -5348,8 +5331,7 @@
     s.target = targetAmt;
     s.endDate = targetDate;
     
-    const diffDays = Math.max(1, Math.ceil((new Date(targetDate) - new Date()) / (1000 * 60 * 60 * 24)));
-    s.dailyAmount = Math.round(targetAmt / diffDays);
+    s.dailyAmount = NairaStreakCalc.calculateDailyContribution(targetAmt, targetDate);
     saveSettings(s);
 
     loadSettingsForm();
@@ -5471,53 +5453,7 @@
     });
   }
 
-  function calculateStreak(entries, mode) {
-    if (entries.length === 0) return 0;
-    const dates = new Set(entries.filter(e => e.type === (mode === 'daily' ? 'daily' : 'weekly')).map(e => e.date));
-    let current = new Date();
-    current.setHours(0, 0, 0, 0);
-    let streak = 0;
-
-    if (mode === 'daily') {
-      const today = todayStr();
-      const yesterday = new Date(current);
-      yesterday.setDate(yesterday.getDate() - 1);
-      const yestStr = `${yesterday.getFullYear()}-${String(yesterday.getMonth() + 1).padStart(2, '0')}-${String(yesterday.getDate()).padStart(2, '0')}`;
-
-      let checkDate = dates.has(today) ? current : (dates.has(yestStr) ? yesterday : null);
-      if (!checkDate) return 0;
-
-      while (true) {
-        const str = `${checkDate.getFullYear()}-${String(checkDate.getMonth() + 1).padStart(2, '0')}-${String(checkDate.getDate()).padStart(2, '0')}`;
-        if (dates.has(str)) {
-          streak++;
-          checkDate.setDate(checkDate.getDate() - 1);
-        } else {
-          break;
-        }
-      }
-    } else {
-      let check = new Date(current);
-      let thisWeek = weekStartStr(check);
-      let checkWeek = dates.has(thisWeek) ? check : null;
-      if (!checkWeek) {
-        check.setDate(check.getDate() - 7);
-        if (dates.has(weekStartStr(check))) checkWeek = check;
-      }
-      if (!checkWeek) return 0;
-
-      while (true) {
-        const wStr = weekStartStr(checkWeek);
-        if (dates.has(wStr)) {
-          streak++;
-          checkWeek.setDate(checkWeek.getDate() - 7);
-        } else {
-          break;
-        }
-      }
-    }
-    return streak;
-  }
+  function calculateStreak(entries, mode) { return NairaStreakCalc.calculateStreak(entries, mode); }
 
   function renderProjection(entries, total, target, end, today, mode, settings) {
     const el = document.getElementById('projection');
@@ -5531,15 +5467,10 @@
       return;
     }
 
-    const sorted = [...entries].sort((a, b) => new Date(a.date) - new Date(b.date));
-    const firstDate = new Date(sorted[0].date);
-    const daysElapsed = Math.max(1, Math.ceil((today - firstDate) / (1000 * 60 * 60 * 24)));
-    const dailyRate = total / daysElapsed;
-    const daysNeeded = Math.ceil((target - total) / dailyRate);
-    const projectedDate = new Date(today.getTime() + daysNeeded * 24 * 60 * 60 * 1000);
-
-    const projectedStr = projectedDate.toLocaleDateString('en-NG', { month: 'short', day: 'numeric', year: 'numeric' });
-    const diffDays = Math.ceil((projectedDate - end) / (1000 * 60 * 60 * 24));
+    const projected = NairaStreakCalc.projectFinish(entries, target, today);
+    const projectedDate = NairaStreakCalc.normalizeDate(projected);
+    const projectedStr = formatDateNice(projected);
+    const diffDays = NairaStreakCalc.calculateDaysRemaining(projected, end);
 
     if (diffDays <= 0) {
       el.textContent = `📈 At your current pace, you'll finish around ${projectedStr} — ahead of schedule!`;
@@ -5549,7 +5480,7 @@
   }
 
   function diffDaysRemaining(end, today) {
-    return Math.max(1, Math.ceil((end - today) / (1000 * 60 * 60 * 24)));
+    return NairaStreakCalc.calculateDaysRemaining(end, today);
   }
 
   function renderSaveButton(entries, mode, settings) {
@@ -5702,19 +5633,11 @@
       return;
     }
 
-    const end = new Date(dateStr);
-    const now = new Date();
-    now.setHours(0, 0, 0, 0);
-    const days = Math.ceil((end - now) / (1000 * 60 * 60 * 24));
-
-    if (days <= 0) {
-      showToast('Date must be in the future');
-      return;
-    }
-
-    const daily = goal / days;
-    const weekly = goal / (days / 7);
-    const monthly = goal / (days / 30.416);
+    const days = NairaStreakCalc.calculateDaysRemaining(dateStr);
+    if (days <= 0) { showToast('Choose a future deadline.'); return; }
+    const daily = NairaStreakCalc.calculateDailyContribution(goal, dateStr);
+    const weekly = NairaStreakCalc.calculateWeeklyContribution(goal, dateStr);
+    const monthly = NairaStreakCalc.calculateMonthlyEquivalent(goal, dateStr);
 
     res.style.display = 'block';
     res.innerHTML = `

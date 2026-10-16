@@ -98,3 +98,17 @@
 - **Reason**: Maintainer scope decision; existing relational schema supports multiple goals.
 - **Alternatives**: Retaining single-goal-only V1 would conflict with approved scope.
 - **Consequences**: Stabilize the active-goal journey first; design selection and switching in a later task. No profile work in this sprint.
+
+## ADR 013: NGN minor units and Lagos calendar dates (2026-10-16)
+- **Diagnosis**: No fixed 13/14 October deadline exists in the repository. Date inputs
+  used `toISOString().split('T')[0]` (UTC) while display and day boundaries used
+  browser-local time. A Lagos instant on 14 Oct at 00:30 is 13 Oct at 23:30 UTC.
+  This reproduces a one-day discrepancy; no stored deadline is changed.
+- **Decision**: Keep DATE values as YYYY-MM-DD, derive today's date in Africa/Lagos,
+  and subtract validated UTC calendar days. Sum integer kobo; round recommendations
+  upward to whole naira. Same/past deadlines have zero days and zero recommendation.
+  Monthly equivalents use 365/12 days; month presets clamp to the last valid day.
+- **Alternatives**: Browser timezone arithmetic varies by device and DST; floating
+  naira sums accumulate rounding drift.
+- **Consequences**: Existing deadline strings remain intact. Progress and streaks
+  share calculations.js; expired goals require choosing a new deadline.

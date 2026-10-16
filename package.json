@@ -1,0 +1,12 @@
+{
+  "name": "nairastreak",
+  "private": true,
+  "scripts": {
+    "test": "node --test tests/*.test.cjs tests/test_calculations.js",
+    "test:e2e": "playwright test"
+  },
+  "devDependencies": {
+    "@playwright/test": "1.56.1",
+    "axe-core": "4.11.0"
+  }
+}

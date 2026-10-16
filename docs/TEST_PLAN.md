@@ -98,3 +98,18 @@ This test sequence must pass unconditionally before any code is tagged for relea
 - [ ] **Shell Cache**: Turn on Chrome DevTools "Offline" mode; page refreshes and loads app shell without error.
 - [ ] **Install Prompt**: "Add to Home Screen" appears on supported browsers over HTTPS.
 - [ ] **Token Safety**: Verify Chrome DevTools -> Application -> Cache Storage -> Cache contains NO requests to `supabase.co`.
+
+## Stabilize automated checks
+- `npm test`: dependency-free Node calculation, ledger, legacy-data, contrast and
+  service-worker tests.
+- `npm install --ignore-scripts --no-audit --no-fund`, then
+  `PLAYWRIGHT_BROWSERS_PATH=./scratch/browsers npx playwright install chromium` and
+  `PLAYWRIGHT_BROWSERS_PATH=./scratch/browsers npm run test:e2e`.
+- E2E projects cover 375, 390, 768, 1024 and 1440px in light and dark themes,
+  with Supabase mocked and non-local requests blocked. Mock auth uses no real
+  credentials. Any future live auth test must read credentials exclusively from
+  environment variables. Never store tokens or passwords in test fixtures.
+- Playwright and axe-core are development-only dependencies justified by the
+  requested browser journey and accessibility audits; no runtime dependency added.
+- Screenshots and reports stay in ignored `qa-report/`. Package cache and browser
+  downloads stay in ignored `scratch/`. See STABILIZE_REPORT.md for actual results.

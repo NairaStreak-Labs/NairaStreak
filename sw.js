@@ -1,68 +1,43 @@
-const CACHE_NAME = 'nairastreak-luxury-brand-v1';
-const ASSETS = [
-  './',
-  './index.html',
-  './config.js',
-  './calculations.js',
-  './manifest.json',
-  './logo.svg',
-  './icon-192.png',
-  './icon-512.png'
-];
-
-self.addEventListener('install', (event) => {
-  event.waitUntil(
-    caches.open(CACHE_NAME)
-      .then((cache) => cache.addAll(ASSETS.map(url => new Request(url, { cache: 'reload' }))))
-      .catch(() => {})
-  );
-  self.skipWaiting();
+const CACHE_NAME = 'nairastreak-shell-v3';
+const ASSETS = ['./', './index.html', './config.js', './calculations.js', './ledger.js',
+  './legacy-data.js', './icons.js', './ledger-ui.js', './validation.js', './auth-controls.js',
+  './install-controls.js', './sidebar-controls.js', './stabilize.css', './manifest.json',
+  './logo.svg', './icon-192.png', './icon-512.png'];
+const shellURLs = new Set(ASSETS.map(path => new URL(path, self.registration.scope).href));
+self.addEventListener('install', event => {
+  event.waitUntil(caches.open(CACHE_NAME).then(cache => cache.addAll(ASSETS)).then(() => self.skipWaiting()));
 });
-
-self.addEventListener('activate', (event) => {
-  event.waitUntil(
-    caches.keys().then((keys) =>
-      Promise.all(keys.filter(k => k !== CACHE_NAME).map(k => caches.delete(k)))
-    )
-  );
-  self.clients.claim();
+self.addEventListener('activate', event => {
+  event.waitUntil(caches.keys().then(keys => Promise.all(keys
+    .filter(key => key.startsWith('nairastreak-') && key !== CACHE_NAME)
+    .map(key => caches.delete(key)))).then(() => self.clients.claim()));
 });
-
-self.addEventListener('fetch', (event) => {
-  const url = new URL(event.request.url);
-
-  // 1. Unconditionally bypass Supabase API, authentication, and database requests
-  if (url.hostname.includes('supabase.co') || event.request.headers.has('Authorization')) {
-    return;
-  }
-
-  // 2. Only cache GET requests for static shell assets
-  if (event.request.method !== 'GET') return;
-
-  event.respondWith(
-    caches.match(event.request).then((cached) => {
-      const fetchPromise = fetch(event.request)
-        .then((networkResponse) => {
-          if (networkResponse && networkResponse.status === 200 && networkResponse.type === 'basic') {
-            const clone = networkResponse.clone();
-            caches.open(CACHE_NAME).then((cache) => cache.put(event.request, clone));
-          }
-          return networkResponse;
-        })
-        .catch(() => cached);
-      return cached || fetchPromise;
-    })
-  );
-});
-
-self.addEventListener('notificationclick', (event) => {
-  event.notification.close();
-  event.waitUntil(
-    clients.matchAll({ type: 'window', includeUncontrolled: true }).then((clientList) => {
-      for (const client of clientList) {
-        if ('focus' in client) return client.focus();
+self.addEventListener('fetch', event => {
+  const request = event.request, url = new URL(request.url);
+  // Strict allowlist excludes APIs, auth, query strings, non-GETs and all other origins.
+  if (request.method !== 'GET' || request.headers.has('Authorization') ||
+      url.origin !== self.location.origin || !shellURLs.has(url.href)) return;
+  event.respondWith((async () => {
+    const cache = await caches.open(CACHE_NAME);
+    try {
+      const response = await fetch(request);
+      if (response.ok && response.type === 'basic') await cache.put(request, response.clone());
+      return response;
+    } catch (_) {
+      const cached = await cache.match(request);
+      if (cached) return cached;
+      if (request.mode === 'navigate') {
+        const shell = await cache.match('./index.html');
+        if (shell) return shell;
       }
-      if (clients.openWindow) return clients.openWindow('./index.html');
-    })
-  );
+      return Response.error();
+    }
+  })());
+});
+self.addEventListener('notificationclick', event => {
+  event.notification.close();
+  event.waitUntil(self.clients.matchAll({type:'window',includeUncontrolled:true}).then(windows => {
+    const target = windows.find(client => 'focus' in client);
+    return target ? target.focus() : self.clients.openWindow('./index.html');
+  }));
 });
